@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.0" version_id="2" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <admin_template_modifications/>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="OpenXBL_Listener" callback_method="loadClassController" active="1" hint="" description=""/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates/>
+  <email_template_modifications/>
+  <optiongroups>
+    <group group_id="OpenXBL" display_order="226" debug_only="0"/>
+    <option option_id="openxblKey" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="OpenXBL" display_order="1"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="openxbl_enter_account_password" version_id="1" version_string="1.0"><![CDATA[Please enter your account password. Not your Microsoft password!]]></phrase>
+    <phrase title="openxbl_login_with_xboxlive" version_id="1" version_string="1.0"><![CDATA[Login with Xbox Live]]></phrase>
+    <phrase title="openxbl_signup_with_xboxlive" version_id="1" version_string="1.0"><![CDATA[Signup with Xbox Live]]></phrase>
+    <phrase title="openxbl_signup_with_xboxlive_message" version_id="1" version_string="1.0"><![CDATA[You're almost finished! If this is your first time please fill in the form below. If you are migrating to an existing account please select 'Associate Existing Account.']]></phrase>
+    <phrase title="option_group_OpenXBL" version_id="1" version_string="1.0"><![CDATA[OpenXBL]]></phrase>
+    <phrase title="option_group_OpenXBL_description" version_id="1" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="option_openxblKey" version_id="1" version_string="1.0"><![CDATA[Application Key]]></phrase>
+    <phrase title="option_openxblKey_explain" version_id="1" version_string="1.0"><![CDATA[This should match the Application Key in <a href="https://xbl.io/profile" target="_blank">your account</a> under the Xbox App group.]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties/>
+  <templates>
+    <template title="openxbl_helper_login" version_id="1" version_string="1.0"><![CDATA[<xen:if is="{$xenOptions.openxblKey}">
+<xen:require css="openxbl_login_bar.css" />
+<dl class="ctrlUnit">
+<dt></dt>
+<dd><a href="{xen:link register/openxbl, '', 'reg=1'}" class="openxblLogin" tabindex="110"><span>{xen:phrase openxbl_login_with_xboxlive}</span></a></dd>
+</dl>
+</xen:if>]]></template>
+    <template title="openxbl_login_bar" version_id="1" version_string="1.0"><![CDATA[<xen:if is="{$xenOptions.openxblKey}">
+<xen:require css="openxbl_login_bar.css" />
+<link rel="stylesheet" href="styles/default/openbxbl/fonts/font.css" />
+<li>
+<a href="{xen:link register/openxbl, '', 'reg=1'}" class="xbLogin" tabindex="10"><span>{xen:phrase openxbl_login_with_xboxlive}</span></a>
+</li>
+</xen:if>]]></template>
+    <template title="openxbl_login_bar.css" version_id="1" version_string="1.0"><![CDATA[.xbox span:before {
+    content: ""!important;
+}
+#XenForo a.xbLogin, #loginBar a.xbLogin {
+    background: #107c10 url();
+    content: '';
+}
+#XenForo a.xbLogin {
+    display: block;
+    background: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    text-shadow: none;
+    color: #FFF;
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    border-radius: 2px;
+}
+a.xbLogin, #loginBar a.xbLogin {
+    display: inline-block;
+    width: 200px;
+    height: 22px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: pointer;
+    background: #29447e url(//b.s-static.ak.facebook.com/images/connect_sprite.png);
+    background-repeat: no-repeat;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -khtml-border-radius: 3px;
+    border-radius: 3px;
+    background-position: left -188px;
+    padding: 0px 0px 0px 1px;
+    outline: none;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 11px;
+    line-height: 14px;
+}
+.XboxLiveLogin span:hover {
+    background: rgba(0,0,0,.1);
+}
+dd.XboxLiveLogin a[href]:hover {
+text-decoration: none;
+}
+a.xbox span:before {
+    content: "\f1e7";
+}
+a.XboxLiveLogin span {
+    padding: 0 10px;
+    border: none;
+    text-shadow: none;
+    color: #FFF;
+    width: auto;
+    height: auto;
+    line-height: 30px;
+    border-radius: 2px;
+    text-overflow: ellipsis;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    font-weight: bold;
+    font-size: 14px;
+}
+.XboxLiveLogin {
+    background: #537CBE;
+    text-decoration: none;
+}]]></template>
+    <template title="openxbl_sidebar_visitor" version_id="1" version_string="1.0"><![CDATA[<xen:if is="{$xenOptions.openxblKey}">
+<xen:require css="openxbl_sidebar_visitor.css" />
+<label id="SignupButton" style="padding-top: 10px;"><a href="{xen:link 'register/openxbl', '', 'reg=1'}" class="inner xbox-side">
+<i class="fi-social-xbox" style="margin-right: 5px;"></i>
+{xen:phrase openxbl_login_with_xboxlive}
+</a></label>
+</xen:if>]]></template>
+    <template title="openxbl_sidebar_visitor.css" version_id="1" version_string="1.0"><![CDATA[.xbox-side {
+background-color: #107c10!important;
+}
+a.xbox-side:hover {
+background-color: #202020!important;
+}
+div.loginButton .secondaryContent #SignupButton:first-child {
+display:none;
+}
+]]></template>
+    <template title="register_openxbl" version_id="1" version_string="1.0"><![CDATA[<xen:title>{xen:phrase openxbl_signup_with_xboxlive}</xen:title>
+	
+<xen:container var="$openxblSdk">1</xen:container>
+
+<p>{xen:phrase openxbl_signup_with_xboxlive_message}</p>
+
+<form action="{xen:link 'register/openxbl/register'}" method="post" class="xenForm AutoValidator"
+	data-fieldValidatorUrl="{xen:link register/validate-field}"
+	data-OptInOut="OptIn"
+	data-normalSubmit="1"
+>
+
+<ul class="tabs Tabs" data-panes="#OpenXBLTabs > li">
+	<xen:if is="!{$associateOnly}"><li><a>{xen:phrase create_new_account}</a></li></xen:if>
+	<li><a>{xen:phrase associate_existing_account}</a></li>
+</ul>
+
+<ul id="OpenXBLTabs">
+	
+	<xen:if is="!{$associateOnly}">
+	<li>
+		<dl class="ctrlUnit">
+			<dt><label for="ctrl_username">{xen:phrase name}:</label></dt>
+			<dd>
+				<input type="text" name="username" value="{$username}" class="textCtrl OptIn" id="ctrl_username" autofocus="true" autocomplete="off" />
+				<p class="explain">{xen:phrase this_is_name_that_will_be_shown_with_your_messages}</p>
+			</dd>
+		</dl>
+	
+		<dl class="ctrlUnit">
+			<dt><label for="ctrl_email">{xen:phrase email}:</label></dt>
+			<dd><input type="email" name="email" class="textCtrl OptIn" dir="ltr" id="ctrl_email" /></dd>
+		</dl>
+	
+		<dl class="ctrlUnit">
+			<dt><label for="ctrl_timezone">{xen:phrase time_zone}:</label></dt>
+			<dd>
+				<select name="timezone" class="textCtrl AutoTimeZone OptOut" id="ctrl_timezone">
+					<xen:foreach loop="$timeZones" key="$identifier" value="$name">
+						<option value="{$identifier}" {xen:selected "{$identifier} == {$xenOptions.guestTimeZone}"}>{$name}</option>
+					</xen:foreach>
+				</select>
+			</dd>
+		</dl>
+		
+		<dl class="ctrlUnit OptOut">
+			<dt>{xen:phrase date_of_birth}:</dt>
+			<dd>
+				<xen:include template="helper_birthday_input">
+					<xen:map from="$fields" to="$user" />
+				</xen:include>
+				<xen:if is="{$dobRequired}"><p class="explain">{xen:phrase your_date_of_birth_is_required}</p></xen:if>
+			</dd>
+		</dl>
+
+		<dl class="ctrlUnit">
+			<dt>{xen:phrase gender}:</dt>
+			<dd>
+				<ul>
+					<li><label for="ctrl_gender_male"><input type="radio" name="gender" value="male" id="ctrl_gender_male" {xen:checked "{$fields.gender} == 'male'"} /> {xen:phrase male}</label></li>
+					<li><label for="ctrl_gender_female"><input type="radio" name="gender" value="female" id="ctrl_gender_female" {xen:checked "{$fields.gender} == 'female'"} /> {xen:phrase female}</label></li>
+					<li><label for="ctrl_gender_"><input type="radio" name="gender" value="" id="ctrl_gender_" {xen:checked "!{$fields.gender}"} /> ({xen:phrase unspecified})</label></li>
+				</ul>
+			</dd>
+		</dl>
+
+        <xen:include template="custom_fields_edit" />
+	
+		<dl class="ctrlUnit submitUnit">
+			<dt></dt>
+			<dd>
+                <xen:if is="{$tosUrl}">
+					<ul>
+						<li>
+							{xen:phrase i_agree_to_terms_and_rules, 'checkbox=<input type="checkbox" name="agree" value="1" id="ctrl_agree" class="Disabler" />', 'terms_attributes=href="{$tosUrl}" target="_blank"'}
+							<ul id="ctrl_agree_Disabler">
+								<li><input type="submit" value="{xen:phrase sign_up}" accesskey="s" class="button primary" /></li>
+							</ul>						
+						</li>
+					</ul>
+				<xen:else />
+					<input type="submit" value="{xen:phrase sign_up}" accesskey="s" class="button primary" />
+				</xen:if>
+				
+			</dd>
+		</dl>
+	
+	</li>
+	</xen:if>
+
+
+	<li>
+		<dl class="ctrlUnit">
+			<dt><label for="ctrl_associate_login">{xen:phrase associate_with}:</label></dt>
+			<dd>
+				<xen:if is="{$existingUser}">
+					{$existingUser.username}
+					<input type="hidden" name="associate_login" value="{$existingUser.username}" />
+					<input type="hidden" name="force_assoc" value="1" />
+				<xen:else />
+					<input type="text" name="associate_login" class="textCtrl" id="ctrl_associate_login" />
+				</xen:if>
+			</dd>
+		</dl>
+		
+		<dl class="ctrlUnit">
+			<dt><label for="ctrl_associate_password">{xen:phrase password}:</label></dt>
+			<dd>
+				<input type="password" name="associate_password" class="textCtrl" id="ctrl_associate_password" />
+				<p class="explain">{xen:phrase openxbl_enter_account_password}</p>
+			</dd>
+		</dl>
+		
+		<dl class="ctrlUnit submitUnit">
+			<dt></dt>
+			<dd><input type="submit" value="{xen:phrase associate_account}" name="associate" accesskey="a" class="button primary" /></dd>
+		</dl>
+	</li>
+
+</ul>	
+
+<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+<input type="hidden" name="redirect" value="{$redirect}" />
+<input type="hidden" name="location" value="{$location}" />
+</form>
+]]></template>
+  </templates>
+  <public_template_modifications>
+    <modification template="account_external_accounts" modification_key="OpenXBLAccountExternalAccounts" description="Adds OpenXBL to the External Accounts page" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<input type="hidden" name="account" value="google" />
+	</form>
+</xen:if>]]></find>
+      <replace><![CDATA[$0
+    <xen:if is="{$xenOptions.openxblKey}">
+	<form action="{xen:link account/external-accounts/disassociate}" method="post" class="xenForm">
+		<h3 class="textHeading">Xbox Live</h3>
+		<xen:if is="{$external.openxbl}">
+			
+			<xen:hook name="account_openxbl_associated">
+			<dl class="ctrlUnit">
+                <dt>Associated Xbox Live Account:</dt>
+                <dd>
+                    <div>
+                    {$xbUser.gamertag}<br>
+                    {$xbUser.xuid}
+                    </div>
+                </dd>
+			</dl>
+			</xen:hook>
+			<dl class="ctrlUnit submitUnit">
+				<dt></dt>
+				<dd><ul>
+                    <li>
+                        <label><input type="checkbox" name="disassociate" value="1" id="ctrl_disassociate_st" class="Disabler" /> Disassociate Account</label>
+                        <ul id="ctrl_disassociate_st_Disabler">
+                            <li><input type="submit" class="button" value="Disassociate" /></li>
+                        </ul>
+                        <xen:if is="!{$hasPassword}">
+                            <p class="explain">You will no longer be able to use Xbox Live Services.</p>
+                        </xen:if>
+                    </li>
+				</ul></dd>
+			</dl>
+		<xen:else />
+		<xen:hook name="account_openxbl_not_associated">
+		<dl class="ctrlUnit">
+			<dt></dt>
+			<dd>You are not currently linked to any Xbox Live profile.</dd>
+		</dl>
+		</xen:hook>
+		
+		<dl class="ctrlUnit submitUnit">
+			<dt></dt>
+			<dd><a href="{xen:link register/openxbl, '', 'reg=1', 'assoc={$visitor.user_id}'}" class="button primary">Associate with Xbox Live</a></dd>
+        </dl>
+		</xen:if>
+
+		<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+		<input type="hidden" name="_xfConfirm" value="1" />
+		<input type="hidden" name="account" value="openxbl" />
+	</form>
+</xen:if>]]></replace>
+    </modification>
+    <modification template="account_wrapper" modification_key="OpenXBLAccountWrapper" description="Displays External Accounts link if OpenXBL is configured" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[{$xenOptions.googleClientId}]]></find>
+      <replace><![CDATA[$0 OR {$xenOptions.openxblKey}]]></replace>
+    </modification>
+    <modification template="footer" modification_key="OpenXBLCopyright" description="Credits for OpenXBL" execution_order="10" enabled="1" action="callback">
+      <find><![CDATA[/{xen:phrase (?:xenforo|extra)_copyright}/]]></find>
+      <replace><![CDATA[OpenXBL_Listener::copyrightNotice]]></replace>
+    </modification>
+    <modification template="helper_login_form" modification_key="OpenXBLLogin" description="Displays Sign In Through Xbox Live Banner on login page" execution_order="10" enabled="1" action="preg_replace">
+      <find><![CDATA[#(.+|^\s*$)#siu]]></find>
+      <replace><![CDATA[<xen:include template="openxbl_helper_login" />]]></replace>
+    </modification>
+    <modification template="navigation_visitor_tab" modification_key="OpenXBLNavVisitorTab" description="Displays External Accounts link if OpenXBL is configured" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[{$xenOptions.googleClientId}]]></find>
+      <replace><![CDATA[$0 OR {$xenOptions.openxblKey}]]></replace>
+    </modification>
+    <modification template="sidebar_visitor_panel" modification_key="OpenXBLSidebarVisitorPanel" description="Display login button in the sidebar" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[{xen:phrase log_in}}</a></label>]]></find>
+      <replace><![CDATA[$0
+
+<xen:include template="openxbl_sidebar_visitor" />]]></replace>
+    </modification>
+  </public_template_modifications>
+  <bb_code_media_sites/>
+  <bb_codes/>
+</addon>
