@@ -35,6 +35,20 @@ class OpenXBL_ControllerPublic_Register extends XFCP_OpenXBL_ControllerPublic_Re
 
 		$code = $this->_input->filterSingle('code', XenForo_Input::STRING);
 
+		$xerr = $this->_input->filterSingle('xerr', XenForo_Input::STRING);
+
+		if( !empty( $xerr ) )
+		{
+			// do something with the error codes.
+			switch($xerr)
+			{
+				case '2148916233':
+					return $this->responseView('XenForo_ViewPublic_Register', 'openxbl_no_xbox_profile');
+				break;
+			}
+		}
+
+	
 		if( empty( $code ) )
 		{
 			return $this->responseError("Missing 'code' parameter. Please try again.");

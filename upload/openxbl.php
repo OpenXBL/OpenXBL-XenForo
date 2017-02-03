@@ -16,4 +16,20 @@
  * @see        https://github.com/OpenXBL
  * @since      File available since Release 1.0
  */
-header('Location: https://YOUR-XENFORO-URL.COM/index.php?register/openxbl&code='.$_GET['code']);
+try
+{
+	// Make sure the board url is correct in Home > Options > Board Information
+	//
+	require( 'library/XenForo/Autoloader.php' );
+	XenForo_Autoloader::getInstance()->setupAutoloader( 'library' );    
+	XenForo_Application::initialize('library', '/');
+
+	$options = XenForo_Application::get('options');
+
+	header('Location: ' . $options->boardUrl . '/index.php?register/openxbl&code='.@$_GET['code'].'&xerr='.@$_GET['xerr']);
+}
+catch(\Exception $e)
+{
+	echo "Missing board url or failed to initialize.";
+	var_dump($e);
+}
