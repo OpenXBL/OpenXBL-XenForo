@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.2" version_id="4" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
+<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.2" version_id="5" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -20,6 +20,12 @@
       <sub_options></sub_options>
       <relation group_id="OpenXBL" display_order="1"/>
     </option>
+    <option option_id="openxblVisitorSidebar" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="OpenXBL" display_order="2"/>
+    </option>
   </optiongroups>
   <permissions>
     <permission_groups/>
@@ -36,6 +42,8 @@
     <phrase title="option_group_OpenXBL_description" version_id="1" version_string="1.0"><![CDATA[]]></phrase>
     <phrase title="option_openxblKey" version_id="1" version_string="1.0"><![CDATA[Application Key]]></phrase>
     <phrase title="option_openxblKey_explain" version_id="1" version_string="1.0"><![CDATA[This should match the Application Key in <a href="https://xbl.io/profile" target="_blank">your account</a> under the Xbox App group.]]></phrase>
+    <phrase title="option_openxblVisitorSidebar" version_id="4" version_string="1.2"><![CDATA[Show Visitor Sidebar Login?]]></phrase>
+    <phrase title="option_openxblVisitorSidebar_explain" version_id="4" version_string="1.2"><![CDATA[Toggle the 'Log in with Xbox Live' button on the visitor sidebar.]]></phrase>
   </phrases>
   <route_prefixes/>
   <style_properties/>
@@ -52,30 +60,40 @@
 </dl>
 </xen:if>
 ]]></template>
-    <template title="openxbl_login_bar" version_id="3" version_string="1.1"><![CDATA[<xen:if is="{$xenOptions.openxblKey}">
+    <template title="openxbl_login_bar" version_id="4" version_string="1.2"><![CDATA[<xen:if is="{$xenOptions.openxblKey}">
 <xen:require css="openxbl_login_bar.css" />
 <li>
-<a href="{xen:link register/openxbl, '', 'reg=1'}" class="fbLogin xbox" tabindex="10"><span>{xen:phrase openxbl_login_with_xboxlive}</span></a>
+<a href="{xen:link register/openxbl, '', 'reg=1'}" class="xboxLogin" tabindex="110"><span>{xen:phrase openxbl_login_with_xboxlive}</span></a>
 </li>
 </xen:if>]]></template>
-    <template title="openxbl_login_bar.css" version_id="3" version_string="1.1"><![CDATA[.xbox span:before {
-	content: ""!important;
+    <template title="openxbl_login_bar.css" version_id="4" version_string="1.2"><![CDATA[.xboxLogin, #loginBar .xboxLogin {
+    display: inline-block;
+    width: 180px;
+    height: 22px;
+    box-sizing: border-box;
+    cursor: pointer;
+    background-color: #107c10;
+    border-radius: 3px;
+    padding: 3px;
+    text-decoration: none!important;
+    color: #FFF !important;
+    font-weight: bold;
+    font-size: 11px;
+    line-height: 14px;
 }
-.xbox {
-	background-color: #107c10!important;
-	margin: 10px 25px;
+
+.xboxLogin span {
+    display: block;
+    background: url(styles/openxbl/xbox.png) no-repeat;
+    background-position: left 0;
+    padding-left: 22px;
+    white-space: nowrap;
+    overflow: hidden;
 }
-.xbox span {
-	background: #107c10!important;
-}
-.xbox-icon {
-	position: absolute;
-	margin: 7px;
-	font-size: 18px;
-	padding-left: 1px;
-}
-#loginBar .xbox {
-	display: table-cell!important;
+
+.sidebar a.xboxLogin
+{
+    margin: 10px 25px;
 }]]></template>
     <template title="openxbl_no_xbox_profile" version_id="3" version_string="1.1"><![CDATA[<style>
 li {
@@ -97,11 +115,11 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
 
 </p>
 ]]></template>
-    <template title="openxbl_sidebar_visitor" version_id="3" version_string="1.1"><![CDATA[<xen:if is="{$xenOptions.openxblKey}">
+    <template title="openxbl_sidebar_visitor" version_id="4" version_string="1.2"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND {$xenOptions.openxblVisitorSidebar}">
 <xen:require css="openxbl_login_bar.css" />
-<a href="{xen:link register/openxbl, '', 'reg=1'}" class="fbLogin xbox" tabindex="110" style="margin-top:5px;">
-<span>{xen:phrase openxbl_login_with_xboxlive}</span>
-</a>
+<li>
+<a href="{xen:link register/openxbl, '', 'reg=1'}" class="xboxLogin" tabindex="110"><span>{xen:phrase openxbl_login_with_xboxlive}</span></a>
+</li>
 </xen:if>]]></template>
     <template title="openxbl_sidebar_visitor.css" version_id="1" version_string="1.0"><![CDATA[.xbox-side {
 background-color: #107c10!important;
