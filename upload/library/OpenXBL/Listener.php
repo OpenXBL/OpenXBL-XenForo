@@ -44,6 +44,37 @@ class OpenXBL_Listener
 
 	}
 
+	public static function templateHook($hookName, &$contents, array $hookParams, XenForo_Template_Abstract $template)
+	{
+		if ($hookName == 'user_criteria_privs')
+		{
+			$userCriteria = $template->getParam('userCriteria');
+			$checked = $userCriteria['openxbl'] ? 'checked' : '';
+			$contents .= '<li><label><input type="checkbox" name="user_criteria[openxbl][rule]" value="openxbl"' . $checked .' /> User\'s forum account is associated with their Xbox Live account</label></li>';
+		}
+	}
+
+	public static function criteriaUser($rule, array $data, array $user, &$returnValue)
+	{
+		if (!$user)
+		{
+			$user = XenForo_Visitor::getInstance()->toArray();
+		}
+		if (!isset($user['externalAuth']))
+		{
+			$user['externalAuth'] = !empty($user['external_auth']) ? @unserialize($user['external_auth']) : array();
+		}
+		switch ($rule)
+		{
+			case 'openxbl':
+				if(!empty($user['externalAuth']['openxbl']))
+				{
+					$returnValue = true;
+				}
+			break;
+		}
+	}
+
 	/*
 	 * Copyright notice. You can remove this if you wish
 	 * but please give credit somewhere or donate to
