@@ -229,8 +229,7 @@ class OpenXBL_ControllerPublic_Register extends XFCP_OpenXBL_ControllerPublic_Re
 				if($userAge < 1) {
 
 				} else if($userAge < intval($options->get('registrationSetup', 'minimumAge'))) {
-					// TODO: set a cookie to prevent re-registration attempts
-					// But I don't care
+
 					$writer->error(new XenForo_Phrase('sorry_you_too_young_to_create_an_account'));
 				}
 			}
@@ -261,7 +260,7 @@ class OpenXBL_ControllerPublic_Register extends XFCP_OpenXBL_ControllerPublic_Re
 		
 		if(!isset($access['XErr']))
 		{
-			$userExternalModel->updateExternalAuthAssociation('openxbl', $access['DisplayClaims']['xui'][0]['xid'], $user['user_id']);
+			$userExternalModel->updateExternalAuthAssociation('openxbl', $access['xuid'], $user['user_id']);
 		}
 		else
 		{
@@ -290,8 +289,6 @@ class OpenXBL_ControllerPublic_Register extends XFCP_OpenXBL_ControllerPublic_Re
 			'redirect'	=> ($redirect ? XenForo_Link::convertUriToAbsoluteUri($redirect) : ''),
 			'openxbl' => true
 		);
-		
-		print_r('it is a proces alright');
 
 		return $this->responseView(
 			'XenForo_ViewPublic_Register_Process',

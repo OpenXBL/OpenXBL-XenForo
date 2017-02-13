@@ -72,7 +72,26 @@ class OpenXBL_Helper_OpenXBL
         $db->query("DELETE FROM xf_user_openxbl
                     WHERE user_id = $user_id");
     }
-    
+
+    public function getOpenXBLProfileAPI($openxblids)
+    {
+        
+        $OpenXBLAPIDomain = $this->getOpenXBLAPIBase();
+        
+        if (!empty($openxblids)) {
+            $options = XenForo_Application::get('options');
+            $OpenXBLAPIkey = $options->openxblKey;
+            if(empty($OpenXBLAPIkey)) {
+                return $this->responseError('Missing API Key for OpenXBL. Please contact the forum administrator with this error.');
+            }
+            
+            $OpenXBLAPI = $OpenXBLAPIDomain
+                        .'/player/summary/?xuids='
+                        .$openxblids;
+        }
+
+        return $OpenXBLAPI;
+    }
 
     public function checkElgibility()
     {
@@ -100,7 +119,61 @@ class OpenXBL_Helper_OpenXBL
 
     }
 
-    public function call($method, $url, $options, $json = false)
+    public function getOpenXBLAPIBase()
+    {
+        $options = XenForo_Application::get('options');
+        $OpenXBLAPIcase = $options->openxblAPILink;
+        switch ($OpenXBLAPIcase) {
+            case 0:
+                $openxblAPIDomain = 'https://xbl.io/api/v1';
+                break;
+            default:
+                $openxblAPIDomain = 'https://xbl.io/api/v1';
+                break;
+        }
+        
+        return $openxblAPIDomain;
+    }
+    
+    public function getFriendsList()
+    {
+        $user = XenForo_Visitor::getInstance()->toArray();
+
+        $token = $this->getAccessToken($user['user_id']);
+
+        $options = array(
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'X-Authorization' => $token,
+                'X-Contract' => 100
+            )
+        );
+
+        return $this->call('GET', $this->getOpenXBLAPIBase() . '/friends', $options);
+    }
+
+    public function friendSorter(&$array, $key, $direction)
+    {
+
+        switch ($direction) {
+            case 'up':
+                $temp = array($key => $array[$key]);
+                unset($array[$key]);
+                $array = $temp + $array;
+                break;
+            
+            case 'down':
+                $value = $array[$key];
+                unset($array[$key]);
+                $array[$key] = $value;
+                break;
+        }
+
+        return $array;
+
+    }
+
+    public function call($method, $url, $options = array(), $json = false)
     {
         $crl = curl_init($url);
         $headr = array();
@@ -115,6 +188,7 @@ class OpenXBL_Helper_OpenXBL
 
         curl_setopt($crl, CURLOPT_HTTPHEADER,$headr);
         curl_setopt($crl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($crl, CURLOPT_FOLLOWLOCATION, TRUE);
         if($method == 'POST')
         {
             if( !empty( $options['payload'] ) )
@@ -143,6 +217,33 @@ class OpenXBL_Helper_OpenXBL
         }
 
         return $result;
+    }
+
+    public function getAccessToken($user_id)
+    {
+        
+        $db = XenForo_Application::get('db');
+        $result = $db->fetchRow("SELECT access_token, refresh_token, updated_at 
+                                FROM xf_user_openxbl
+                                WHERE user_id = " . $user_id .";");
+
+        if(!empty($result)) {
+
+            if( time() > strtotime($result['updated_at']) )
+            {
+                // token expired. Request authority for new access token.
+                
+                // not built yet
+            }
+
+            return $this->decrypt($result['access_token']);  
+        }
+        else
+        {
+            return false;
+        }
+
+
     }
 
     private function salt()

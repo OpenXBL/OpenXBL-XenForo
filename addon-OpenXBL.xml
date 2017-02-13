@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.2.1" version_id="7" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
+<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.2.1" version_id="9" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -16,6 +16,36 @@
   <email_template_modifications/>
   <optiongroups>
     <group group_id="OpenXBL" display_order="226" debug_only="0"/>
+    <option option_id="openxblAPILink" edit_format="select" data_type="unsigned_integer" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params>0={xen:phrase openxbl_use_v1}</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="OpenXBL" display_order="610"/>
+    </option>
+    <option option_id="openxblDisplayFriends" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="OpenXBL" display_order="300"/>
+    </option>
+    <option option_id="openxblDisplayMessageContent" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="OpenXBL" display_order="400"/>
+    </option>
+    <option option_id="openxblDisplayMessageInfo" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="OpenXBL" display_order="410"/>
+    </option>
+    <option option_id="openxblDisplayProfile" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="OpenXBL" display_order="420"/>
+    </option>
     <option option_id="openxblKey" edit_format="textbox" data_type="string" can_backup="1">
       <default_value></default_value>
       <edit_format_params></edit_format_params>
@@ -30,26 +60,128 @@
     </option>
   </optiongroups>
   <permissions>
-    <permission_groups/>
-    <permissions/>
-    <interface_groups/>
+    <permission_groups>
+      <permission_group permission_group_id="OpenXBL"/>
+    </permission_groups>
+    <permissions>
+      <permission permission_group_id="OpenXBL" permission_id="viewFriends" permission_type="flag" default_value="unset" interface_group_id="OpenXBL" display_order="2"/>
+      <permission permission_group_id="OpenXBL" permission_id="viewProfile" permission_type="flag" default_value="unset" interface_group_id="OpenXBL" display_order="1"/>
+    </permissions>
+    <interface_groups>
+      <interface_group interface_group_id="OpenXBL" display_order="1500"/>
+    </interface_groups>
   </permissions>
   <phrases>
     <phrase title="openxbl_enter_account_password" version_id="1" version_string="1.0"><![CDATA[Please enter your account password. Not your Microsoft password!]]></phrase>
+    <phrase title="openxbl_friends_error" version_id="8" version_string="1.2.1"><![CDATA[We had trouble getting your friends list. Try again later!]]></phrase>
+    <phrase title="openxbl_friends_list" version_id="8" version_string="1.2.1"><![CDATA[Friends List]]></phrase>
+    <phrase title="openxbl_friends_list_for_x" version_id="8" version_string="1.2.1"><![CDATA[Xbox Live Friends List for {name}]]></phrase>
     <phrase title="openxbl_login_with_xboxlive" version_id="3" version_string="1.1"><![CDATA[Log in with Xbox Live]]></phrase>
     <phrase title="openxbl_no_profile_subtitle" version_id="3" version_string="1.1"><![CDATA[Welcome to Xbox Live!]]></phrase>
     <phrase title="openxbl_signup_with_xboxlive" version_id="1" version_string="1.0"><![CDATA[Signup with Xbox Live]]></phrase>
     <phrase title="openxbl_signup_with_xboxlive_message" version_id="1" version_string="1.0"><![CDATA[You're almost finished! If this is your first time please fill in the form below. If you are migrating to an existing account please select 'Associate Existing Account.']]></phrase>
+    <phrase title="openxbl_total_friends" version_id="8" version_string="1.2.1"><![CDATA[Total Friends]]></phrase>
+    <phrase title="openxbl_total_friends_online" version_id="8" version_string="1.2.1"><![CDATA[Friends Online]]></phrase>
+    <phrase title="openxbl_use_v1" version_id="7" version_string="1.2.1"><![CDATA[Call API Version 1 (/v1/)]]></phrase>
+    <phrase title="openxbl_x_has_no_friends_yet" version_id="8" version_string="1.2.1"><![CDATA[{name} has no friends yet!]]></phrase>
     <phrase title="option_group_OpenXBL" version_id="1" version_string="1.0"><![CDATA[OpenXBL]]></phrase>
     <phrase title="option_group_OpenXBL_description" version_id="1" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="option_openxblAPILink" version_id="7" version_string="1.2.1"><![CDATA[OpenXBL API Version]]></phrase>
+    <phrase title="option_openxblAPILink_explain" version_id="7" version_string="1.2.1"><![CDATA[Transmission is cURL HTTPS only! Read GitHub Wiki for why that is.]]></phrase>
+    <phrase title="option_openxblDisplayFriends" version_id="8" version_string="1.2.1"><![CDATA[Display Friends List]]></phrase>
+    <phrase title="option_openxblDisplayFriends_explain" version_id="8" version_string="1.2.1"><![CDATA[Show a link in the Account Menu]]></phrase>
+    <phrase title="option_openxblDisplayMessageContent" version_id="7" version_string="1.2.1"><![CDATA[Display Xbox Live in message content (top right)]]></phrase>
+    <phrase title="option_openxblDisplayMessageContent_explain" version_id="7" version_string="1.2.1"><![CDATA[]]></phrase>
+    <phrase title="option_openxblDisplayMessageInfo" version_id="7" version_string="1.2.1"><![CDATA[Display Xbox Live in messages sidebar]]></phrase>
+    <phrase title="option_openxblDisplayMessageInfo_explain" version_id="7" version_string="1.2.1"><![CDATA[]]></phrase>
+    <phrase title="option_openxblDisplayProfile" version_id="7" version_string="1.2.1"><![CDATA[Display Xbox Live in profile]]></phrase>
+    <phrase title="option_openxblDisplayProfile_explain" version_id="7" version_string="1.2.1"><![CDATA[]]></phrase>
     <phrase title="option_openxblKey" version_id="1" version_string="1.0"><![CDATA[Application Key]]></phrase>
     <phrase title="option_openxblKey_explain" version_id="1" version_string="1.0"><![CDATA[This should match the Application Key in <a href="https://xbl.io/profile" target="_blank">your account</a> under the Xbox App group.]]></phrase>
     <phrase title="option_openxblVisitorSidebar" version_id="4" version_string="1.2"><![CDATA[Show Visitor Sidebar Login?]]></phrase>
     <phrase title="option_openxblVisitorSidebar_explain" version_id="4" version_string="1.2"><![CDATA[Toggle the 'Log in with Xbox Live' button on the visitor sidebar.]]></phrase>
+    <phrase title="permission_group_OpenXBL" version_id="7" version_string="1.2.1"><![CDATA[OpenXBL]]></phrase>
+    <phrase title="permission_interface_OpenXBL" version_id="7" version_string="1.2.1"><![CDATA[OpenXBL]]></phrase>
+    <phrase title="permission_OpenXBL_viewFriends" version_id="8" version_string="1.2.1"><![CDATA[Can view their Xbox Live friends list]]></phrase>
+    <phrase title="permission_OpenXBL_viewProfile" version_id="8" version_string="1.2.1"><![CDATA[Can view Xbox Live profiles]]></phrase>
   </phrases>
-  <route_prefixes/>
+  <route_prefixes>
+    <route_type type="admin">
+      <prefix original_prefix="openxbl" class="OpenXBL_Route_PrefixAdmin_OpenXBL" build_link="all"/>
+    </route_type>
+    <route_type type="public">
+      <prefix original_prefix="openxbl" class="OpenXBL_Route_Prefix_OpenXBL" build_link="data_only"/>
+    </route_type>
+  </route_prefixes>
   <style_properties/>
   <templates>
+    <template title="openxbl_account_menu" version_id="8" version_string="1.2.1"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND {$xenOptions.openxblDisplayFriends} AND {$visitor.permissions.OpenXBL.viewFriends}">
+<li><a href="{xen:link openxbl/friends}" class="OverlayTrigger" data-overlayoptions="{"fixed":false}">{xen:phrase openxbl_friends_list}</a></li>
+</xen:if>]]></template>
+    <template title="openxbl_footer" version_id="7" version_string="1.2.1"><![CDATA[<xen:if is="{$openxblProfNoJS}">
+<xen:require css="openxbl_stats.css" />
+</xen:if>
+
+<xen:if is="{$openxblProf}">
+<xen:require css="openxbl_profile.css" />
+<xen:require js="js/openxbl/ajax/openxblprofile.js" />
+<xen:require js="js/openxbl/openxbl.js" />
+</xen:if>
+
+<xen:if is="{$openxblProfStats}">
+<xen:require css="openxbl_profile_stats.css" />
+<xen:require css="openxbl_stats.css" />
+<xen:require js="js/openxbl/ajax/openxblprofilestats.js" />
+</xen:if>
+
+]]></template>
+    <template title="openxbl_friends" version_id="8" version_string="1.2.1"><![CDATA[<xen:require css="openxbl_friends.css" />
+
+<div class="friends" id="friends-{$friends.xuid}">
+	<div class="avatar"><img src="{$friends.displayPicRaw}&w=50&h=50" /></div>
+	<div class="state"><xen:if is="{$friends.presenceState} == 'Online'">Online</xen:if></div>
+	<div class="info">
+		<h3 class="title">{$friends.gamertag}</h3>
+		<p class="description">{$friends.presenceText}</p>
+	</div>
+</div>]]></template>
+    <template title="openxbl_friends.css" version_id="8" version_string="1.2.1"><![CDATA[.friends
+{
+	overflow: hidden; zoom: 1;
+}
+
+	.friends .avatar
+	{
+		float: left;
+		width: 65px;
+		text-align: center;
+		font-size: 18pt;
+		font-weight: bold;
+	}
+	
+	.friends .state
+	{
+		float: right;
+		font-size: 11px;
+		color: {xen:property mutedTextColor};
+	}
+
+	.friends .info
+	{
+		margin-left: 70px;
+	}
+	
+	.friends .info .title
+	{
+		font-size: 11pt;
+		font-weight: bold;
+	}
+	
+	.friends .info .description
+	{
+		font-size: 11px;
+		color: {xen:property mutedTextColor};
+	}]]></template>
     <template title="openxbl_helper_login" version_id="5" version_string="1.2"><![CDATA[<xen:if is="{$xenOptions.openxblKey}">
 <xen:require css="openxbl_login_bar.css" />
 <dl class="ctrlUnit XboxLiveLogin">
@@ -97,6 +229,46 @@
 {
     margin: 10px 25px;
 }]]></template>
+    <template title="openxbl_member_friends" version_id="8" version_string="1.2.1"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewFriends}">
+
+<xen:title>{xen:phrase openxbl_friends_list_for_x, 'name={$user.username}'}</xen:title>
+
+<xen:container var="$head.noindex">
+	<meta name="robots" content="noindex" /></xen:container>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:link full:members, $user}">{$user.username}</xen:breadcrumb>
+</xen:navigation>
+
+<div class="section">
+	<xen:if is="{$friends.people}">
+		<ol class="overlayScroll">
+		<xen:foreach loop="$friends.people" value="$friends">
+			<li class="primaryContent">
+				<xen:include template="openxbl_friends" />
+			</li>
+		</xen:foreach>
+		</ol>
+		<div class="sectionFooter opposedOptions">
+			<span class="left">{xen:phrase openxbl_total_friends}: {$numFriends}, {xen:phrase openxbl_total_friends_online}: {$numOnline}</span>
+			<div class="right">
+				<input type="button" class="button primary overlayOnly OverlayCloser" value="{xen:phrase close}" />
+			</div>
+		</div>
+	<xen:elseif is="{$friends.error}" />
+		<div class="primaryContent">{xen:phrase openxbl_friends_error}</div>
+		<div class="sectionFooter">
+			<input type="button" class="button primary overlayOnly OverlayCloser" value="{xen:phrase close}" />
+		</div>
+	<xen:else />
+		<div class="primaryContent">{xen:phrase openxbl_x_has_no_friends_yet, 'name={$user.username}'}</div>
+		<div class="sectionFooter">
+			<input type="button" class="button primary overlayOnly OverlayCloser" value="{xen:phrase close}" />
+		</div>
+	</xen:if>
+</div>
+
+</xen:if>]]></template>
     <template title="openxbl_no_xbox_profile" version_id="3" version_string="1.1"><![CDATA[<style>
 li {
 padding-top:10px;
@@ -117,6 +289,34 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
 
 </p>
 ]]></template>
+    <template title="openxbl_profile_member" version_id="7" version_string="1.2.1"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND {$xenOptions.openxblDisplayProfile}">
+	<xen:if is="{$visitor.permissions.OpenXBL.viewProfile} AND {$user.externalAuth.openxbl} > 0">
+		<xen:if is="!{$user.is_banned}">
+			<div class="openxblprofile" title="{$user.externalAuth.openxbl}"></div>
+			<xen:container var="$openxblProf">1</xen:container>
+		</xen:if>
+	</xen:if>
+</xen:if>
+
+    ]]></template>
+    <template title="openxbl_profile_message" version_id="7" version_string="1.2.1"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND {$xenOptions.openxblDisplayMessageContent}">
+	<xen:if is="{$visitor.permissions.OpenXBL.viewProfile} AND {$message.externalAuth.openxbl} > 0">
+		<xen:if is="!{$message.is_banned}">
+			<div class="openxblprofile" style="width: 225px; float: right;" title="{$message.externalAuth.openxbl}"></div>
+			<xen:container var="$openxblProf">1</xen:container>
+		</xen:if>
+	</xen:if>
+</xen:if>
+
+]]></template>
+    <template title="openxbl_profile_message_info" version_id="7" version_string="1.2.1"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND {$xenOptions.openxblDisplayMessageInfo}">
+	<xen:if is="{$visitor.permissions.OpenXBL.viewProfile} AND {$user.externalAuth.openxbl} > 0">
+		<xen:if is="!{$user.is_banned}">
+			<div class="openxblprofile" title="{$user.externalAuth.openxbl}"></div>
+			<xen:container var="$openxblProf">1</xen:container>
+		</xen:if>
+	</xen:if>
+</xen:if>]]></template>
     <template title="openxbl_sidebar_visitor" version_id="4" version_string="1.2"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND {$xenOptions.openxblVisitorSidebar}">
 <xen:require css="openxbl_login_bar.css" />
 <li>
@@ -324,6 +524,16 @@ display:none;
       <find><![CDATA[/{xen:phrase (?:xenforo|extra)_copyright}/]]></find>
       <replace><![CDATA[OpenXBL_Listener::copyrightNotice]]></replace>
     </modification>
+    <modification template="footer" modification_key="OpenXBLFooter" description="Footer CSS and JS links" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<ul class="footerLinks">]]></find>
+      <replace><![CDATA[$0 
+      <xen:include template="openxbl_footer" />]]></replace>
+    </modification>
+    <modification template="navigation_visitor_tab" modification_key="OpenXBLFriendsAccountMenu" description="Add friends list link to Account Menu" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[</strong></a></li>
+					<li><a href="{xen:link account/likes}">{xen:phrase likes_youve_received}</a></li>]]></find>
+      <replace><![CDATA[$0 <xen:include template="openxbl_account_menu" />]]></replace>
+    </modification>
     <modification template="helper_login_form" modification_key="OpenXBLLogin" description="Displays Sign In Through Xbox Live Banner on login page" execution_order="10" enabled="1" action="preg_replace">
       <find><![CDATA[#<xen:if is=\"\{\$xenOptions.googleClientId\}\">(.*?)</xen:if>#si]]></find>
       <replace><![CDATA[$0
@@ -338,6 +548,24 @@ display:none;
       <find><![CDATA[<xen:if is="{$xenOptions.googleClientId}"><xen:set var="$eAuth">1</xen:set></xen:if>]]></find>
       <replace><![CDATA[$0
       <xen:if is="{$xenOptions.openxblKey}"><xen:set var="$eAuth">1</xen:set></xen:if>]]></replace>
+    </modification>
+    <modification template="member_view" modification_key="OpenXBLMemberView" description="Display Profile In Member View" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<xen:if is="{$canViewWarnings}">
+					<dl><dt>{xen:phrase warning_points}:</dt><dd>{xen:number $user.warning_points}</dd></dl>
+				</xen:if>]]></find>
+      <replace><![CDATA[$0 <xen:include template="openxbl_profile_member" />]]></replace>
+    </modification>
+    <modification template="message" modification_key="OpenXBLMessageContent" description="Display Xbox Profile In Post Content" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<div class="messageContent">		
+			<article>]]></find>
+      <replace><![CDATA[<xen:include template="openxbl_profile_message" />
+$0]]></replace>
+    </modification>
+    <modification template="message_user_info" modification_key="OpenXBLMessageUserInfo" description="Display Profile Under Avatar In Messages" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<xen:if hascontent="true">
+		<div class="extraUserInfo">]]></find>
+      <replace><![CDATA[<xen:include template="openxbl_profile_message_info" />
+$0]]></replace>
     </modification>
     <modification template="navigation_visitor_tab" modification_key="OpenXBLNavVisitorTab" description="Displays External Accounts link if OpenXBL is configured" execution_order="10" enabled="1" action="str_replace">
       <find><![CDATA[{$xenOptions.googleClientId}]]></find>

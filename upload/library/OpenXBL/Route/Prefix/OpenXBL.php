@@ -14,7 +14,7 @@
  * @see        https://github.com/OpenXBL
  * @since      File available since Release 1.0
  */
-class OpenXBL_Route_Prefix_XboxLive implements XenForo_Route_Interface
+class OpenXBL_Route_Prefix_OpenXBL implements XenForo_Route_Interface
 {
 
     public function match($routePath, Zend_Controller_Request_Http $request, XenForo_Router $router)

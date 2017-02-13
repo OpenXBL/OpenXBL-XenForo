@@ -80,6 +80,15 @@ class OpenXBL_Manufacture
 			) ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 	}
 
+    protected function _installVersion8() 
+    {
+
+		$db = $this->_getDb();
+
+		self::addColumnIfNotExists('xf_user_openxbl', 'refresh_token', 'text', 'access_token');
+
+	}
+
 	public static function destroy() 
 	{
 		$lastUninstallStep = 1;

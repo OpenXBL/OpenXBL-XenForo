@@ -55,7 +55,7 @@ class OpenXBL_Listener
 	}
 
 	public static function criteriaUser($rule, array $data, array $user, &$returnValue)
-	{
+	{ 
 		if (!$user)
 		{
 			$user = XenForo_Visitor::getInstance()->toArray();
