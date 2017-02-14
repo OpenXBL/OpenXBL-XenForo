@@ -324,6 +324,10 @@ class OpenXBL_ControllerPublic_Register extends XFCP_OpenXBL_ControllerPublic_Re
 	    $header[] = 'Content-Type: application/json';
 	    $header[] = 'Content-Length: ' . strlen(json_encode($payload));
 	    curl_setopt($crl, CURLOPT_HTTPHEADER,$header);
+
+	    curl_setopt($crl, CURLOPT_SSL_VERIFYPEER, false);
+    	curl_setopt($crl, CURLOPT_SSL_VERIFYHOST, false);
+
 	    curl_setopt( $crl, CURLOPT_POSTFIELDS, json_encode($payload) );
 	    curl_setopt($crl, CURLOPT_RETURNTRANSFER, 1);
 	    curl_setopt($crl, CURLOPT_POST,true);

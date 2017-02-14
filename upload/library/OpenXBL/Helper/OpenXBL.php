@@ -189,6 +189,10 @@ class OpenXBL_Helper_OpenXBL
         curl_setopt($crl, CURLOPT_HTTPHEADER,$headr);
         curl_setopt($crl, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($crl, CURLOPT_FOLLOWLOCATION, TRUE);
+
+        curl_setopt($crl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($crl, CURLOPT_SSL_VERIFYHOST, false);
+
         if($method == 'POST')
         {
             if( !empty( $options['payload'] ) )
