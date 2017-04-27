@@ -11,7 +11,7 @@
  * @author     David Regimbal
  * @copyright  2017 David Regimbal
  * @license    MIT
- * @version    1.0
+ * @version    1.5
  * @link       https:/xbl.io
  * @see        https://github.com/OpenXBL
  * @since      File available since Release 1.0

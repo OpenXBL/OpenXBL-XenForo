@@ -10,7 +10,7 @@
  * @author     David Regimbal
  * @copyright  2017 David Regimbal
  * @license    MIT
- * @version    1.0
+ * @version    1.5
  * @link       https:/xbl.io
  * @see        https://github.com/OpenXBL
  * @since      File available since Release 1.0
@@ -36,8 +36,7 @@ class OpenXBL_Helper_OpenXBL
                 'gamertag' => $result['gamertag'],
                 'xuid' => $openxbl_id,
                 'avatar' => '',
-	            'icon' => '',
-                //'state' => $openxbl_id
+	            'icon' => ''
 
 			);
         } else {
@@ -150,6 +149,7 @@ class OpenXBL_Helper_OpenXBL
         );
 
         return $this->call('GET', $this->getOpenXBLAPIBase() . '/friends', $options);
+
     }
 
     public function friendSorter(&$array, $key, $direction)
@@ -170,6 +170,83 @@ class OpenXBL_Helper_OpenXBL
         }
 
         return $array;
+
+    }
+
+    public function getGameClipsDVR()
+    {
+        $user = XenForo_Visitor::getInstance()->toArray();
+
+        $token = OpenXBL_Helper_OpenXBL::getAccessToken($user['user_id']);
+
+        $options = array(
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'X-Authorization' => $token,
+                'X-Contract' => 100
+            )
+        );
+
+        return OpenXBL_Helper_OpenXBL::call('GET', OpenXBL_Helper_OpenXBL::getOpenXBLAPIBase() . '/dvr/gameclips', $options);
+
+    }
+
+    public function getScreenshotsDVR()
+    {
+        $user = XenForo_Visitor::getInstance()->toArray();
+
+        $token = OpenXBL_Helper_OpenXBL::getAccessToken($user['user_id']);
+
+        $options = array(
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'X-Authorization' => $token,
+                'X-Contract' => 100
+            )
+        );
+
+        return OpenXBL_Helper_OpenXBL::call('GET', OpenXBL_Helper_OpenXBL::getOpenXBLAPIBase() . '/dvr/screenshots', $options);
+
+    }
+
+
+    public function getConversations()
+    {
+        $user = XenForo_Visitor::getInstance()->toArray();
+
+        $token = $this->getAccessToken($user['user_id']);
+
+        $options = array(
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'X-Authorization' => $token,
+                'X-Contract' => 100
+            )
+        );
+
+        return $this->call('GET', $this->getOpenXBLAPIBase() . '/conversations', $options);
+
+    }
+
+    public function sendConversation($data)
+    {
+        $user = XenForo_Visitor::getInstance()->toArray();
+
+        $token = $this->getAccessToken($user['user_id']);
+
+        $options = array(
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'X-Authorization' => $token,
+                'X-Contract' => 100
+            ),
+            'payload' => array(
+                'to' => $data['recipients'],
+                'message' => $data['message']
+            )
+        );
+
+        return $this->call('POST', $this->getOpenXBLAPIBase() . '/conversations', $options);
 
     }
 
@@ -240,7 +317,7 @@ class OpenXBL_Helper_OpenXBL
                 // not built yet
             }
 
-            return $this->decrypt($result['access_token']);  
+            return OpenXBL_Helper_OpenXBL::decrypt($result['access_token']);  
         }
         else
         {
@@ -248,6 +325,29 @@ class OpenXBL_Helper_OpenXBL
         }
 
 
+    }
+
+    public static function isLinked($user_id)
+    {
+        $db = XenForo_Application::get('db');
+        
+        $result = $db->fetchRow('SELECT gamertag FROM xf_user_openxbl WHERE user_id = ' . $user_id);
+
+        if( isset( $result['gamertag'] ) )
+        {
+            return true;
+        }
+
+    }
+
+    public static function getGamertag($user_id)
+    {
+        $db = XenForo_Application::get('db');
+        
+        $result = $db->fetchRow('SELECT gamertag FROM xf_user_openxbl WHERE user_id = ' . $user_id);
+
+        return $result['gamertag'];
+     
     }
 
     private function salt()
@@ -264,7 +364,7 @@ class OpenXBL_Helper_OpenXBL
 		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
 		$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
 
-        return base64_encode($iv.openssl_encrypt($string, $this->cipher, $this->salt(), 0, $iv));
+        return base64_encode($iv.openssl_encrypt($string, "AES256", OpenXBL_Helper_OpenXBL::salt(), 0, $iv));
     }
     
     public function decrypt($string) 
@@ -278,7 +378,7 @@ class OpenXBL_Helper_OpenXBL
 		$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
 		$iv = substr($string, 0, $iv_size);
 
-        return openssl_decrypt(substr($string, $iv_size), $this->cipher, $this->salt(), 0, $iv);
+        return openssl_decrypt(substr($string, $iv_size), "AES256", OpenXBL_Helper_OpenXBL::salt(), 0, $iv);
 
     }
 

@@ -72,7 +72,7 @@ class OpenXBL_Manufacture
 			  xuid varchar(255) NOT NULL,
 			  user_id int(11) NOT NULL,
 			  gamertag varchar(25) NOT NULL,
-			  avatar_url varchar(255) NOT NULL,
+			  avatar_url text NOT NULL,
 			  access_token text NOT NULL,
 			  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 			  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -86,6 +86,29 @@ class OpenXBL_Manufacture
 		$db = $this->_getDb();
 
 		self::addColumnIfNotExists('xf_user_openxbl', 'refresh_token', 'text', 'access_token');
+
+	}
+
+    protected function _installVersion12() 
+    {
+
+		$db = $this->_getDb();
+
+		$db->query("CREATE TABLE IF NOT EXISTS xf_openxbl_dvr (
+			  media_id varchar(255) NOT NULL,
+			  user_id int(11) NOT NULL,
+			  type varchar(255) NOT NULL,
+			  game varchar(255) NOT NULL,
+			  duration int(11) NULL,
+			  date varchar(255) NULL, 
+			  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			  PRIMARY KEY (clip_id)
+			) ENGINE=MyISAM DEFAULT CHARSET=latin1;");
+
+		// due to custom gamer pics the length will exceed VARCHAR
+		$db->query('ALTER TABLE xf_user_openxbl DROP COLUMN avatar_url;');
+		$db->query('ALTER TABLE xf_user_openxbl ADD avatar_url text NULL;');
 
 	}
 

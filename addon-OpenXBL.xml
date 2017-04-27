@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.3" version_id="9" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
+<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.5" version_id="13" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
-  <admin_templates/>
+  <admin_templates>
+    <template title="openxbl_options_credits"><![CDATA[<div class="section sectionMain nodeList" style="padding:0px;height:125px;background: transparent url('styles/openxbl/img/xblio.svg') no-repeat center center scroll;-webkit-background-size: cover;-moz-background-size: cover;background-size: cover;-o-background-size: cover;">
+	<div style="background:rgba(255,255,255,0.9);height:100%;-webkit-border-radius: 10px;-moz-border-radius: 10px;-khtml-border-radius: 10px;border-radius: 10px;">
+	<div style="padding:20px;">
+		<div style="font-size:14pt;">OpenXBL</div>
+			<ul>
+				<li>By default you have 500/requests an hour</li>
+				<li class="sideNavLink"><a href="https://xbl.io" target="_blank">https://xbl.io</a></li>
+				<li class="sideNavLink"><a href="https://xbl.io/docs/getting-started" target="_blank">Getting Started</a></li>
+				<li class="sideNavLink"><a href="https://xenforo.com/community/resources/openxbl.5436/" target="_blank">XenForo Resource Page</a></li>
+			</ul>
+			<div style="float:right;bottom:0;right:0;">Developed by xTACTICSx</div>
+		</div>
+	</div>
+</div>]]></template>
+  </admin_templates>
   <admin_template_modifications/>
   <code_events/>
   <code_event_listeners>
     <listener event_id="criteria_user" execute_order="10" callback_class="OpenXBL_Listener" callback_method="criteriaUser" active="1" hint="" description=""/>
+    <listener event_id="init_dependencies" execute_order="10" callback_class="OpenXBL_Listener" callback_method="init" active="1" hint="" description="OpenXBL Helper"/>
     <listener event_id="load_class_controller" execute_order="10" callback_class="OpenXBL_Listener" callback_method="loadClassController" active="1" hint="" description=""/>
+    <listener event_id="navigation_tabs" execute_order="10" callback_class="OpenXBL_Listener" callback_method="addNavbarTab" active="1" hint="" description="Navigation Tabs"/>
+    <listener event_id="template_create" execute_order="10" callback_class="OpenXBL_Listener" callback_method="template_create" active="1" hint="" description="OpenXBL Global Template Variables"/>
     <listener event_id="template_hook" execute_order="10" callback_class="OpenXBL_Listener" callback_method="templateHook" active="1" hint="" description=""/>
+    <listener event_id="widget_framework_ready" execute_order="10" callback_class="OpenXBL_Listener" callback_method="WidgetFramework" active="1" hint="" description=""/>
   </code_event_listeners>
   <cron/>
   <email_templates/>
@@ -21,6 +40,12 @@
       <edit_format_params>0={xen:phrase openxbl_use_v1}</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="OpenXBL" display_order="610"/>
+    </option>
+    <option option_id="openxblBlastActivity" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="OpenXBL" display_order="101"/>
     </option>
     <option option_id="openxblDisplayFriends" edit_format="onoff" data_type="boolean" can_backup="1">
       <default_value>1</default_value>
@@ -46,9 +71,33 @@
       <sub_options></sub_options>
       <relation group_id="OpenXBL" display_order="420"/>
     </option>
+    <option option_id="openxblForceLogin" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>0</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="OpenXBL" display_order="200"/>
+    </option>
     <option option_id="openxblKey" edit_format="textbox" data_type="string" can_backup="1">
       <default_value></default_value>
       <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="OpenXBL" display_order="2"/>
+    </option>
+    <option option_id="openxblMaxItems" edit_format="textbox" data_type="integer" can_backup="1">
+      <default_value>15</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="OpenXBL" display_order="100"/>
+    </option>
+    <option option_id="openxblNavTab" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="OpenXBL" display_order="3"/>
+    </option>
+    <option option_id="openxblOptionPanel" edit_format="template" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params>openxbl_options_credits</edit_format_params>
       <sub_options></sub_options>
       <relation group_id="OpenXBL" display_order="1"/>
     </option>
@@ -56,7 +105,7 @@
       <default_value>1</default_value>
       <edit_format_params></edit_format_params>
       <sub_options></sub_options>
-      <relation group_id="OpenXBL" display_order="2"/>
+      <relation group_id="OpenXBL" display_order="4"/>
     </option>
   </optiongroups>
   <permissions>
@@ -64,7 +113,12 @@
       <permission_group permission_group_id="OpenXBL"/>
     </permission_groups>
     <permissions>
+      <permission permission_group_id="OpenXBL" permission_id="deleteMediaAnyone" permission_type="flag" default_value="unset" interface_group_id="OpenXBL" display_order="1"/>
+      <permission permission_group_id="OpenXBL" permission_id="deleteMediaSelf" permission_type="flag" default_value="unset" interface_group_id="OpenXBL" display_order="1"/>
+      <permission permission_group_id="OpenXBL" permission_id="viewConversations" permission_type="flag" default_value="unset" interface_group_id="OpenXBL" display_order="1"/>
+      <permission permission_group_id="OpenXBL" permission_id="viewDVR" permission_type="flag" default_value="unset" interface_group_id="OpenXBL" display_order="1"/>
       <permission permission_group_id="OpenXBL" permission_id="viewFriends" permission_type="flag" default_value="unset" interface_group_id="OpenXBL" display_order="2"/>
+      <permission permission_group_id="OpenXBL" permission_id="viewHub" permission_type="flag" default_value="unset" interface_group_id="OpenXBL" display_order="1"/>
       <permission permission_group_id="OpenXBL" permission_id="viewProfile" permission_type="flag" default_value="unset" interface_group_id="OpenXBL" display_order="1"/>
     </permissions>
     <interface_groups>
@@ -72,22 +126,44 @@
     </interface_groups>
   </permissions>
   <phrases>
+    <phrase title="openxbl_about_to_delete_showcase" version_id="12" version_string="1.3.1"><![CDATA[You are about to permanently remove this media from the showcase. You cannot undo this action.]]></phrase>
+    <phrase title="openxbl_are_you_sure" version_id="12" version_string="1.3.1"><![CDATA[Are you sure?]]></phrase>
+    <phrase title="openxbl_community_showcase" version_id="12" version_string="1.3.1"><![CDATA[Xbox Live Community Showcase]]></phrase>
+    <phrase title="openxbl_conversations_eror" version_id="10" version_string="1.3.1"><![CDATA[We are having trouble with Xbox Live messages. Try again later!]]></phrase>
+    <phrase title="openxbl_delete_media" version_id="12" version_string="1.3.1"><![CDATA[Delete Media]]></phrase>
+    <phrase title="openxbl_delete_success" version_id="12" version_string="1.3.1"><![CDATA[Media was successfully deleted!]]></phrase>
+    <phrase title="openxbl_dvr_clips" version_id="12" version_string="1.3.1"><![CDATA[Game Clips]]></phrase>
+    <phrase title="openxbl_dvr_screenshots" version_id="12" version_string="1.3.1"><![CDATA[Screenshots]]></phrase>
     <phrase title="openxbl_enter_account_password" version_id="1" version_string="1.0"><![CDATA[Please enter your account password. Not your Microsoft password!]]></phrase>
     <phrase title="openxbl_friends_error" version_id="8" version_string="1.2.1"><![CDATA[We had trouble getting your friends list. Try again later!]]></phrase>
     <phrase title="openxbl_friends_list" version_id="8" version_string="1.2.1"><![CDATA[Friends List]]></phrase>
     <phrase title="openxbl_friends_list_for_x" version_id="8" version_string="1.2.1"><![CDATA[Xbox Live Friends List for {name}]]></phrase>
+    <phrase title="openxbl_login_register_with_xboxlive" global_cache="1" version_id="9" version_string="1.3"><![CDATA[Login / Register with Xbox Live]]></phrase>
     <phrase title="openxbl_login_with_xboxlive" version_id="3" version_string="1.1"><![CDATA[Log in with Xbox Live]]></phrase>
+    <phrase title="openxbl_media_not_found" version_id="12" version_string="1.3.1"><![CDATA[This media was not found. It may have been removed. Sorry!]]></phrase>
+    <phrase title="openxbl_message_sent" version_id="12" version_string="1.3.1"><![CDATA[Xbox Live Message Sent!]]></phrase>
+    <phrase title="openxbl_message_sent_error" version_id="12" version_string="1.3.1"><![CDATA[There was an issue sending your message. Check the gamertag is correct and you are using commas.]]></phrase>
+    <phrase title="openxbl_navtab_title" version_id="12" version_string="1.3.1"><![CDATA[Xbox Live]]></phrase>
     <phrase title="openxbl_no_profile_subtitle" version_id="3" version_string="1.1"><![CDATA[Welcome to Xbox Live!]]></phrase>
+    <phrase title="openxbl_no_shared_content" version_id="12" version_string="1.3.1"><![CDATA[There is no shared content yet! Be the first by viewing your <a href="{video}">Xbox Live DVR</a>]]></phrase>
+    <phrase title="openxbl_recording" version_id="12" version_string="1.3.1"><![CDATA[recording]]></phrase>
+    <phrase title="openxbl_screenshot" version_id="12" version_string="1.3.1"><![CDATA[screenshot]]></phrase>
+    <phrase title="openxbl_send_convo_to" version_id="10" version_string="1.3.1"><![CDATA[Send Xbox Live Message]]></phrase>
+    <phrase title="openxbl_shared" version_id="12" version_string="1.3.1"><![CDATA[shared an [URL="{link}"]Xbox Live {type}.[/URL]]]></phrase>
+    <phrase title="openxbl_showcase" version_id="12" version_string="1.3.1"><![CDATA[Showcase]]></phrase>
     <phrase title="openxbl_signup_with_xboxlive" version_id="1" version_string="1.0"><![CDATA[Signup with Xbox Live]]></phrase>
     <phrase title="openxbl_signup_with_xboxlive_message" version_id="1" version_string="1.0"><![CDATA[You're almost finished! If this is your first time please fill in the form below. If you are migrating to an existing account please select 'Associate Existing Account.']]></phrase>
     <phrase title="openxbl_total_friends" version_id="8" version_string="1.2.1"><![CDATA[Total Friends]]></phrase>
     <phrase title="openxbl_total_friends_online" version_id="8" version_string="1.2.1"><![CDATA[Friends Online]]></phrase>
     <phrase title="openxbl_use_v1" version_id="7" version_string="1.2.1"><![CDATA[Call API Version 1 (/v1/)]]></phrase>
     <phrase title="openxbl_x_has_no_friends_yet" version_id="8" version_string="1.2.1"><![CDATA[{name} has no friends yet!]]></phrase>
+    <phrase title="openxbl_your_screenshots" version_id="12" version_string="1.3.1"><![CDATA[Your Screenshots]]></phrase>
     <phrase title="option_group_OpenXBL" version_id="1" version_string="1.0"><![CDATA[OpenXBL]]></phrase>
-    <phrase title="option_group_OpenXBL_description" version_id="1" version_string="1.0"><![CDATA[]]></phrase>
+    <phrase title="option_group_OpenXBL_description" version_id="12" version_string="1.3.1"><![CDATA[An Xbox Live API]]></phrase>
     <phrase title="option_openxblAPILink" version_id="7" version_string="1.2.1"><![CDATA[OpenXBL API Version]]></phrase>
     <phrase title="option_openxblAPILink_explain" version_id="7" version_string="1.2.1"><![CDATA[Transmission is cURL HTTPS only! Read GitHub Wiki for why that is.]]></phrase>
+    <phrase title="option_openxblBlastActivity" version_id="12" version_string="1.3.1"><![CDATA[Post showcase activity to TaigaChat?]]></phrase>
+    <phrase title="option_openxblBlastActivity_explain" version_id="12" version_string="1.3.1"><![CDATA[You MUST have this module installed and activated.]]></phrase>
     <phrase title="option_openxblDisplayFriends" version_id="8" version_string="1.2.1"><![CDATA[Display Friends List]]></phrase>
     <phrase title="option_openxblDisplayFriends_explain" version_id="8" version_string="1.2.1"><![CDATA[Show a link in the Account Menu]]></phrase>
     <phrase title="option_openxblDisplayMessageContent" version_id="7" version_string="1.2.1"><![CDATA[Display Xbox Live in message content (top right)]]></phrase>
@@ -96,13 +172,26 @@
     <phrase title="option_openxblDisplayMessageInfo_explain" version_id="7" version_string="1.2.1"><![CDATA[]]></phrase>
     <phrase title="option_openxblDisplayProfile" version_id="7" version_string="1.2.1"><![CDATA[Display Xbox Live in profile]]></phrase>
     <phrase title="option_openxblDisplayProfile_explain" version_id="7" version_string="1.2.1"><![CDATA[]]></phrase>
+    <phrase title="option_openxblForceLogin" version_id="9" version_string="1.3"><![CDATA[Force Login]]></phrase>
+    <phrase title="option_openxblForceLogin_explain" version_id="9" version_string="1.3"><![CDATA[This will disable default login and registration. Users MUST use OpenXBL.]]></phrase>
     <phrase title="option_openxblKey" version_id="1" version_string="1.0"><![CDATA[Application Key]]></phrase>
     <phrase title="option_openxblKey_explain" version_id="1" version_string="1.0"><![CDATA[This should match the Application Key in <a href="https://xbl.io/profile" target="_blank">your account</a> under the Xbox App group.]]></phrase>
+    <phrase title="option_openxblMaxItems" version_id="12" version_string="1.3.1"><![CDATA[Media Per Page]]></phrase>
+    <phrase title="option_openxblMaxItems_explain" version_id="12" version_string="1.3.1"><![CDATA[How many clips and screenshots to show per page in the Showcase.]]></phrase>
+    <phrase title="option_openxblNavTab" version_id="12" version_string="1.3.1"><![CDATA[Display navbar tab?]]></phrase>
+    <phrase title="option_openxblNavTab_explain" version_id="12" version_string="1.3.1"><![CDATA[]]></phrase>
+    <phrase title="option_openxblOptionPanel" version_id="12" version_string="1.3.1"><![CDATA[Welcome!]]></phrase>
+    <phrase title="option_openxblOptionPanel_explain" version_id="12" version_string="1.3.1"><![CDATA[Thank you for using OpenXBL]]></phrase>
     <phrase title="option_openxblVisitorSidebar" version_id="4" version_string="1.2"><![CDATA[Show Visitor Sidebar Login?]]></phrase>
     <phrase title="option_openxblVisitorSidebar_explain" version_id="4" version_string="1.2"><![CDATA[Toggle the 'Log in with Xbox Live' button on the visitor sidebar.]]></phrase>
     <phrase title="permission_group_OpenXBL" version_id="7" version_string="1.2.1"><![CDATA[OpenXBL]]></phrase>
     <phrase title="permission_interface_OpenXBL" version_id="7" version_string="1.2.1"><![CDATA[OpenXBL]]></phrase>
+    <phrase title="permission_OpenXBL_deleteMediaAnyone" version_id="12" version_string="1.3.1"><![CDATA[Delete media by anyone:]]></phrase>
+    <phrase title="permission_OpenXBL_deleteMediaSelf" version_id="12" version_string="1.3.1"><![CDATA[Delete media by self:]]></phrase>
+    <phrase title="permission_OpenXBL_viewConversations" version_id="10" version_string="1.3.1"><![CDATA[Can view and send Xbox Live messages]]></phrase>
+    <phrase title="permission_OpenXBL_viewDVR" version_id="12" version_string="1.3.1"><![CDATA[Can view Xbox DVR]]></phrase>
     <phrase title="permission_OpenXBL_viewFriends" version_id="8" version_string="1.2.1"><![CDATA[Can view their Xbox Live friends list]]></phrase>
+    <phrase title="permission_OpenXBL_viewHub" version_id="11" version_string="1.3.1"><![CDATA[View Xbox Live Hub]]></phrase>
     <phrase title="permission_OpenXBL_viewProfile" version_id="8" version_string="1.2.1"><![CDATA[Can view Xbox Live profiles]]></phrase>
   </phrases>
   <route_prefixes>
@@ -115,17 +204,470 @@
   </route_prefixes>
   <style_properties/>
   <templates>
-    <template title="openxbl_account_menu" version_id="8" version_string="1.2.1"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND {$xenOptions.openxblDisplayFriends} AND {$visitor.permissions.OpenXBL.viewFriends}">
-<li><a href="{xen:link openxbl/friends}" class="OverlayTrigger" data-overlayoptions="{"fixed":false}">{xen:phrase openxbl_friends_list}</a></li>
+    <template title="openxbl.css" version_id="12" version_string="1.3.1"><![CDATA[/* Slider */
+.slick-slider
+{
+    position: relative;
+
+    display: block;
+    box-sizing: border-box;
+
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -ms-touch-action: pan-y;
+        touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.slick-list
+{
+    position: relative;
+
+    display: block;
+    overflow: hidden;
+
+    margin: 0;
+    padding: 0;
+}
+.slick-list:focus
+{
+    outline: none;
+}
+.slick-list.dragging
+{
+    cursor: pointer;
+    cursor: hand;
+}
+
+.slick-slider .slick-track,
+.slick-slider .slick-list
+{
+    -webkit-transform: translate3d(0, 0, 0);
+       -moz-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+         -o-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+}
+
+.slick-track
+{
+    position: relative;
+    top: 0;
+    left: 0;
+
+    display: block;
+}
+.slick-track:before,
+.slick-track:after
+{
+    display: table;
+
+    content: '';
+}
+.slick-track:after
+{
+    clear: both;
+}
+.slick-loading .slick-track
+{
+    visibility: hidden;
+}
+
+.slick-slide
+{
+    display: none;
+    float: left;
+
+    height: 100%;
+    min-height: 1px;
+}
+[dir='rtl'] .slick-slide
+{
+    float: right;
+}
+.slick-slide img
+{
+    display: block;
+}
+.slick-slide.slick-loading img
+{
+    display: none;
+}
+.slick-slide.dragging img
+{
+    pointer-events: none;
+}
+.slick-initialized .slick-slide
+{
+    display: block;
+}
+.slick-loading .slick-slide
+{
+    visibility: hidden;
+}
+.slick-vertical .slick-slide
+{
+    display: block;
+
+    height: auto;
+
+    border: 1px solid transparent;
+}
+.slick-arrow.slick-hidden {
+    display: none;
+}
+
+@charset 'UTF-8';
+/* Slider */
+.slick-loading .slick-list
+{
+    background: #fff url('./styles/openxbl/img/ajax-loader.gif') center center no-repeat;
+}
+
+/* Icons */
+@font-face
+{
+    font-family: 'slick';
+    font-weight: normal;
+    font-style: normal;
+
+    src: url('./styles/openxbl/fonts/slick.eot');
+    src: url('./styles/openxbl/fonts/slick.eot?#iefix') format('embedded-opentype'), url('./styles/openxbl/fonts/slick.woff') format('woff'), url('./styles/openxbl/fonts/slick.ttf') format('truetype'), url('./styles/openxbl/fonts/slick.svg#slick') format('svg');
+}
+/* Arrows */
+.slick-prev,
+.slick-next
+{
+    font-size: 0;
+    line-height: 0;
+
+    position: absolute;
+    top: 50%;
+
+    display: block;
+
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    -webkit-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+    transform: translate(0, -50%);
+
+    cursor: pointer;
+
+    color: transparent;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+.slick-prev:hover,
+.slick-prev:focus,
+.slick-next:hover,
+.slick-next:focus
+{
+    color: transparent;
+    outline: none;
+    background: transparent;
+}
+.slick-prev:hover:before,
+.slick-prev:focus:before,
+.slick-next:hover:before,
+.slick-next:focus:before
+{
+    opacity: 1;
+}
+.slick-prev.slick-disabled:before,
+.slick-next.slick-disabled:before
+{
+    opacity: .25;
+}
+
+.slick-prev:before,
+.slick-next:before
+{
+    font-family: 'slick';
+    font-size: 20px;
+    line-height: 1;
+
+    opacity: .75;
+    color: black;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.slick-prev
+{
+    left: -25px;
+}
+[dir='rtl'] .slick-prev
+{
+    right: -25px;
+    left: auto;
+}
+.slick-prev:before
+{
+    content: '←';
+}
+[dir='rtl'] .slick-prev:before
+{
+    content: '→';
+}
+
+.slick-next
+{
+    right: -25px;
+}
+[dir='rtl'] .slick-next
+{
+    right: auto;
+    left: -25px;
+}
+.slick-next:before
+{
+    content: '→';
+}
+[dir='rtl'] .slick-next:before
+{
+    content: '←';
+}
+
+/* Dots */
+.slick-dotted.slick-slider
+{
+    margin-bottom: 30px;
+}
+
+.slick-dots
+{
+    position: absolute;
+    bottom: -25px;
+
+    display: block;
+
+    width: 100%;
+    padding: 0;
+    margin: 0;
+
+    list-style: none;
+
+    text-align: center;
+}
+.slick-dots li
+{
+    position: relative;
+
+    display: inline-block;
+
+    width: 20px;
+    height: 20px;
+    margin: 0 5px;
+    padding: 0;
+
+    cursor: pointer;
+}
+.slick-dots li button
+{
+    font-size: 0;
+    line-height: 0;
+
+    display: block;
+
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+
+    cursor: pointer;
+
+    color: transparent;
+    border: 0;
+    outline: none;
+    background: transparent;
+}
+.slick-dots li button:hover,
+.slick-dots li button:focus
+{
+    outline: none;
+}
+.slick-dots li button:hover:before,
+.slick-dots li button:focus:before
+{
+    opacity: 1;
+}
+.slick-dots li button:before
+{
+    font-family: 'slick';
+    font-size: 6px;
+    line-height: 20px;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 20px;
+    height: 20px;
+
+    content: '•';
+    text-align: center;
+
+    opacity: .25;
+    color: black;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.slick-dots li.slick-active button:before
+{
+    opacity: .75;
+    color: black;
+}
+
+
+
+]]></template>
+    <template title="openxbl_account_menu" version_id="9" version_string="1.3"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND {$xenOptions.openxblDisplayFriends} AND {$visitor.permissions.OpenXBL.viewFriends}">
+<li><img src="styles/openxbl/xbox.png" style="float:left;margin:5px;" /><a href="{xen:link openxbl/friends}" class="OverlayTrigger" data-overlayoptions="{"fixed":false}">{xen:phrase openxbl_friends_list}</a></li>
 </xen:if>]]></template>
-    <template title="openxbl_footer" version_id="7" version_string="1.2.1"><![CDATA[<xen:if is="{$openxblProfNoJS}">
+    <template title="openxbl_conversations_send" version_id="12" version_string="1.3.1"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewConversations}">
+
+<xen:title>{xen:phrase openxbl_send_convo_to}</xen:title>
+
+<xen:container var="$head.noindex">
+	<meta name="robots" content="noindex" /></xen:container>
+
+<div class="section" style="background-color: #fff;">
+
+	<form action="{xen:link 'openxbl/conversations/send'}" method="post" class="xenForm AutoValidator">
+		<dl class="ctrlUnit">
+			<dt><label for="ctrl_recipients">{xen:if '{$remaining} == 1', '{xen:phrase participant}:', '{xen:phrase participants}:'}</label></dt>
+			<dd>
+				<input type="text" name="recipients" value="{$to}" id="ctrl_recipients" class="textCtrl AutoComplete" autocomplete="off" data-acurl="{xen:link openxbl/find}"/>
+				<xen:if is="{$remaining} != 1">
+					<p class="explain">{xen:phrase separate_names_with_comma} <xen:if is="{$remaining} > 0">{xen:phrase you_may_invite_up_to_x_members, 'number={xen:number $remaining}'}</xen:if></p>
+				</xen:if>
+			</dd>
+		</dl>
+
+		<fieldset>
+			<dl class="ctrlUnit fullWidth">
+				<dt></dt>
+				<dd><textarea name="message" max="125" style="width:100%;" rows="5"></textarea></dd>
+			</dl>
+		</fieldset>
+
+		<dl class="ctrlUnit submitUnit">
+			<dt></dt>
+			<dd>
+				<input type="submit" value="{xen:phrase start_conversation}" accesskey="s" class="button primary" />
+			</dd>
+		</dl>
+
+		<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+		<input type="hidden" name="_xfConfirm" value="1" />
+	</form>
+
+</div>
+
+</xen:if>]]></template>
+    <template title="openxbl_disable_registration" version_id="9" version_string="1.3"><![CDATA[<xen:title>Sign in with Xbox Live</xen:title>
+
+<p>Our community requires you to login with Xbox Live.</p>]]></template>
+    <template title="openxbl_dvr_clips" version_id="12" version_string="1.3.1"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewHub}">
+
+	<xen:navigation>
+	<xen:breadcrumb href="{xen:link openxbl/dvr/clips}">Xbox DVR</xen:breadcrumb>
+	<xen:breadcrumb href="{xen:link openxbl/dvr/clips}">Game Clips</xen:breadcrumb>
+	</xen:navigation>
+	
+	<xen:title>Your Recorded Game Clips ({xen:count $items})</xen:title>
+	
+	<xen:include template="openxbl_dvr_media_list" />
+
+</xen:if>
+]]></template>
+    <template title="openxbl_dvr_media_list" version_id="12" version_string="1.3.1"><![CDATA[<xen:foreach loop="$items" value="$item">
+	<xen:include template="openxbl_dvr_media_list_item" />
+</xen:foreach>]]></template>
+    <template title="openxbl_dvr_media_list_item" version_id="12" version_string="1.3.1"><![CDATA[<div style="padding:5px;float:left;">
+<a href="#" onclick="return false;"  id="{$item.id}" class="clip overlayTrigger"><img src="{$item.thumbnail}" style="width:150px;" /></a>
+<script>
+$(document).on('click', '#{$item.id}', function(e) { 
+XenForo.createOverlay(null, $(''
+    + '<div class="xenOverlay">'
+    +   '<div class="section">'
+    +      '<a class="close OverlayCloser"></a>'
+    +      '<h2 class="heading">{$item.gameTitle}</h2>'
+    +      '<div class="baseHtml">'
+    +       '<xen:if is="{$item.type} == 'screenshot'">'
+    +          '<img id="media-{$item.id}" src="{$item.url}" style="width:650px;height:360px;" />'
+    +       '<xen:else />'
+    +          '<video id="media-{$item.id}" width="650" height="360" style="background-color:#000;" preload controls>'
+    +    	    '<source src="{$item.url}" />'
+    +          '</video>'
+    +      '</xen:if>'
+    +	   '</div>'
+    +      '<div class="sectionFooter opposedOptions">'
+    +         '<xen:if is="!{$item.shared}">'
+    +             '<form method="post" action="{xen:link openxbl/dvr/share}" data-redirect="on">'
+    +                '<input type="submit" class="button primary" value="Share" /> '
+    +                '<input type="hidden" name="media_id" value="{$item.id}" />'
+    +                '<input type="hidden" name="type" value="{$item.type}" />'
+    +                '<input type="hidden" name="game" value="{$item.gameTitle}" />'
+    +                '<input type="hidden" name="duration" value="{$item.durationSeconds}" />'
+    +                '<input type="hidden" name="date" value="{$item.date}" />'
+    +                '<input type="hidden" name="thumbnail" value="{$item.thumbnail}" />'
+    +                '<input type="hidden" name="" value="{$item.url}" />'
+    +		     '<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />'
+    +             '</form>'
+    +           '</xen:if>'
+    +         '<xen:if is="{$item.name}">Name: {$item.name} | </xen:if>' 
+    +         '<xen:if is="{$item.caption}"><i> {$item.caption} </i> | </xen:if>'
+    +         '<xen:if is="{$item.type} == 'video'">Duration: {$item.durationSeconds}sec </xen:if>'
+    +	      ' | Date Taken: {xen:datetime $item.date}' 
+    +      '</div>'
+    +   '</div>'
+    + '</div>'
+), {onClose: function() { 
+   var video = document.getElementById("media-{$item.id}");
+   video.pause(); 
+}}).load();
+});
+</script>
+</div>]]></template>
+    <template title="openxbl_dvr_screenshots" version_id="12" version_string="1.3.1"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewHub}">
+
+	<xen:navigation>
+	<xen:breadcrumb href="{xen:link openxbl/dvr/screenshots}">Xbox DVR</xen:breadcrumb>
+	<xen:breadcrumb href="{xen:link openxbl/dvr/screenshots}">Screenshots</xen:breadcrumb>
+	</xen:navigation>
+	
+	<xen:title>{xen:phrase openxbl_your_screenshots} ({xen:count $items})</xen:title>
+	
+	<xen:include template="openxbl_dvr_media_list" />
+	
+	
+</xen:if>
+]]></template>
+    <template title="openxbl_footer" version_id="12" version_string="1.3.1"><![CDATA[<xen:if is="{$openxblProfNoJS}">
 <xen:require css="openxbl_stats.css" />
 </xen:if>
 
 <xen:if is="{$openxblProf}">
 <xen:require css="openxbl_profile.css" />
 <xen:require js="js/openxbl/ajax/openxblprofile.js" />
+<xen:require js="js/openxbl/ajax/openxblclip.js" />
 <xen:require js="js/openxbl/openxbl.js" />
+</xen:if>
+
+<xen:if is="{$openxblNode}">
+<xen:require css="openxbl.css" />
+<xen:require js="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js" />
+<xen:require js="js/openxbl/tooltipster.bundle.min.js" />
 </xen:if>
 
 <xen:if is="{$openxblProfStats}">
@@ -135,11 +677,33 @@
 </xen:if>
 
 ]]></template>
-    <template title="openxbl_friends" version_id="8" version_string="1.2.1"><![CDATA[<xen:require css="openxbl_friends.css" />
+    <template title="openxbl_friends" version_id="12" version_string="1.3.1"><![CDATA[<xen:require css="openxbl_friends.css" />
 
 <div class="friends" id="friends-{$friends.xuid}">
+
 	<div class="avatar"><img src="{$friends.displayPicRaw}&w=50&h=50" /></div>
-	<div class="state"><xen:if is="{$friends.presenceState} == 'Online'">Online</xen:if></div>
+
+	<div class="state">
+
+		<div class="Popup">
+
+			<a rel="Menu"><xen:if is="{$friends.presenceState} == 'Online'">Online</xen:if></a>
+
+			<div class="Menu" style="z-index:9999;">
+
+			<div class="primaryContent menuHeader"><h3>{$friends.gamertag}</h3></div>
+
+				<ul class="secondaryContent blockLinksList">
+
+					<li><a href="{xen:link 'openxbl/conversations/send&gamertag='}{$friends.gamertag}" class="OverlayTrigger" data-overlayoptions="{"fixed":false}">{xen:phrase openxbl_send_convo_to}</a></li>
+
+				</ul>
+
+			</div>
+
+		</div>		
+
+	</div>
 	<div class="info">
 		<h3 class="title">{$friends.gamertag}</h3>
 		<p class="description">{$friends.presenceText}</p>
@@ -182,7 +746,7 @@
 		font-size: 11px;
 		color: {xen:property mutedTextColor};
 	}]]></template>
-    <template title="openxbl_helper_login" version_id="5" version_string="1.2"><![CDATA[<xen:if is="{$xenOptions.openxblKey}">
+    <template title="openxbl_helper_login" version_id="9" version_string="1.3"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND !{$xenOptions.openxblForceLogin}">
 <xen:require css="openxbl_login_bar.css" />
 <dl class="ctrlUnit XboxLiveLogin">
 	<dt></dt>
@@ -192,15 +756,168 @@
 		</a>
 	</dd>
 </dl>
+<xen:elseif is="{$xenOptions.openxblKey} AND {$xenOptions.openxblForceLogin}" />
+<xen:require css="openxbl_login_bar.css" />
+	<xen:if is="!{$visitor.user_id}">
+	
+		<form class="xenForm formOverlay" id="pageLogin">
+	
+			<h2 class="textHeading">{xen:phrase log_in_or_sign_up}</h2>
+	
+			    <dl class="ctrlUnit">
+				    
+				    <dd>
+	
+						<a href="{xen:link register/openxbl, '', 'reg=1'}" class="xboxLogin" tabindex="110">
+							<span>{xen:phrase openxbl_login_with_xboxlive}</span>
+						</a>
+	
+				    </dd>
+	
+			    </dl>
+	
+			<input type="hidden" name="cookie_check" value="1" />
+	
+		</form>
+	
+		<script>
+			$(function()
+			{
+				var $button = $('#pageLogin input.button.primary');
+				$('#pageLogin input[name="register"]').click(function()
+				{
+					$button.val(
+						$('#pageLogin input[name="register"]:checked').val() == '1'
+						? $button.data('signupphrase')
+						: $button.data('loginphrase')
+					);
+				});
+			});
+		</script>
+	
+	</xen:if>
 </xen:if>
 ]]></template>
-    <template title="openxbl_login_bar" version_id="4" version_string="1.2"><![CDATA[<xen:if is="{$xenOptions.openxblKey}">
-<xen:require css="openxbl_login_bar.css" />
-<li>
-<a href="{xen:link register/openxbl, '', 'reg=1'}" class="xboxLogin" tabindex="110"><span>{xen:phrase openxbl_login_with_xboxlive}</span></a>
-</li>
+    <template title="openxbl_hub" version_id="12" version_string="1.3.1"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewHub}">
+
+	<xen:container var="$openxblNode">1</xen:container>
+	
+	<div class="section sectionMain nodeList" style="height:125px;">
+		<div style="height: 100%;width:100%;">
+			
+			<div class="nodeInfo categoryNodeInfo categoryStrip">		
+				<div class="categoryText">
+					<h3 class="nodeTitle">Xbox Live Community Showcase</h3>			
+				</div>			
+			</div>
+				
+			<div id="openxbl-featured" style="width:93%;margin:0 auto;">
+				<xen:foreach loop="$items" value="$item">
+					<div style="padding:5px;float:left;">
+					<a href="#" onclick="return false;"  id="{$item.media_id}" class="clip overlayTrigger"><img src="openxbl/media/thumbnail/{$item.media_id}.png" style="width:150px;" class="Tooltip" title="{$item.gamertag} ({$item.type}) on {$item.game}" /></a>
+					<script>
+						$(document).on('click', '#{$item.media_id}', function(e) { 
+						XenForo.createOverlay(null, $(''
+						    + '<div class="xenOverlay">'
+						    +   '<div class="section">'
+						    +      '<a class="close OverlayCloser"></a>'
+						    +      '<h2 class="heading">{$item.gamertag} on {$item.game}</h2>'
+						    +      '<div class="baseHtml">'
+						    +       '<xen:if is="{$item.type} == 'screenshot'">'
+						    +          '<img id="media-{$item.id}" src="openxbl/media/{$item.media_id}.png" style="width:650px;height:360px;" />'
+						    +       '<xen:else />'
+						    +          '<video id="media-{$item.id}" width="650" height="360" style="background-color:#000;" preload controls>'
+						    +    	    '<source src="openxbl/media/{$item.media_id}.mp4" />'
+						    +          '</video>'
+						    +      '</xen:if>'
+						    +	   '</div>'
+						    +      '<div class="sectionFooter opposedOptions">'
+						    +         '<xen:if is="{$item.type} == 'video'">Duration: {$item.duration}sec </xen:if>'
+						    +         'Taken on: {xen:datetime $item.date}'
+						    +         '<input type="text" value="&lt;iframe width=&quot;650&quot; height=&quot;360&quot; src=&quot;{$xenOptions.boardUrl}/openxbl/media/{$item.media_id}.<xen:if is="{$item.type} == 'screenshot'">png<xen:else />mp4</xen:if>&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;" onClick="this.select();" style="width:200px;float:right;" />'
+						    +      '</div>'
+						    +   '</div>'
+						    + '</div>'
+						), {onClose: function() { 
+						   var video = document.getElementById("media-{$item.media_id}");
+						   video.pause(); 
+						}}).load();
+						});
+					</script>
+					</div>
+					
+				</xen:foreach>	
+			</div>
+			<xen:if is="!{$items}">{xen:phrase openxbl_no_shared_content, 'video={xen:link openxbl/dvr/clips}'}</xen:if>
+			
+		</div>
+	</div>
+	<script>
+	$('#openxbl-featured').slick({
+  infinite: true,
+  speed: 300,
+  slidesToShow: 6,
+  slidesToScroll: 6,
+  responsive: [
+    {
+      breakpoint: 1324,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 4
+      }
+    },
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1
+      }
+    }
+
+  ]
+	});
+
+	</script>	
+</xen:if>
+]]></template>
+    <template title="openxbl_login_bar" version_id="9" version_string="1.3"><![CDATA[<xen:if is="{$xenOptions.openxblKey}">
+
+	<xen:if is="{$xenOptions.openxblForceLogin}">
+	
+		<div class="section loginButton">		
+			<div class="secondaryContent">	
+				<xen:require css="openxbl_login_bar.css" />
+				<li>
+				<a href="{xen:link register/openxbl, '', 'reg=1'}" class="xboxLogin" tabindex="110"><span>{xen:phrase openxbl_login_with_xboxlive}</span></a>
+				</li>
+			</div>
+		</div>	
+
+	<xen:else />
+	
+		<xen:require css="openxbl_login_bar.css" />
+		<li>
+		<a href="{xen:link register/openxbl, '', 'reg=1'}" class="xboxLogin" tabindex="110"><span>{xen:phrase openxbl_login_with_xboxlive}</span></a>
+		</li>
+	
+	</xen:if>
+	
 </xen:if>]]></template>
-    <template title="openxbl_login_bar.css" version_id="4" version_string="1.2"><![CDATA[.xboxLogin, #loginBar .xboxLogin {
+    <template title="openxbl_login_bar.css" version_id="9" version_string="1.3"><![CDATA[.xboxLogin, #loginBar .xboxLogin {
     display: inline-block;
     width: 180px;
     height: 22px;
@@ -225,10 +942,44 @@
     overflow: hidden;
 }
 
+.absoluteCenter {
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
 .sidebar a.xboxLogin
 {
     margin: 10px 25px;
 }]]></template>
+    <template title="openxbl_login_bar_top" version_id="9" version_string="1.3"><![CDATA[<xen:if is="{$xenOptions.openxblKey}">
+
+	<xen:if is="{$xenOptions.openxblForceLogin}">
+				
+		<form action="index.php?openxbl/login" method="post" class="xenForm eAuth" id="login" style="display: none; height: 100px;">
+
+				<xen:require css="openxbl_login_bar.css" />
+				<li>
+					<a href="{xen:link register/openxbl, '', 'reg=1'}" class="xboxLogin absoluteCenter" style="width:200px;" tabindex="110"><span>{xen:phrase openxbl_login_register_with_xboxlive}</span></a>
+				</li>	
+
+		</form>
+
+	<xen:else />
+	
+		<xen:require css="openxbl_login_bar.css" />
+		<li>
+		<a href="{xen:link register/openxbl, '', 'reg=1'}" class="xboxLogin" tabindex="110"><span>{xen:phrase openxbl_login_with_xboxlive}</span></a>
+		</li>
+	
+	</xen:if>
+	
+</xen:if>]]></template>
+    <template title="openxbl_member_card" version_id="11" version_string="1.3.1"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewConversations}">
+
+	<a href="{xen:link 'openxbl/conversations/send&gamertag='}{xen:helper gamertag, $user.user_id}" class="OverlayTrigger" data-overlayoptions="{"fixed":false}">{xen:phrase openxbl_send_convo_to}</a>
+
+</xen:if>]]></template>
     <template title="openxbl_member_friends" version_id="8" version_string="1.2.1"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewFriends}">
 
 <xen:title>{xen:phrase openxbl_friends_list_for_x, 'name={$user.username}'}</xen:title>
@@ -269,6 +1020,11 @@
 </div>
 
 </xen:if>]]></template>
+    <template title="openxbl_navtabs" version_id="12" version_string="1.3.1"><![CDATA[<ul class="secondaryContent blockLinksList">
+	<li><a href="{xen:link 'openxbl/showcase'}">{xen:phrase openxbl_showcase}</a></li>
+	<li><a href="{xen:link 'openxbl/dvr/clips'}">{xen:phrase openxbl_dvr_clips}</a></li>
+	<li><a href="{xen:link 'openxbl/dvr/screenshots'}">{xen:phrase openxbl_dvr_screenshots}</a></li>
+</ul>]]></template>
     <template title="openxbl_no_xbox_profile" version_id="3" version_string="1.1"><![CDATA[<style>
 li {
 padding-top:10px;
@@ -317,11 +1073,306 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
 		</xen:if>
 	</xen:if>
 </xen:if>]]></template>
-    <template title="openxbl_sidebar_visitor" version_id="4" version_string="1.2"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND {$xenOptions.openxblVisitorSidebar}">
-<xen:require css="openxbl_login_bar.css" />
-<li>
-<a href="{xen:link register/openxbl, '', 'reg=1'}" class="xboxLogin" tabindex="110"><span>{xen:phrase openxbl_login_with_xboxlive}</span></a>
-</li>
+    <template title="openxbl_showcase" version_id="12" version_string="1.3.1"><![CDATA[<xen:title>{xen:phrase openxbl_community_showcase}</xen:title>
+<xen:navigation>
+<xen:breadcrumb href="{xen:link openxbl/showcase}">Showcase</xen:breadcrumb>
+</xen:navigation>
+
+<xen:require css="resource_list.css" />
+
+<div class="resourceListBlock">
+
+	<div class="resourceListSidebar">
+		<div class="secondaryContent categoryList">
+			<h3>{xen:phrase categories}</h3>
+
+			<ol>
+
+				<li>
+					<a href="{xen:link openxbl/showcase/clips}">Game Clips</a>
+					<span class="count">{xen:count $gameclips}</span>
+				</li>
+
+				<li>
+					<a href="{xen:link openxbl/showcase/screenshots}">Screenshots</a>
+					<span class="count">{xen:count $screenshots}</span>
+				</li>
+
+			</ol>
+
+		</div>
+	</div>
+
+	<div class="resourceListMain">
+
+		<div class="section">
+
+			<h2 class="textHeading">
+					<a class="viewAllFeatured" href="{xen:link openxbl/showcase/clips}">View All</a>
+					Recent Game Clips
+			</h2>
+
+			<xen:foreach loop="$gameclips" value="$item" i="$i">
+			    <xen:if is="{$i} < 15">
+					<a href="{xen:link 'openxbl/showcase&media={$item.media_id}'}">
+						<img src="openxbl/media/thumbnail/{$item.media_id}.png" style="width:150px;" class="Tooltip" title="{$item.gamertag} on {$item.game}" />
+					</a>
+			    </xen:if>
+			</xen:foreach>
+			<xen:if is="!{$gameclips}">{xen:phrase openxbl_no_shared_content, 'video={xen:link openxbl/dvr/clips}'}</xen:if>
+
+		</div>
+
+		<div class="section">
+
+			<h2 class="textHeading">
+					<a class="viewAllFeatured" href="{xen:link openxbl/showcase/screenshots}">View All</a>
+					Recent Screenshots
+			</h2>
+
+			<xen:foreach loop="$screenshots" value="$item" i="$i">
+				<xen:if is="{$i} < 15">
+					<a href="{xen:link 'openxbl/showcase&media={$item.media_id}'}">
+						<img src="openxbl/media/thumbnail/{$item.media_id}.png" style="width:150px;" class="Tooltip" title="{$item.gamertag} on {$item.game}" />
+					</a>
+				</xen:if>
+			</xen:foreach>
+			<xen:if is="!{$screenshots}">{xen:phrase openxbl_no_shared_content, 'video={xen:link openxbl/dvr/screenshots}'}</xen:if>  
+
+		</div>
+
+	</div>
+
+</div>]]></template>
+    <template title="openxbl_showcase_clips" version_id="12" version_string="1.3.1"><![CDATA[<xen:navigation>
+<xen:breadcrumb href="{xen:link openxbl/showcase}">Showcase</xen:breadcrumb>
+<xen:breadcrumb href="{xen:link openxbl/showcase/clips}">Game Clips</xen:breadcrumb>
+</xen:navigation>
+
+<xen:title>{xen:phrase openxbl_community_showcase}</xen:title>
+
+<xen:require css="resource_list.css" />
+
+<div class="resourceListBlock">
+
+	<div class="resourceListSidebar">
+		<div class="secondaryContent categoryList">
+			<h3>{xen:phrase categories}</h3>
+
+			<ol>
+
+				<li>
+					<a href="{xen:link openxbl/showcase/clips}" class="selected">Game Clips</a>
+					<span class="count">{$total}</span>
+				</li>
+
+				<li>
+					<a href="{xen:link openxbl/showcase/screenshots}">Screenshots</a>
+					<span class="count">{xen:count $screenshots}</span>
+				</li>
+
+			</ol>
+
+		</div>
+	</div>
+
+	<div class="resourceListMain">
+
+		<div class="section">
+
+			<h2 class="textHeading">
+					Game Clips
+			</h2>
+
+			<xen:foreach loop="$items" value="$item">
+					<a href="{xen:link 'openxbl/showcase&media={$item.media_id}'}">
+						<img src="openxbl/media/thumbnail/{$item.media_id}.png" style="width:150px;" class="Tooltip" title="{$item.gamertag} on {$item.game}" />
+					</a>
+			</xen:foreach>
+			<xen:if is="!{$items}">{xen:phrase openxbl_no_shared_content, 'video={xen:link openxbl/dvr/clips}'}</xen:if>
+
+			<xen:pagenav link="openxbl/showcase/clips" page="{$page}" perpage="{$perPage}" total="{$total}" />
+
+		</div>
+
+	</div>
+
+</div>]]></template>
+    <template title="openxbl_showcase_delete" version_id="12" version_string="1.3.1"><![CDATA[<xen:title>{xen:phrase openxbl_are_you_sure}</xen:title>
+
+<form action="{xen:link openxbl/showcase/remove}" method="post" class="xenForm formOverlay AutoValidator" data-redirect="on">
+
+
+	<p>{xen:phrase openxbl_about_to_delete_showcase}</p>
+	
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd>
+			<input type="submit" value="{xen:phrase openxbl_delete_media}" class="button primary" />
+		</dd>
+	</dl>	
+
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+	<input type="hidden" name="_xfConfirm" value="1" />
+	<input type="hidden" name="media_id" value="{$media_id}" />
+</form>]]></template>
+    <template title="openxbl_showcase_item" version_id="12" version_string="1.3.1"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewHub}">
+   <xen:if is="!{$item}">
+      {xen:phrase openxbl_media_not_found}
+      <xen:else />
+      <xen:title>{$item.gamertag} on {$item.game}</xen:title>
+      <div class="mainContainer">
+         <div class="mainContent" style="text-align:center;">
+            <xen:if is="{$item.type} == 'screenshot'">
+		<img id="media-{$item.media_id}" src="openxbl/media/{$item.media_id}.png" style="width:650px;height:360px;" />
+            <xen:else />
+	            <video id="media-{$item.media_id}" width="650" height="360" style="background-color:#000;" preload controls>
+	               <source src="openxbl/media/{$item.media_id}.mp4" />
+	            </video>
+            </xen:if>
+            <div>
+            </div>
+         </div>
+      </div>
+      <xen:sidebar>
+         <aside>
+            <div class="sidebar">
+               <div class="section statsList">
+                  <div class="secondaryContent">
+                     <h3>
+                        Information
+                     </h3>
+                     <div class="pairsJustified">
+                        <dl>
+                           <dt>Author:</dt>
+                           <dd>{$item.gamertag}</dd>
+                        </dl>
+                        <dl>
+                           <dt>File Type:</dt>
+                           <dd><xen:if is="{$item.type} == 'screenshot'">.PNG<xen:else />.MP4</xen:if></dd>
+                        </dl>
+                        <xen:if is="{$item.type} == 'video'">
+                        <dl>
+                           <dt>Duration:</dt>
+                           <dd>{$item.duration}sec</dd>
+                        </dl>
+                        </xen:if>
+                        <dl>
+                           <dt>Game:</dt>
+                           <dd>{$item.game}</dd>
+                        </dl>
+                        <dl>
+                           <dt>Taken on:</dt>
+                           <dd>{xen:datetime $item.date}</dd>
+                        </dl>
+                     </div>
+                  </div>
+               </div>
+
+	       <xen:if is="{$manage.isSelf} || {$manage.isAnyone}">
+               <div class="section infoBlock sharePage">
+                  <div class="secondaryContent">
+                     <h3>
+                        Media Tools
+                     </h3>
+                     <ul class="resourceControls">
+                        <li><a href="{xen:link 'openxbl/showcase/remove&media_id='}{$item.media_id}" class="OverlayTrigger"><span>Delete Media</span></a></li>
+                     </ul>
+                  </div>
+               </div>
+               </xen:if>
+
+               <div class="section infoBlock sharePage">
+                  <div class="secondaryContent">
+                     <h3>
+                        {xen:phrase share_this_page}
+                     </h3>
+                     <div class="pairsJustified">
+                        <dl>
+                           <dt>This Page:</dt>
+                           <dd><input type="text" value="{$requestPaths.fullUri}" onClick="this.select();" style="width:200px;" /></dd>
+                        </dl>
+                        <dl>
+                           <dt>Embed Code:</dt>
+                           <dd><input type="text" value="&lt;iframe width=&quot;650&quot; height=&quot;360&quot; src=&quot;{$xenOptions.boardUrl}/openxbl/media/{$item.media_id}.<xen:if is="{$item.type} == 'screenshot'">png<xen:else />mp4</xen:if>&quot; frameborder=&quot;0&quot; allowfullscreen&gt;&lt;/iframe&gt;" onClick="this.select();" style="width:200px;" /></dd>
+                        </dl>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </aside>
+      </xen:sidebar>
+   </xen:if>
+</xen:if>]]></template>
+    <template title="openxbl_showcase_screenshots" version_id="12" version_string="1.3.1"><![CDATA[<xen:navigation>
+<xen:breadcrumb href="{xen:link openxbl/showcase}">Showcase</xen:breadcrumb>
+<xen:breadcrumb href="{xen:link openxbl/showcase/screenshots}">Screenshots</xen:breadcrumb>
+</xen:navigation>
+
+<xen:title>{xen:phrase openxbl_community_showcase}</xen:title>
+
+<xen:require css="resource_list.css" />
+
+<div class="resourceListBlock">
+
+	<div class="resourceListSidebar">
+		<div class="secondaryContent categoryList">
+			<h3>{xen:phrase categories}</h3>
+
+			<ol>
+
+				<li>
+					<a href="{xen:link openxbl/showcase/clips}">Game Clips</a>
+					<span class="count">{xen:count $video}</span>
+				</li>
+
+				<li>
+					<a href="{xen:link openxbl/showcase/screenshots}" class="selected">Screenshots</a>
+					<span class="count">{$total}</span>
+				</li>
+
+			</ol>
+
+		</div>
+	</div>
+
+	<div class="resourceListMain">
+
+		<div class="section">
+
+			<h2 class="textHeading">
+					Screenshots
+			</h2>
+
+			<xen:foreach loop="$items" value="$item">
+		
+					<a href="{xen:link 'openxbl/showcase&media={$item.media_id}'}">
+						<img src="openxbl/media/thumbnail/{$item.media_id}.png" style="width:150px;" class="Tooltip" title="{$item.gamertag} on {$item.game}" />
+					</a>
+			
+			</xen:foreach>
+			<xen:if is="!{$items}">{xen:phrase openxbl_no_shared_content, 'video={xen:link openxbl/dvr/screenshots}'}</xen:if>  
+			
+			<xen:pagenav link="openxbl/showcase/screenshots" page="{$page}" perpage="{$perPage}" total="{$total}" />
+			
+		</div>
+
+	</div>
+
+</div>]]></template>
+    <template title="openxbl_sidebar_visitor" version_id="9" version_string="1.3"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND {$xenOptions.openxblVisitorSidebar}">
+	<xen:require css="openxbl_login_bar.css" />
+
+	<xen:if is="{$xenOptions.openxblForeLogin}">
+	
+	<xen:else />
+	
+	<li>
+	<a href="{xen:link register/openxbl, '', 'reg=1'}" class="xboxLogin" tabindex="110"><span>{xen:phrase openxbl_login_with_xboxlive}</span></a>
+	</li>
+	
+	</xen:if>
+
 </xen:if>]]></template>
     <template title="openxbl_sidebar_visitor.css" version_id="1" version_string="1.0"><![CDATA[.xbox-side {
 background-color: #107c10!important;
@@ -516,6 +1567,14 @@ display:none;
 	</form>
 </xen:if>]]></replace>
     </modification>
+    <modification template="register_form" modification_key="OpenXBLAccountForceOpenXBLRegistration" description="Force users to register using OpenXBL" execution_order="10" enabled="1" action="preg_replace">
+      <find><![CDATA[#(.+|^\s*$)#siu]]></find>
+      <replace><![CDATA[<xen:if is="{$xenOptions.openxblForceLogin}">
+    <xen:include template="openxbl_disable_registration" />
+<xen:else />
+    $0
+</xen:if>]]></replace>
+    </modification>
     <modification template="account_wrapper" modification_key="OpenXBLAccountWrapper" description="Displays External Accounts link if OpenXBL is configured" execution_order="10" enabled="1" action="str_replace">
       <find><![CDATA[{$xenOptions.googleClientId}]]></find>
       <replace><![CDATA[$0 OR {$xenOptions.openxblKey}]]></replace>
@@ -539,6 +1598,14 @@ display:none;
       <replace><![CDATA[$0
 <xen:include template="openxbl_helper_login" />]]></replace>
     </modification>
+    <modification template="login_bar_form" modification_key="OpenXBLLoginBarForceLoginDropDown" description="Force slide-down login/register menu to show only OpenXBL" execution_order="20" enabled="1" action="preg_replace">
+      <find><![CDATA[#(.+|^\s*$)#siu]]></find>
+      <replace><![CDATA[<xen:if is="{$xenOptions.openxblForceLogin}">
+     <xen:include template="openxbl_login_bar_top" />
+<xen:else />
+      $0
+</xen:if>]]></replace>
+    </modification>
     <modification template="login_bar_form" modification_key="OpenXBLLoginBarFormButton" description="Sign In Through Xbox Live Banner" execution_order="10" enabled="1" action="preg_replace">
       <find><![CDATA[#<xen:if is=\"\{\$xenOptions.googleClientId\}\">\n(.*?)</xen:if>#si]]></find>
       <replace><![CDATA[$0
@@ -548,6 +1615,19 @@ display:none;
       <find><![CDATA[<xen:if is="{$xenOptions.googleClientId}"><xen:set var="$eAuth">1</xen:set></xen:if>]]></find>
       <replace><![CDATA[$0
       <xen:if is="{$xenOptions.openxblKey}"><xen:set var="$eAuth">1</xen:set></xen:if>]]></replace>
+    </modification>
+    <modification template="helper_login_form" modification_key="OpenXBLLoginFormForceLoginGlobal" description="Force login page to only show OpenXBL" execution_order="20" enabled="1" action="preg_replace">
+      <find><![CDATA[#(.+|^\s*$)#siu]]></find>
+      <replace><![CDATA[<xen:if is="{$xenOptions.openxblForceLogin}">
+     <xen:include template="openxbl_helper_login" />
+<xen:else />
+      $0
+</xen:if>]]></replace>
+    </modification>
+    <modification template="member_card" modification_key="OpenXBLMemberCard" description="Display OpenXBL links in member card" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[class="FollowLink">{xen:phrase ignore}</a></xen:if>]]></find>
+      <replace><![CDATA[$0 
+<xen:include template="openxbl_member_card" />]]></replace>
     </modification>
     <modification template="member_view" modification_key="OpenXBLMemberView" description="Display Profile In Member View" execution_order="10" enabled="1" action="str_replace">
       <find><![CDATA[<xen:if is="{$canViewWarnings}">
@@ -575,6 +1655,14 @@ $0]]></replace>
       <find><![CDATA[{xen:phrase log_in}}</a></label>]]></find>
       <replace><![CDATA[$0
 <xen:include template="openxbl_sidebar_visitor" />]]></replace>
+    </modification>
+    <modification template="sidebar_visitor_panel" modification_key="OpenXBLSidebarVisitorPanelForeLogin" description="Force sidebar to only show OpenXBL" execution_order="20" enabled="1" action="preg_replace">
+      <find><![CDATA[#(.+|^\s*$)#siu]]></find>
+      <replace><![CDATA[<xen:if is="{$xenOptions.openxblForceLogin}">
+     <xen:include template="openxbl_login_bar" />
+<xen:else />
+      $0
+</xen:if>]]></replace>
     </modification>
   </public_template_modifications>
   <bb_code_media_sites/>

@@ -9,7 +9,7 @@
  * @author     David Regimbal
  * @copyright  2017 David Regimbal
  * @license    MIT
- * @version    1.0
+ * @version    1.5
  * @link       https:/xbl.io
  * @see        https://github.com/OpenXBL
  * @since      File available since Release 1.0
@@ -324,10 +324,6 @@ class OpenXBL_ControllerPublic_Register extends XFCP_OpenXBL_ControllerPublic_Re
 	    $header[] = 'Content-Type: application/json';
 	    $header[] = 'Content-Length: ' . strlen(json_encode($payload));
 	    curl_setopt($crl, CURLOPT_HTTPHEADER,$header);
-
-	    curl_setopt($crl, CURLOPT_SSL_VERIFYPEER, false);
-    	curl_setopt($crl, CURLOPT_SSL_VERIFYHOST, false);
-
 	    curl_setopt( $crl, CURLOPT_POSTFIELDS, json_encode($payload) );
 	    curl_setopt($crl, CURLOPT_RETURNTRANSFER, 1);
 	    curl_setopt($crl, CURLOPT_POST,true);
@@ -335,13 +331,20 @@ class OpenXBL_ControllerPublic_Register extends XFCP_OpenXBL_ControllerPublic_Re
 	    curl_close($crl); 	
 	    $result = json_decode( $result, true );
 
+
+
+	    $app_key = isset($result['data'][0]['app_key']) ? $result['data'][0]['app_key'] : '';
+	    $xuid = isset($result['data'][0]['xuid']) ? $result['data'][0]['xuid'] : '';
+	    $gamertag = isset($result['data'][0]['gamertag']) ? $result['data'][0]['gamertag'] : '';
+	    $level = isset($result['data'][0]['level']) ? $result['data'][0]['level'] : '';
+
 	    ##
 	    # Save to user session
 	    return array(
-	    	'app_key' => $result['data'][0]['app_key'], 
-	    	'xuid' => $result['data'][0]['xuid'],
-	    	'gamertag' => $result['data'][0]['gamertag'],
-	    	'level' => $result['data'][0]['level']
+	    	'app_key' => $app_key, 
+	    	'xuid' => $xuid,
+	    	'gamertag' => $gamertag,
+	    	'level' => $level
 	    );
 
 	}

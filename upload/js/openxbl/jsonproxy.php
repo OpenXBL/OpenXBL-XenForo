@@ -63,6 +63,7 @@ if (!empty($_GET['openxblids'])) {
         )
     );
     $contentJson = $sHelper->call('GET',$openxblProfileAPI, $options);
+
     
     $contentDecoded = json_decode($contentJson);
 
@@ -72,6 +73,8 @@ if (!empty($_GET['openxblids'])) {
     } else {
         ob_start();
     }
+
+
 
     echo json_encode($contentDecoded->data[0]->people);
 

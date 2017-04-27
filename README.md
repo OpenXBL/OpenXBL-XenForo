@@ -8,9 +8,11 @@ Part of the [XBL.IO](https://xbl.io) feature set.
 ## Installation
 1) All the contents in the 'upload' folder should be uploaded to the root directory of your XenForo installation. 
 
-2) Go to your XBL.IO profile and set up the 'Xbox App' in your profile.
+2) Inside 'upload/openxbl.php' modify 'YOUR-XENFORO-URL.COM' with your websites address.
 
-3) Inside the XenForo settings for OpenXBL put your Application Key in. 
+3) Go to your XBL.IO profile and set up the 'Xbox App' in your profile.
+
+4) Inside the XenForo settings for OpenXBL put your Application Key in. 
 
 ## Documentation
 Reader-friendly Documentation can be found here. [Users Manual](https://xbl.io/docs/xboxapp).

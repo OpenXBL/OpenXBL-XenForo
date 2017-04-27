@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<steamprofile-config>
+<profile-config>
 	<vars>
 		<var name="theme">default</var>
 		<var name="language">english</var>
@@ -47,4 +47,4 @@
 		]]>
 		</error>
 	</templates>
-</steamprofile-config>
+</profile-config>

@@ -1,0 +1,1 @@
+these directories will store xbox dvr data
