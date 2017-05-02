@@ -200,6 +200,7 @@
     </route_type>
     <route_type type="public">
       <prefix original_prefix="openxbl" class="OpenXBL_Route_Prefix_OpenXBL" build_link="data_only"/>
+      <prefix original_prefix="xbox" class="OpenXBL_Route_Prefix_OpenXBL" build_link="data_only"/>
     </route_type>
   </route_prefixes>
   <style_properties/>
@@ -593,7 +594,7 @@
     <template title="openxbl_dvr_media_list" version_id="12" version_string="1.3.1"><![CDATA[<xen:foreach loop="$items" value="$item">
 	<xen:include template="openxbl_dvr_media_list_item" />
 </xen:foreach>]]></template>
-    <template title="openxbl_dvr_media_list_item" version_id="13" version_string="1.5"><![CDATA[<div style="padding:5px;float:left;">
+    <template title="openxbl_dvr_media_list_item" version_id="14" version_string="1.5"><![CDATA[<div style="padding:5px;float:left;">
 <a href="#" onclick="return false;"  id="{$item.id}" class="clip overlayTrigger"><img src="{$item.thumbnail}" style="width:150px;" /></a>
 <script>
 $(document).on('click', '#{$item.id}', function(e) { 
@@ -602,11 +603,11 @@ XenForo.createOverlay(null, $(''
     +   '<div class="section">'
     +      '<a class="close OverlayCloser"></a>'
     +      '<h2 class="heading">{$item.gameTitle}</h2>'
-    +      '<div class="baseHtml">'
+    +      '<div class="baseHtml" style="background-color:#000;">'
     +       '<xen:if is="{$item.type} == 'screenshot'">'
-    +          '<img id="media-{$item.id}" src="{$item.url}" style="width:650px;height:360px;" />'
+    +          '<img id="media-{$item.id}" src="{$item.url}" style="width:650px;height:360px;display:block;margin:0 auto;" />'
     +       '<xen:else />'
-    +          '<video id="media-{$item.id}" width="650" height="360" style="background-color:#000;" preload controls>'
+    +          '<video id="media-{$item.id}" width="650" height="360" style="background-color:#000;width:100%;" preload controls>'
     +    	    '<source src="{$item.url}" />'
     +          '</video>'
     +      '</xen:if>'
@@ -627,8 +628,8 @@ XenForo.createOverlay(null, $(''
     +           '</xen:if>'
     +         '<xen:if is="{$item.name}">Name: {$item.name} | </xen:if>' 
     +         '<xen:if is="{$item.caption}"><i> {$item.caption} </i> | </xen:if>'
-    +         '<xen:if is="{$item.type} == 'video'">Duration: {$item.durationSeconds}sec </xen:if>'
-    +	      ' | Date Taken: {xen:datetime $item.date}' 
+    +         '<xen:if is="{$item.type} == 'video'">Duration: {$item.durationSeconds}sec | </xen:if>'
+    +	      'Date Taken: {xen:datetime $item.date}' 
     +      '</div>'
     +   '</div>'
     + '</div>'
@@ -798,14 +799,14 @@ XenForo.createOverlay(null, $(''
 	</xen:if>
 </xen:if>
 ]]></template>
-    <template title="openxbl_hub" version_id="12" version_string="1.3.1"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewHub}">
+    <template title="openxbl_hub" version_id="14" version_string="1.5"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewHub}">
 
 	<xen:container var="$openxblNode">1</xen:container>
 	
-	<div class="section sectionMain nodeList" style="height:125px;">
+	<div class="section sectionMain nodeList">
 		<div style="height: 100%;width:100%;">
 			
-			<div class="nodeInfo categoryNodeInfo categoryStrip">		
+			<div class="nodeInfo categoryNodeInfo categoryStrip" style="height:inherit;">		
 				<div class="categoryText">
 					<h3 class="nodeTitle">Xbox Live Community Showcase</h3>			
 				</div>			
@@ -822,11 +823,11 @@ XenForo.createOverlay(null, $(''
 						    +   '<div class="section">'
 						    +      '<a class="close OverlayCloser"></a>'
 						    +      '<h2 class="heading">{$item.gamertag} on {$item.game}</h2>'
-						    +      '<div class="baseHtml">'
+						    +      '<div class="baseHtml" style="background-color:#000;">'
 						    +       '<xen:if is="{$item.type} == 'screenshot'">'
-						    +          '<img id="media-{$item.id}" src="openxbl/media/{$item.media_id}.png" style="width:650px;height:360px;" />'
+						    +          '<img id="media-{$item.id}" src="openxbl/media/{$item.media_id}.png" style="width:650px;height:360px;display:block;margin:0 auto;" />'
 						    +       '<xen:else />'
-						    +          '<video id="media-{$item.id}" width="650" height="360" style="background-color:#000;" preload controls>'
+						    +          '<video id="media-{$item.media_id}" width="650" height="360" style="background-color:#000;width:100%;" preload controls>'
 						    +    	    '<source src="openxbl/media/{$item.media_id}.mp4" />'
 						    +          '</video>'
 						    +      '</xen:if>'
@@ -856,8 +857,8 @@ XenForo.createOverlay(null, $(''
 	$('#openxbl-featured').slick({
   infinite: true,
   speed: 300,
-  slidesToShow: 6,
-  slidesToScroll: 6,
+  slidesToShow: 5,
+  slidesToScroll: 5,
   responsive: [
     {
       breakpoint: 1324,
@@ -894,7 +895,7 @@ XenForo.createOverlay(null, $(''
 	</script>	
 </xen:if>
 ]]></template>
-    <template title="openxbl_login_bar" version_id="9" version_string="1.3"><![CDATA[<xen:if is="{$xenOptions.openxblKey}">
+    <template title="openxbl_login_bar" version_id="14" version_string="1.5"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND !{$visitor.user_id}">
 
 	<xen:if is="{$xenOptions.openxblForceLogin}">
 	
@@ -1073,7 +1074,7 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
 		</xen:if>
 	</xen:if>
 </xen:if>]]></template>
-    <template title="openxbl_showcase" version_id="13" version_string="1.5"><![CDATA[<xen:title>{xen:phrase openxbl_community_showcase}</xen:title>
+    <template title="openxbl_showcase" version_id="14" version_string="1.5"><![CDATA[<xen:title>{xen:phrase openxbl_community_showcase}</xen:title>
 <xen:navigation>
 <xen:breadcrumb href="{xen:link openxbl/showcase}">Showcase</xen:breadcrumb>
 </xen:navigation>
@@ -1099,6 +1100,10 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
 				</li>
 
 			</ol>
+			
+			<a href="{xen:link openxbl/dvr/clips}" class="button primary" style="width:100%;margin-top:25px;">Share Game Clips</a>
+			
+			<a href="{xen:link openxbl/dvr/screenshots}" class="button primary" style="width:100%;margin-top:25px;">Share Screenshots</a>
 
 		</div>
 	</div>
@@ -1132,7 +1137,7 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
 
 			<xen:foreach loop="$screenshots" value="$item" i="$i">
 				<xen:if is="{$i} < 15">
-					<a href="{xen:link 'openxbl/showcase&media={$item.media_id}'}">
+					<a href="{xen:link openxbl/showcase, {$item.media_id}}">
 						<img src="openxbl/media/thumbnail/{$item.media_id}.png" style="width:150px;" class="Tooltip" title="{$item.gamertag} on {$item.game}" />
 					</a>
 				</xen:if>
@@ -1216,17 +1221,17 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
 	<input type="hidden" name="_xfConfirm" value="1" />
 	<input type="hidden" name="media_id" value="{$media_id}" />
 </form>]]></template>
-    <template title="openxbl_showcase_item" version_id="12" version_string="1.3.1"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewHub}">
+    <template title="openxbl_showcase_item" version_id="14" version_string="1.5"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewHub}">
    <xen:if is="!{$item}">
       {xen:phrase openxbl_media_not_found}
       <xen:else />
       <xen:title>{$item.gamertag} on {$item.game}</xen:title>
       <div class="mainContainer">
-         <div class="mainContent" style="text-align:center;">
+         <div class="mainContent" style="text-align:center;" style="background-color:#000;">
             <xen:if is="{$item.type} == 'screenshot'">
-		<img id="media-{$item.media_id}" src="openxbl/media/{$item.media_id}.png" style="width:650px;height:360px;" />
+		<img id="media-{$item.media_id}" src="openxbl/media/{$item.media_id}.png" style="width:650px;height:360px;display:block;margin:0 auto;" />
             <xen:else />
-	            <video id="media-{$item.media_id}" width="650" height="360" style="background-color:#000;" preload controls>
+	            <video id="media-{$item.media_id}" width="650" height="360" style="background-color:#000;width:100%;" preload controls>
 	               <source src="openxbl/media/{$item.media_id}.mp4" />
 	            </video>
             </xen:if>
@@ -1360,7 +1365,7 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
 	</div>
 
 </div>]]></template>
-    <template title="openxbl_sidebar_visitor" version_id="9" version_string="1.3"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND {$xenOptions.openxblVisitorSidebar}">
+    <template title="openxbl_sidebar_visitor" version_id="14" version_string="1.5"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND {$xenOptions.openxblVisitorSidebar} AND !{$visitor.user_id}">
 	<xen:require css="openxbl_login_bar.css" />
 
 	<xen:if is="{$xenOptions.openxblForeLogin}">
