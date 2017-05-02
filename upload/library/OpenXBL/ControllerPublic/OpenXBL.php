@@ -360,7 +360,12 @@ class OpenXBL_ControllerPublic_OpenXBL extends XenForo_ControllerPublic_Abstract
 
 		$sHelper = new OpenXBL_Helper_OpenXBL();
 
-		$friends = json_decode($sHelper->getFriendsList(), true)['data'][0];
+		$friends = json_decode($sHelper->getFriendsList(), true);
+
+		if( isset($friends['data'][0]) )
+		{
+			$friends = $friends['data'][0];
+		}
 
 		$numOnline = 0;
 
