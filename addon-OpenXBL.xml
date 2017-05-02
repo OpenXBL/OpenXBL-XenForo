@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.5" version_id="15" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
+<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.5" version_id="16" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -534,16 +534,16 @@
     <template title="openxbl_account_menu" version_id="9" version_string="1.3"><![CDATA[<xen:if is="{$xenOptions.openxblKey} AND {$xenOptions.openxblDisplayFriends} AND {$visitor.permissions.OpenXBL.viewFriends}">
 <li><img src="styles/openxbl/xbox.png" style="float:left;margin:5px;" /><a href="{xen:link openxbl/friends}" class="OverlayTrigger" data-overlayoptions="{"fixed":false}">{xen:phrase openxbl_friends_list}</a></li>
 </xen:if>]]></template>
-    <template title="openxbl_conversations_send" version_id="12" version_string="1.3.1"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewConversations}">
+    <template title="openxbl_conversations_send" version_id="15" version_string="1.5"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewConversations}">
 
 <xen:title>{xen:phrase openxbl_send_convo_to}</xen:title>
 
 <xen:container var="$head.noindex">
 	<meta name="robots" content="noindex" /></xen:container>
 
-<div class="section" style="background-color: #fff;">
+<div class="section">
 
-	<form action="{xen:link 'openxbl/conversations/send'}" method="post" class="xenForm AutoValidator">
+	<form action="{xen:link 'openxbl/conversations/send'}" method="post" class="xenForm sectionMain AutoValidator" style="margin:0px auto;">
 		<dl class="ctrlUnit">
 			<dt><label for="ctrl_recipients">{xen:if '{$remaining} == 1', '{xen:phrase participant}:', '{xen:phrase participants}:'}</label></dt>
 			<dd>
