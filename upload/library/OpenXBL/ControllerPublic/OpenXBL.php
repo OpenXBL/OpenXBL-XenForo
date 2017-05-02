@@ -223,7 +223,7 @@ class OpenXBL_ControllerPublic_OpenXBL extends XenForo_ControllerPublic_Abstract
 		// parameters
 		$confirmed = $this->_input->filterSingle('_xfConfirm', XenForo_Input::UINT);
 
-		$media_id = $this->_input->filterSingle('media_id', XenForo_Input::STRING);
+		$media_id = $this->_input->filterSingle('openxbl_id', XenForo_Input::STRING);
 
 		// confirm dialog
 		if(!$confirmed)
