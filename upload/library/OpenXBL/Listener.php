@@ -132,7 +132,7 @@ class OpenXBL_Listener
 
 					'title' =>  new XenForo_Phrase('openxbl_navtab_title'),
 
-					'href' => XenForo_Link::buildPublicLink('full:openxbl'),
+					'href' => '?openxbl',
 
 					'linksTemplate' => 'openxbl_navtabs',
 
