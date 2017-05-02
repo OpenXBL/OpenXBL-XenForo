@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.5" version_id="14" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
+<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.5" version_id="15" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -1281,7 +1281,7 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
                         Media Tools
                      </h3>
                      <ul class="resourceControls">
-                        <li><a href="{xen:link 'openxbl/showcase/remove&media_id='}{$item.media_id}" class="OverlayTrigger"><span>Delete Media</span></a></li>
+                        <li><a href="{xen:link openxbl/showcase/remove,{$item.media_id}}" class="OverlayTrigger"><span>Delete Media</span></a></li>
                      </ul>
                   </div>
                </div>
