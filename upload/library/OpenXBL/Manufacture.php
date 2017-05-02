@@ -74,7 +74,7 @@ class OpenXBL_Manufacture
 			  gamertag varchar(25) NOT NULL,
 			  avatar_url text NOT NULL,
 			  access_token text NOT NULL,
-			  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			  created_at timestamp NULL DEFAULT NULL,
 			  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			  PRIMARY KEY (xuid)
 			) ENGINE=MyISAM DEFAULT CHARSET=latin1;");
@@ -101,9 +101,9 @@ class OpenXBL_Manufacture
 			  game varchar(255) NOT NULL,
 			  duration int(11) NULL,
 			  date varchar(255) NULL, 
-			  created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			  created_at timestamp NULL DEFAULT NULL,
 			  updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-			  PRIMARY KEY (clip_id)
+			  PRIMARY KEY (media_id)
 			) ENGINE=MyISAM DEFAULT CHARSET=latin1;");
 
 		// due to custom gamer pics the length will exceed VARCHAR

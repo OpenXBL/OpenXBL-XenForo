@@ -22,6 +22,17 @@ class OpenXBL_Route_Prefix_OpenXBL implements XenForo_Route_Interface
 
 		$action = $router->resolveActionWithIntegerParam($routePath, $request, 'openxbl_id');
 
+		$actions = explode('/', $action);
+
+		if( isset( $actions[1] ) )
+		{
+			if (!empty($actions[1]) && $actions[1] == 'showcase' || $actions[1] == 'conversations')
+			{
+				$action = $router->resolveActionWithStringParam($routePath, $request, 'openxbl_id');
+			}			
+		}
+
+
         return $router->getRouteMatch('OpenXBL_ControllerPublic_OpenXBL', $action, 'openxbl');
 
     }
@@ -31,10 +42,14 @@ class OpenXBL_Route_Prefix_OpenXBL implements XenForo_Route_Interface
 
         $actions = explode('/', $action);
 
+       // print_r($actions);
+
         switch ($actions[0])
         {
 
             case 'callback':        $intParams = 'callback_id';        $strParams = '';            break;
+
+            case 'showcase':        $intParams = '';        $strParams = 'media_id';            break;
 
             default:                $intParams = '';                   $strParams = '';            break;
 

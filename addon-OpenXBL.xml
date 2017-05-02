@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.5" version_id="13" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
+<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.5" version_id="14" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -186,8 +186,8 @@
     <phrase title="option_openxblVisitorSidebar_explain" version_id="4" version_string="1.2"><![CDATA[Toggle the 'Log in with Xbox Live' button on the visitor sidebar.]]></phrase>
     <phrase title="permission_group_OpenXBL" version_id="7" version_string="1.2.1"><![CDATA[OpenXBL]]></phrase>
     <phrase title="permission_interface_OpenXBL" version_id="7" version_string="1.2.1"><![CDATA[OpenXBL]]></phrase>
-    <phrase title="permission_OpenXBL_deleteMediaAnyone" version_id="12" version_string="1.3.1"><![CDATA[Delete media by anyone:]]></phrase>
-    <phrase title="permission_OpenXBL_deleteMediaSelf" version_id="12" version_string="1.3.1"><![CDATA[Delete media by self:]]></phrase>
+    <phrase title="permission_OpenXBL_deleteMediaAnyone" version_id="13" version_string="1.5"><![CDATA[Delete media by anyone]]></phrase>
+    <phrase title="permission_OpenXBL_deleteMediaSelf" version_id="13" version_string="1.5"><![CDATA[Delete media by self]]></phrase>
     <phrase title="permission_OpenXBL_viewConversations" version_id="10" version_string="1.3.1"><![CDATA[Can view and send Xbox Live messages]]></phrase>
     <phrase title="permission_OpenXBL_viewDVR" version_id="12" version_string="1.3.1"><![CDATA[Can view Xbox DVR]]></phrase>
     <phrase title="permission_OpenXBL_viewFriends" version_id="8" version_string="1.2.1"><![CDATA[Can view their Xbox Live friends list]]></phrase>
@@ -593,7 +593,7 @@
     <template title="openxbl_dvr_media_list" version_id="12" version_string="1.3.1"><![CDATA[<xen:foreach loop="$items" value="$item">
 	<xen:include template="openxbl_dvr_media_list_item" />
 </xen:foreach>]]></template>
-    <template title="openxbl_dvr_media_list_item" version_id="12" version_string="1.3.1"><![CDATA[<div style="padding:5px;float:left;">
+    <template title="openxbl_dvr_media_list_item" version_id="13" version_string="1.5"><![CDATA[<div style="padding:5px;float:left;">
 <a href="#" onclick="return false;"  id="{$item.id}" class="clip overlayTrigger"><img src="{$item.thumbnail}" style="width:150px;" /></a>
 <script>
 $(document).on('click', '#{$item.id}', function(e) { 
@@ -621,7 +621,7 @@ XenForo.createOverlay(null, $(''
     +                '<input type="hidden" name="duration" value="{$item.durationSeconds}" />'
     +                '<input type="hidden" name="date" value="{$item.date}" />'
     +                '<input type="hidden" name="thumbnail" value="{$item.thumbnail}" />'
-    +                '<input type="hidden" name="" value="{$item.url}" />'
+    +                '<input type="hidden" name="url" value="{$item.url}" />'
     +		     '<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />'
     +             '</form>'
     +           '</xen:if>'
@@ -677,7 +677,7 @@ XenForo.createOverlay(null, $(''
 </xen:if>
 
 ]]></template>
-    <template title="openxbl_friends" version_id="12" version_string="1.3.1"><![CDATA[<xen:require css="openxbl_friends.css" />
+    <template title="openxbl_friends" version_id="13" version_string="1.5"><![CDATA[<xen:require css="openxbl_friends.css" />
 
 <div class="friends" id="friends-{$friends.xuid}">
 
@@ -689,13 +689,13 @@ XenForo.createOverlay(null, $(''
 
 			<a rel="Menu"><xen:if is="{$friends.presenceState} == 'Online'">Online</xen:if></a>
 
-			<div class="Menu" style="z-index:9999;">
+			<div class="Menu" style="z-index:99999;">
 
 			<div class="primaryContent menuHeader"><h3>{$friends.gamertag}</h3></div>
 
 				<ul class="secondaryContent blockLinksList">
 
-					<li><a href="{xen:link 'openxbl/conversations/send&gamertag='}{$friends.gamertag}" class="OverlayTrigger" data-overlayoptions="{"fixed":false}">{xen:phrase openxbl_send_convo_to}</a></li>
+					<li><a href="{xen:link openxbl/conversations/send,{$friends.gamertag}}" class="OverlayTrigger" data-overlayoptions="{"fixed":false}">{xen:phrase openxbl_send_convo_to}</a></li>
 
 				</ul>
 
@@ -975,9 +975,9 @@ XenForo.createOverlay(null, $(''
 	</xen:if>
 	
 </xen:if>]]></template>
-    <template title="openxbl_member_card" version_id="11" version_string="1.3.1"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewConversations}">
+    <template title="openxbl_member_card" version_id="13" version_string="1.5"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewConversations}">
 
-	<a href="{xen:link 'openxbl/conversations/send&gamertag='}{xen:helper gamertag, $user.user_id}" class="OverlayTrigger" data-overlayoptions="{"fixed":false}">{xen:phrase openxbl_send_convo_to}</a>
+	<a href="{xen:link openxbl/conversations/send, {xen:helper gamertag, $user.user_id}}" class="OverlayTrigger" data-overlayoptions="{"fixed":false}">{xen:phrase openxbl_send_convo_to}</a>
 
 </xen:if>]]></template>
     <template title="openxbl_member_friends" version_id="8" version_string="1.2.1"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewFriends}">
@@ -1073,7 +1073,7 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
 		</xen:if>
 	</xen:if>
 </xen:if>]]></template>
-    <template title="openxbl_showcase" version_id="12" version_string="1.3.1"><![CDATA[<xen:title>{xen:phrase openxbl_community_showcase}</xen:title>
+    <template title="openxbl_showcase" version_id="13" version_string="1.5"><![CDATA[<xen:title>{xen:phrase openxbl_community_showcase}</xen:title>
 <xen:navigation>
 <xen:breadcrumb href="{xen:link openxbl/showcase}">Showcase</xen:breadcrumb>
 </xen:navigation>
@@ -1114,7 +1114,7 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
 
 			<xen:foreach loop="$gameclips" value="$item" i="$i">
 			    <xen:if is="{$i} < 15">
-					<a href="{xen:link 'openxbl/showcase&media={$item.media_id}'}">
+					<a href="{xen:link openxbl/showcase, {$item.media_id}}">
 						<img src="openxbl/media/thumbnail/{$item.media_id}.png" style="width:150px;" class="Tooltip" title="{$item.gamertag} on {$item.game}" />
 					</a>
 			    </xen:if>
@@ -1144,7 +1144,7 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
 	</div>
 
 </div>]]></template>
-    <template title="openxbl_showcase_clips" version_id="12" version_string="1.3.1"><![CDATA[<xen:navigation>
+    <template title="openxbl_showcase_clips" version_id="13" version_string="1.5"><![CDATA[<xen:navigation>
 <xen:breadcrumb href="{xen:link openxbl/showcase}">Showcase</xen:breadcrumb>
 <xen:breadcrumb href="{xen:link openxbl/showcase/clips}">Game Clips</xen:breadcrumb>
 </xen:navigation>
@@ -1185,7 +1185,7 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
 			</h2>
 
 			<xen:foreach loop="$items" value="$item">
-					<a href="{xen:link 'openxbl/showcase&media={$item.media_id}'}">
+					<a href="{xen:link openxbl/showcase, {$item.media_id}}">
 						<img src="openxbl/media/thumbnail/{$item.media_id}.png" style="width:150px;" class="Tooltip" title="{$item.gamertag} on {$item.game}" />
 					</a>
 			</xen:foreach>
@@ -1304,7 +1304,7 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
       </xen:sidebar>
    </xen:if>
 </xen:if>]]></template>
-    <template title="openxbl_showcase_screenshots" version_id="12" version_string="1.3.1"><![CDATA[<xen:navigation>
+    <template title="openxbl_showcase_screenshots" version_id="13" version_string="1.5"><![CDATA[<xen:navigation>
 <xen:breadcrumb href="{xen:link openxbl/showcase}">Showcase</xen:breadcrumb>
 <xen:breadcrumb href="{xen:link openxbl/showcase/screenshots}">Screenshots</xen:breadcrumb>
 </xen:navigation>
@@ -1346,7 +1346,7 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
 
 			<xen:foreach loop="$items" value="$item">
 		
-					<a href="{xen:link 'openxbl/showcase&media={$item.media_id}'}">
+					<a href="{xen:link openxbl/showcase, {$item.media_id}}">
 						<img src="openxbl/media/thumbnail/{$item.media_id}.png" style="width:150px;" class="Tooltip" title="{$item.gamertag} on {$item.game}" />
 					</a>
 			
@@ -1589,8 +1589,7 @@ display:none;
       <xen:include template="openxbl_footer" />]]></replace>
     </modification>
     <modification template="navigation_visitor_tab" modification_key="OpenXBLFriendsAccountMenu" description="Add friends list link to Account Menu" execution_order="10" enabled="1" action="str_replace">
-      <find><![CDATA[</strong></a></li>
-					<li><a href="{xen:link account/likes}">{xen:phrase likes_youve_received}</a></li>]]></find>
+      <find><![CDATA[<li><a href="{xen:link account/alert-preferences}">{xen:phrase alert_preferences}</a></li>]]></find>
       <replace><![CDATA[$0 <xen:include template="openxbl_account_menu" />]]></replace>
     </modification>
     <modification template="helper_login_form" modification_key="OpenXBLLogin" description="Displays Sign In Through Xbox Live Banner on login page" execution_order="10" enabled="1" action="preg_replace">

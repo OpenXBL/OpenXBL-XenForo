@@ -106,6 +106,7 @@ class OpenXBL_ControllerPublic_OpenXBL extends XenForo_ControllerPublic_Abstract
 	public function actionShowcase()
 	{
 
+
 		$manage['isAnyone'] = false;
 
 		$manage['isSelf'] = false;
@@ -123,7 +124,7 @@ class OpenXBL_ControllerPublic_OpenXBL extends XenForo_ControllerPublic_Abstract
 
 		}
 
-		$media_id = $this->_input->filterSingle('media', XenForo_Input::STRING);
+		$media_id = $this->_input->filterSingle('openxbl_id', XenForo_Input::STRING);
 
 		if( $media_id )
 		{
@@ -316,7 +317,7 @@ class OpenXBL_ControllerPublic_OpenXBL extends XenForo_ControllerPublic_Abstract
 		if( !$this->_input->filterSingle('_xfConfirm', XenForo_Input::UINT) )
 		{
 
-			$to = $this->_input->filterSingle('gamertag', XenForo_Input::STRING);
+			$to = $this->_input->filterSingle('openxbl_id', XenForo_Input::STRING);
 			
 			return $this->responseView('OpenXBL_ViewPublic_ConversationsSend', 'openxbl_conversations_send', array("to" => $to ));
 

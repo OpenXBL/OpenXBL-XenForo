@@ -304,7 +304,7 @@ class OpenXBL_Helper_OpenXBL
     {
         
         $db = XenForo_Application::get('db');
-        $result = $db->fetchRow("SELECT access_token, refresh_token, updated_at 
+        $result = $db->fetchRow("SELECT access_token, updated_at 
                                 FROM xf_user_openxbl
                                 WHERE user_id = " . $user_id .";");
 
