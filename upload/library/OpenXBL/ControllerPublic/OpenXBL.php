@@ -297,7 +297,7 @@ class OpenXBL_ControllerPublic_OpenXBL extends XenForo_ControllerPublic_Abstract
 
         return $this->responseRedirect(
             XenForo_ControllerResponse_Redirect::SUCCESS, 
-            $this->_buildLink('openxbl/showcase&media='.$data['media_id']),                   
+            $this->_buildLink('openxbl/showcase',$data['media_id']),                   
             "Your media has been shared!"     
         );
 
