@@ -66,12 +66,22 @@ class OpenXBL_ControllerPublic_OpenXBL extends XenForo_ControllerPublic_Abstract
 	public function actionDvrClips()
 	{
 
-
+		$visitor = XenForo_Visitor::getInstance();
+		
 		$permissions = XenForo_Visitor::getInstance()->getPermissions();
 
 		if(!$permissions['OpenXBL']['viewDVR'])
 		{
 			throw $this->getNoPermissionResponseException();
+		}
+
+		$oHelper = new OpenXBL_Helper_OpenXBL();
+
+		$user = XenForo_Visitor::getInstance()->toArray();
+
+		if( !$oHelper->isLinked( $visitor->toArray() ) )
+		{
+			return $this->responseError('Please associate your Xbox Live gamertag!');
 		}
 
 		$helper = new OpenXBL_Helper_Hub();
@@ -93,6 +103,16 @@ class OpenXBL_ControllerPublic_OpenXBL extends XenForo_ControllerPublic_Abstract
 		{
 			return $this->responseError("You do not have permission to view this resource.");
 		}
+
+		$oHelper = new OpenXBL_Helper_OpenXBL();
+
+		$user = XenForo_Visitor::getInstance()->toArray();
+
+		if( !$oHelper->isLinked( $visitor->toArray() ) )
+		{
+			return $this->responseError('Please associate your Xbox Live gamertag!');
+		}
+
 
 		$sHelper = new OpenXBL_Helper_Hub();
 		
@@ -192,6 +212,7 @@ class OpenXBL_ControllerPublic_OpenXBL extends XenForo_ControllerPublic_Abstract
     */
 	public function actionShowcaseScreenshots()
 	{
+
 		$model = $this->_getDVRModel();
 
 		$page = $this->_input->filterSingle('page', XenForo_Input::UINT);
@@ -326,6 +347,13 @@ class OpenXBL_ControllerPublic_OpenXBL extends XenForo_ControllerPublic_Abstract
 
 		$helper = new OpenXBL_Helper_OpenXBL();
 
+		$user = XenForo_Visitor::getInstance()->toArray();
+
+		if( !$helper->isLinked( $user ) )
+		{
+			return $this->responseError('Please associate your Xbox Live gamertag!');
+		}
+
 		$data['recipients'] = preg_replace('/\s+/', '', $this->_input->filterSingle('recipients', XenForo_Input::STRING));
 
 		$data['message'] = $this->_input->filterSingle('message', XenForo_Input::STRING);
@@ -359,6 +387,11 @@ class OpenXBL_ControllerPublic_OpenXBL extends XenForo_ControllerPublic_Abstract
 		}
 
 		$sHelper = new OpenXBL_Helper_OpenXBL();
+
+		if( !$sHelper->isLinked( $visitor->toArray() ) )
+		{
+			return $this->responseError('Please associate your Xbox Live gamertag!');
+		}
 
 		$friends = json_decode($sHelper->getFriendsList(), true);
 
