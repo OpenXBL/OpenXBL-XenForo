@@ -327,13 +327,20 @@ class OpenXBL_Helper_OpenXBL
 
     }
 
-    public static function isLinked($user_id)
+    public static function isLinked($user)
     {
-        $db = XenForo_Application::get('db');
-        
-        $result = $db->fetchRow('SELECT gamertag FROM xf_user_openxbl WHERE user_id = ' . $user_id);
 
-        if( isset( $result['gamertag'] ) )
+        if (!$user)
+        {
+            $user = XenForo_Visitor::getInstance()->toArray();
+        }
+
+        if (!isset($user['externalAuth']))
+        {
+            $user['externalAuth'] = !empty($user['external_auth']) ? @unserialize($user['external_auth']) : array();
+        }
+
+        if(!empty($user['externalAuth']['openxbl']))
         {
             return true;
         }
