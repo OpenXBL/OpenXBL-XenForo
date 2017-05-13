@@ -85,7 +85,7 @@ class OpenXBL_ControllerPublic_OpenXBL extends XenForo_ControllerPublic_Abstract
 		}
 
 		$helper = new OpenXBL_Helper_Hub();
-		
+
 		return $this->responseView('OpenXBL_ViewPublic_DvrClips', 'openxbl_dvr_clips', array("items" => $helper->buildGameDVR() ));
 
 	}
@@ -354,7 +354,7 @@ class OpenXBL_ControllerPublic_OpenXBL extends XenForo_ControllerPublic_Abstract
 			return $this->responseError('Please associate your Xbox Live gamertag!');
 		}
 
-		$data['recipients'] = preg_replace('/\s+/', '', $this->_input->filterSingle('recipients', XenForo_Input::STRING));
+		$data['recipients'] = $this->_input->filterSingle('recipients', XenForo_Input::STRING);
 
 		$data['message'] = $this->_input->filterSingle('message', XenForo_Input::STRING);
 
