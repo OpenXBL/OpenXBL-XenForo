@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.5" version_id="16" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
+<addon addon_id="OpenXBL" title="OpenXBL" version_string="1.5a" version_id="17" url="https://xbl.io" install_callback_class="OpenXBL_Manufacture" install_callback_method="build" uninstall_callback_class="OpenXBL_Manufacture" uninstall_callback_method="destroy">
   <admin_navigation/>
   <admin_permissions/>
   <admin_style_properties/>
@@ -678,7 +678,7 @@ XenForo.createOverlay(null, $(''
 </xen:if>
 
 ]]></template>
-    <template title="openxbl_friends" version_id="13" version_string="1.5"><![CDATA[<xen:require css="openxbl_friends.css" />
+    <template title="openxbl_friends" version_id="16" version_string="1.5"><![CDATA[<xen:require css="openxbl_friends.css" />
 
 <div class="friends" id="friends-{$friends.xuid}">
 
@@ -690,7 +690,7 @@ XenForo.createOverlay(null, $(''
 
 			<a rel="Menu"><xen:if is="{$friends.presenceState} == 'Online'">Online</xen:if></a>
 
-			<div class="Menu" style="z-index:99999;">
+			<div class="Menu" style="z-index:9999;">
 
 			<div class="primaryContent menuHeader"><h3>{$friends.gamertag}</h3></div>
 
@@ -799,9 +799,11 @@ XenForo.createOverlay(null, $(''
 	</xen:if>
 </xen:if>
 ]]></template>
-    <template title="openxbl_hub" version_id="14" version_string="1.5"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewHub}">
+    <template title="openxbl_hub" version_id="16" version_string="1.5"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewHub}">
 
 	<xen:container var="$openxblNode">1</xen:container>
+	
+	<xen:require css="node_list.css" />
 	
 	<div class="section sectionMain nodeList">
 		<div style="height: 100%;width:100%;">
@@ -842,6 +844,9 @@ XenForo.createOverlay(null, $(''
 						), {onClose: function() { 
 						   var video = document.getElementById("media-{$item.media_id}");
 						   video.pause(); 
+						   $('video').each(function() {
+						       $(this).get(0).pause();
+						   });  
 						}}).load();
 						});
 					</script>
@@ -1221,7 +1226,7 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
 	<input type="hidden" name="_xfConfirm" value="1" />
 	<input type="hidden" name="media_id" value="{$media_id}" />
 </form>]]></template>
-    <template title="openxbl_showcase_item" version_id="14" version_string="1.5"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewHub}">
+    <template title="openxbl_showcase_item" version_id="16" version_string="1.5"><![CDATA[<xen:if is="{$visitor.permissions.OpenXBL.viewHub}">
    <xen:if is="!{$item}">
       {xen:phrase openxbl_media_not_found}
       <xen:else />
@@ -1296,6 +1301,10 @@ We could not locate a GamerTag for your account. In order to associate your Xbox
                         <dl>
                            <dt>This Page:</dt>
                            <dd><input type="text" value="{$requestPaths.fullUri}" onClick="this.select();" style="width:200px;" /></dd>
+                        </dl>
+                        <dl>
+                           <dt>Direct Link:</dt>
+                           <dd><input type="text" value="{$xenOptions.boardUrl}/openxbl/media/{$item.media_id}.<xen:if is="{$item.type} == 'screenshot'">png<xen:else />mp4</xen:if>" onClick="this.select();" style="width:200px;" /></dd>
                         </dl>
                         <dl>
                            <dt>Embed Code:</dt>
