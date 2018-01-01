@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<options>
+  <option option_id="openxblDisplayFriends" edit_format="onoff" data_type="boolean">
+    <default_value>1</default_value>
+    <relation group_id="OpenXBL" display_order="400"/>
+  </option>
+  <option option_id="openxblDisplayMessageInfo" edit_format="onoff" data_type="boolean">
+    <default_value>1</default_value>
+    <relation group_id="OpenXBL" display_order="601"/>
+  </option>
+  <option option_id="openxblDisplayProfile" edit_format="onoff" data_type="boolean">
+    <default_value>1</default_value>
+    <relation group_id="OpenXBL" display_order="602"/>
+  </option>
+  <option option_id="openxblOptionPanel" edit_format="template" data_type="string">
+    <default_value/>
+    <edit_format_params>openxbl_options_credits</edit_format_params>
+    <relation group_id="OpenXBL" display_order="1"/>
+  </option>
+  <option option_id="openxblPanelNotice" edit_format="template" data_type="string">
+    <default_value/>
+    <edit_format_params>openxbl_options_notice</edit_format_params>
+    <relation group_id="OpenXBL" display_order="100"/>
+  </option>
+</options>

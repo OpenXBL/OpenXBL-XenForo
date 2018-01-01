@@ -1,0 +1,9 @@
+{
+    "template": "member_view",
+    "description": "Adds tab for Games Played",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "<!--[XF:tabs:end]-->",
+    "replace": "$0\n\t\t\t\t\t<a href=\"{{ link('openxbl/games-played', $user) }}\"\n\t\t\t\t\t\tclass=\"tabs-tab\"\n\t\t\t\t\t\tid=\"games-played\"\n\t\t\t\t\t\trole=\"tab\">Games Played</a>"
+}

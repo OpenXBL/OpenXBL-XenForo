@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phrases>
+  <phrase title="con_acc.openxbl" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Xbox Live]]></phrase>
+  <phrase title="con_acc_desc.openxbl" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="con_acc_openxbl_app_key_explain" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[The Public Key that is associated with your <a href="https://xbl.io/apps" target="_blank">OpenXBL application</a> for this domain.]]></phrase>
+  <phrase title="cron_entry.openxbl_leaderboards" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Update Xbox Live Leaderboards]]></phrase>
+  <phrase title="friends_list" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Friends List]]></phrase>
+  <phrase title="nav.OpenXBL" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Xbox Live]]></phrase>
+  <phrase title="nav.OpenXBLGameClips" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Game Clips]]></phrase>
+  <phrase title="nav.OpenXBLScreenshots" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Screenshots]]></phrase>
+  <phrase title="nav.OpenXBLShowcase" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Community Showcase]]></phrase>
+  <phrase title="nav.OpenXBLeaderboards" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Leaderboards]]></phrase>
+  <phrase title="nav.OpenXBLeaderboardsGamerscore" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Ranked by Gamerscore]]></phrase>
+  <phrase title="nav.OpenXBLeaderboardsGames" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Ranked by Games Played]]></phrase>
+  <phrase title="option.openxblDisplayFriends" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Display Friends List?]]></phrase>
+  <phrase title="option.openxblDisplayMessageInfo" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Display Xbox Live in messages sidebar?]]></phrase>
+  <phrase title="option.openxblDisplayProfile" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Display Xbox Live in profile?]]></phrase>
+  <phrase title="option.openxblOptionPanel" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Welcome!]]></phrase>
+  <phrase title="option.openxblPanelNotice" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Notice]]></phrase>
+  <phrase title="option_explain.openxblDisplayFriends" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Show a link in the Account Menu]]></phrase>
+  <phrase title="option_explain.openxblDisplayMessageInfo" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="option_explain.openxblDisplayProfile" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="option_explain.openxblOptionPanel" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Thank you for using OpenXBL]]></phrase>
+  <phrase title="option_explain.openxblPanelNotice" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="option_group.OpenXBL" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[OpenXBL]]></phrase>
+  <phrase title="option_group_description.OpenXBL" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[An Xbox Live add-on for XenForo]]></phrase>
+  <phrase title="permission.OpenXBL_deleteMediaAnyone" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Delete media by anyone]]></phrase>
+  <phrase title="permission.OpenXBL_deleteMediaSelf" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Delete media by self]]></phrase>
+  <phrase title="permission.OpenXBL_viewConversations" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Can view and send Xbox Live messages]]></phrase>
+  <phrase title="permission.OpenXBL_viewDVR" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Can view Xbox DVR]]></phrase>
+  <phrase title="permission.OpenXBL_viewFriends" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Can view their Xbox Live friends list]]></phrase>
+  <phrase title="permission.OpenXBL_viewHub" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[View Xbox Live Hub]]></phrase>
+  <phrase title="permission.OpenXBL_viewProfile" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Can view Xbox Live profiles]]></phrase>
+  <phrase title="permission_interface.OpenXBL" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[OpenXBL]]></phrase>
+  <phrase title="widget_pos.openxbl_wrapper_sidenav" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[OpenXBL Sidebar]]></phrase>
+  <phrase title="widget_pos_desc.openxbl_wrapper_sidenav" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[]]></phrase>
+</phrases>

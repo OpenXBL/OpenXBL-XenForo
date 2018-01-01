@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template_modifications>
+  <modification type="public" template="PAGE_CONTAINER" modification_key="openxblCopyright" description="Copyright notice for OpenXBL" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:copyright />]]></find>
+    <replace><![CDATA[<xf:comment>
+Thank you for installing our add-on! We hope you enjoy it as much as we do.
+	
+While we grant you full permission to remove this notice without cost it
+would be greatly appreciated if you donated or subscribed to https://xbl.io!
+</xf:comment>
+
+$0
+&copy; <a href="https://xbl.io" target="_blank">OpenXBL</a>]]></replace>
+  </modification>
+  <modification type="public" template="account_visitor_menu" modification_key="openxblAccountVisitorMenu" description="Add Friends List to Account Visitor Menu" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<li><a href="{{ link('account/following') }}" class="menu-linkRow">{{ phrase('following') }}</a></li>]]></find>
+    <replace><![CDATA[$0 
+
+<li><a href="{{ link('openxbl/friends') }}" class="menu-linkRow" data-xf-click="overlay">{{ phrase('friends_list') }}</a></li>
+]]></replace>
+  </modification>
+  <modification type="public" template="member_view" modification_key="openxblMemberViewTab" description="Adds tab for Games Played" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<!--[XF:tabs:end]-->]]></find>
+    <replace><![CDATA[$0
+					<a href="{{ link('openxbl/games-played', $user) }}"
+						class="tabs-tab"
+						id="games-played"
+						role="tab">Games Played</a>]]></replace>
+  </modification>
+  <modification type="public" template="member_view" modification_key="openxblMemberViewPane" description="Adds pane for Games Played" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<!--[XF:tab_panes:end]-->]]></find>
+    <replace><![CDATA[$0
+
+		<li data-href="{{ link('openxbl/games-played', $user) }}" role="tabpanel" aria-labelledby="games-played">
+			<div class="blockMessage">{{ phrase('loading...') }}</div>
+		</li>]]></replace>
+  </modification>
+</template_modifications>

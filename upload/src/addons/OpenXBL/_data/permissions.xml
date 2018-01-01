@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<permissions>
+  <permission permission_group_id="OpenXBL" permission_id="deleteMediaAnyone" permission_type="flag" interface_group_id="OpenXBL" display_order="1"/>
+  <permission permission_group_id="OpenXBL" permission_id="deleteMediaSelf" permission_type="flag" interface_group_id="OpenXBL" display_order="1"/>
+  <permission permission_group_id="OpenXBL" permission_id="viewConversations" permission_type="flag" interface_group_id="OpenXBL" display_order="1"/>
+  <permission permission_group_id="OpenXBL" permission_id="viewDVR" permission_type="flag" interface_group_id="OpenXBL" display_order="1"/>
+  <permission permission_group_id="OpenXBL" permission_id="viewFriends" permission_type="flag" interface_group_id="OpenXBL" display_order="1"/>
+  <permission permission_group_id="OpenXBL" permission_id="viewHub" permission_type="flag" interface_group_id="OpenXBL" display_order="1"/>
+  <permission permission_group_id="OpenXBL" permission_id="viewProfile" permission_type="flag" interface_group_id="OpenXBL" display_order="1"/>
+</permissions>

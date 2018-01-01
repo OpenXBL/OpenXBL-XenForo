@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<routes>
+  <route route_type="public" route_prefix="openxbl" sub_name="dvr/game-clips" format="dvr/game-clips" controller="OpenXBL:DVR" context="openxbl" action_prefix="GameClips"/>
+  <route route_type="public" route_prefix="openxbl" sub_name="dvr/screenshots" format="dvr/screenshots" controller="OpenXBL:DVR" context="openxbl" action_prefix="Screenshots"/>
+  <route route_type="public" route_prefix="openxbl" sub_name="dvr/share" format="dvr/:str&lt;media_id&gt;/share" controller="OpenXBL:DVR" context="openxbl" action_prefix="Share"/>
+  <route route_type="public" route_prefix="openxbl" sub_name="dvr/showcase" format="dvr/showcase" controller="OpenXBL:DVR" context="openxbl" action_prefix="Showcase"/>
+  <route route_type="public" route_prefix="openxbl" sub_name="dvr/view" format="dvr/:str&lt;media_id&gt;/view" controller="OpenXBL:DVR" context="openxbl" action_prefix="View"/>
+  <route route_type="public" route_prefix="openxbl" sub_name="friends" format="friends" controller="OpenXBL:Friends" context="openxbl"/>
+  <route route_type="public" route_prefix="openxbl" sub_name="games-played" format=":int&lt;user_id,username&gt;/games-played" controller="OpenXBL:Member" action_prefix="GamesPlayed"/>
+  <route route_type="public" route_prefix="openxbl" sub_name="leaderboards/gamerscore" format="leaderboards/gamerscore" controller="OpenXBL:Leaderboards" context="openxbl" action_prefix="Gamerscore"/>
+  <route route_type="public" route_prefix="openxbl" sub_name="leaderboards/games" format="leaderboards/games" controller="OpenXBL:Leaderboards" context="openxbl" action_prefix="Games"/>
+</routes>

@@ -1,0 +1,9 @@
+{
+    "template": "member_view",
+    "description": "Adds pane for Games Played",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "<!--[XF:tab_panes:end]-->",
+    "replace": "$0\n\n\t\t<li data-href=\"{{ link('openxbl/games-played', $user) }}\" role=\"tabpanel\" aria-labelledby=\"games-played\">\n\t\t\t<div class=\"blockMessage\">{{ phrase('loading...') }}</div>\n\t\t</li>"
+}

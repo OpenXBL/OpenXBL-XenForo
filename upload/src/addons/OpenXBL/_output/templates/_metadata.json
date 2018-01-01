@@ -1,0 +1,22 @@
+{
+    "public/openxbl_dvr_showcase.html": {
+        "version_id": 1000010,
+        "version_string": "1.0.0 Alpha",
+        "hash": "803ce6e853eadc9b27c47aa6cc0934be"
+    },
+    "public/openxbl_filters.html": {
+        "version_id": 1000010,
+        "version_string": "1.0.0 Alpha",
+        "hash": "8449eceb2912e9e691da8537e0162c77"
+    },
+    "public/openxbl_leaderboards_gamerscore.html": {
+        "version_id": 1000010,
+        "version_string": "1.0.0 Alpha",
+        "hash": "c623871481a832052ad8726b172ca80b"
+    },
+    "public/openxbl_member_games.html": {
+        "version_id": 1000010,
+        "version_string": "1.0.0 Alpha",
+        "hash": "fb54651f7586dd2bc19da5d7dd6c26ab"
+    }
+}

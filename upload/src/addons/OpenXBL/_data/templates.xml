@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="public" title="connected_account_associated_openxbl" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:comment>
+To reduce API calls essential data is stored in the 'extra data' field.	
+</xf:comment>
+
+<xf:set var="$openxbl" value="{{ $user->ConnectedAccounts.openxbl->getValue('extra_data') }}" />
+
+<div style="height:65px;">
+	
+	<xf:if is="{{ $providerData.avatar ?: $openxbl.avatar }}">
+		
+			<img src="{{ $providerData.avatar ?: $openxbl.avatar }}&h=90" alt="" style="border-radius:50%;float:left;" />
+		
+	</xf:if>
+	
+	<div style="line-height: 3.5;margin-left: 65px;">{{ $providerData.gamertag ?: $openxbl.gamertag }}</div>
+	
+</div>]]></template>
+  <template type="admin" title="connected_account_provider_openxbl" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:textboxrow name="options[app_key]" value="{$options.app_key}"
+	label="Application Key"
+	hint="{{ phrase('required') }}"
+	explain="{{ phrase('con_acc_openxbl_app_key_explain') }}" />]]></template>
+  <template type="admin" title="connected_account_provider_test_openxbl" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:if is="!$providerData">
+	<xf:inforow>
+		{{ phrase('this_will_test_x_connected_account_provider_explain', {'title': $provider.title}) }}
+	</xf:inforow>
+
+	<xf:formrow label="Application Key">{$provider.options.app_key}</xf:formrow>
+<xf:else />
+	<xf:inforow rowtype="confirm"><strong>{{ phrase('test_passed') }}</strong></xf:inforow>
+	
+	<xf:formrow label="Avatar"><img src="{{ $providerData.avatar ?: phrase('n_a') }}&h=90" /></xf:formrow>
+	
+	<xf:formrow label="Gamertag">{{ $providerData.gamertag ?: phrase('n_a') }}</xf:formrow>
+	
+	<xf:formrow label="XUID">{{ $providerData.xuid ?: phrase('n_a') }}</xf:formrow>
+</xf:if>]]></template>
+  <template type="public" title="openxbl.css" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[.button.button--provider--openxbl, a.button.button--provider--openxbl {
+	color: #ffffff;
+    background-color: #107c10;
+    border-color: #0dc9ff #00a8d9 #00a8d9 #0dc9ff;
+}
+.button.button--provider--openxbl > .button-text:before, a.button.button--provider--openxbl > .button-text:before {
+    content: "\f17a";
+    display: inline-block;
+    width: 0.93em;
+}
+.formRow .formRow-label:after {
+    content: "";
+}]]></template>
+  <template type="public" title="openxbl_dvr_gameclips" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:title>Your Game Clips</xf:title>
+
+<xf:wrap template="openxbl_wrapper">
+	<xf:set var="$pageSelected" value="{{ $active ? $active : 'dvr_gameclips' }}" />
+</xf:wrap>
+
+<xf:macro template="openxbl_dvr_macros" name="library-clips" arg-clips="{$library->gameClips}" />]]></template>
+  <template type="public" title="openxbl_dvr_macros" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:macro name="library-clips" arg-clips="!">
+
+	<div class="block">
+		
+		<div class="block-container">
+		
+			<ul class="block-body">
+				
+				<xf:foreach loop="$clips" key="$id" value="$clip">
+					
+					<xf:formrow
+								label="<a href='?openxbl/dvr/{$clip->gameClipId}/view'><img src='{{ $clip->thumbnails.0->uri }}' /></a>"
+						explain="Recorded on {{ $clip->dateRecorded }} ({{ $clip->durationInSeconds }}sec)">
+						{{ $clip->titleName }}
+					</xf:formrow>
+					
+					<xf:else />
+					
+					<div class="block-body">
+						<div class="block-row">You have no recorded game clips!</div>
+					</div>
+					
+				</xf:foreach>
+				
+			</ul>
+			
+		</div>
+		
+	</div>
+
+</xf:macro>
+
+<xf:macro name="library-screenshots" arg-items="!">
+
+	<div class="block">
+		
+		<div class="block-container">
+		
+			<ul class="block-body">
+				
+				<xf:foreach loop="$items" key="$id" value="$item">
+					
+					<xf:formrow
+								label="<a href='?openxbl/dvr/{$item->screenshotId}/view'><img src='{{ $item->thumbnails.0->uri }}' /></a>"
+						explain="Taken on {{ $item->dateTaken }}">
+						{{ $clip->titleName }}
+					</xf:formrow>
+					
+					<xf:else />
+					
+					<div class="block-body">
+						<div class="block-row">You have no screenshots!</div>
+					</div>
+					
+				</xf:foreach>
+				
+			</ul>
+			
+		</div>
+		
+	</div>
+
+</xf:macro>]]></template>
+  <template type="public" title="openxbl_dvr_screenshots" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:title>Your Screenshots</xf:title>
+
+<xf:wrap template="openxbl_wrapper">
+	<xf:set var="$pageSelected" value="{{ $active ? $active : 'dvr_screenshots' }}" />
+</xf:wrap>
+
+<xf:macro template="openxbl_dvr_macros" name="library-screenshots" arg-items="{$library->screenshots}" />]]></template>
+  <template type="public" title="openxbl_dvr_showcase" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:title>Community Showcase</xf:title>
+
+<xf:wrap template="openxbl_wrapper">
+	<xf:set var="$pageSelected" value="{{ $active ? $active : 'dvr_showcase' }}" />
+</xf:wrap>
+
+<xf:css src="openxbl.css" />
+
+<div class="block">
+	
+	<div class="block-outer">
+		
+		<xf:pagenav
+			page="{$page}" perpage="{$perPage}" total="{$total}"
+			link="{{ link('openxbl/dvr/showcase') }}" params="{$filters}"
+			wrapperclass="block-outer-main" />
+		
+	</div>
+	
+	<div class="block-container">
+		
+			<ul class="block-body">
+		
+
+				
+				
+	<xf:set var="$sortOrders" value="{{ {
+			'date': 'Date',
+			'game': 'Game'
+		} }}" />
+
+	<div class="block-filterBar">
+		<div class="filterBar">
+
+				<ul class="filterBar-filters">
+					
+						<xf:if is="$filters.type">
+							<li><a href="{{ link('openxbl/dvr/showcase', $filters|replace('type', null)) }}"
+								class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('remove_this_filter') }}">
+								<span class="filterBar-filterToggle-label">Type</span>
+								<xf:if is="$filters.type == 'video'">Game Clip<xf:else />Screenshots</xf:if></a></li>
+						</xf:if>
+						
+						<xf:if is="$filters.order AND {$sortOrders.{$filters.order}}">
+							<li><a href="{{ link('openxbl/dvr/showcase', $filters|replace({'order': null, 'direction': null})) }}"
+								class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('return_to_default_order') }}">
+								<span class="filterBar-filterToggle-label">{{ phrase('sort_by:') }}</span>
+								{$sortOrders.{$filters.order}}
+								<i class="fa {{ $filters.direction == 'asc' ? 'fa-angle-up' : 'fa-angle-down' }}" aria-hidden="true"></i>
+								<span class="u-srOnly"><xf:if is="$filters.direction == 'asc'">{{ phrase('ascending') }}<xf:else />{{ phrase('descending') }}</xf:if></span>
+							</a></li>
+						</xf:if>
+				
+				</ul>
+		
+
+			<a class="filterBar-menuTrigger" data-xf-click="menu" role="button" tabindex="0" aria-expanded="false" aria-haspopup="true">{{ phrase('filters') }}</a>
+			<div class="menu menu--wide" data-menu="menu" aria-hidden="true"
+				data-href="{{ link('openxbl/dvr/showcase/filters',  $filters) }}"
+				data-load-target=".js-filterMenuBody">
+				<div class="menu-content">
+					<h4 class="menu-header">{{ phrase('show_only:') }}</h4>
+					<div class="js-filterMenuBody">
+						<div class="menu-row">{{ phrase('loading...') }}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>				
+				
+				
+				
+				
+				
+				
+				<xf:foreach loop="$items" value="$item">
+	
+						<a href="?openxbl/dvr/{$item.media_id}/view">
+						<img src="{{ $xf.options.boardUrl}}/openxbl/media/thumbnail/{$item.media_id}.png" style="width:370px;" />
+						</a>
+						{$item.game} ({$item.duration}sec) taken on {$item.date}
+					
+					<xf:else />
+					
+					<div class="block-body">
+						<div class="block-row">Be the first to <a href="{{ link('openxbl/dvr/game-clips') }}">share content!</a></div>
+					</div>
+					
+				</xf:foreach>
+				
+			</ul>
+		
+	</div>
+	
+	<div class="block-outer block-outer--after">
+		
+		<xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}" params="{$filters}"
+			link="{{ link('openxbl/dvr/showcase') }}" />
+		
+	</div>
+	
+</div>]]></template>
+  <template type="public" title="openxbl_dvr_view" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:title>{$media.titleName}</xf:title>
+
+<xf:css src="openxbl.css" />
+
+<xf:macro template="videojs_macros" name="setup" />
+
+<div class="block">
+
+	<xf:if is="$media.type == 'video'">
+	
+	 <video id="media-{$media.gameClipId}" class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9 vjs-paused vjs-controls-enabled vjs-workinghover vjs-v6 media-video-1853-dimensions vjs-user-inactive" controls preload="auto" 
+  poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
+	<xf:if is="!{$media.shared}">
+    <source src="{$media.gameClipUris.0->uri}" type='video/mp4'>
+    <xf:else />
+		<source src="{$xf.options.boardUrl}/openxbl/media/{$media_id}.mp4" type='video/mp4'>
+	</xf:if>
+		<p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a web browser that
+      <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+    </p>
+  </video>
+		<xf:else />
+		
+			<xf:if is="!{$media.shared}">
+				<img src="{$media.screenshotUris.0->uri}" />
+			<xf:else />
+				<img src="{$xf.options.boardUrl}/openxbl/media/{$media_id}.png" />
+			</xf:if>
+		
+		</xf:if>
+	
+</div>
+
+<div class="block">
+
+	<div class="block-container">
+
+		<div class="block-body block-row">
+
+			<div class="media-title">
+
+				<div class="contentRow contentRow--alignMiddle">
+
+						<span class="contentRow-figure">
+
+							<xf:avatar user="{$xf.visitor}" size="s" href="" notooltip="true" update="{{ link('account/avatar', $xf.visitor) }}" />
+
+						</span>
+
+					<div class="contentRow-main">
+
+						<h1 class="contentRow-title p-title-value">
+
+							<xf:if is="!{$media.shared}">{$media.titleName}<xf:else />{$media.game}</xf:if>
+
+						</h1>
+
+						<div class="contentRow-lesser p-description">
+
+							<ul class="listInline listInline--bullet">
+
+								<li><i class="fa fa-user" title="Media owner" aria-hidden="true"></i> <xf:username user="$xf.visitor" rich="true" notooltip="true" /></li>
+								<li><i class="fa fa-clock-o" title="Date added" aria-hidden="true"></i> <xf:date time="$media.dateRecorded" /></li>
+								
+							</ul>
+						</div>
+
+					</div>
+					
+					
+					<xf:if is="!{$media.shared}">
+						<span class="contentRow-figure">
+
+							<xf:button href="?openxbl/dvr/{$media_id}/share" class="button--link">Share</xf:button>					
+
+						</span>		
+					</xf:if>
+					
+					
+					
+
+				</div>
+
+			</div>
+			
+
+			<div class="likesBar js-likeList">
+				
+			</div>
+		</div>
+	</div>
+
+	<div class="block-outer block-outer--after">
+		
+	</div>
+</div>]]></template>
+  <template type="public" title="openxbl_filters" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:form action="{{ link('forums/filters', $forum) }}">
+	<!--[XF:above_prefixes]-->
+	<xf:if is="$prefixes is not empty">
+		<div class="menu-row menu-row--separated">
+			{{ phrase('prefix:') }}
+			<div class="u-inputSpacer">
+				<xf:macro template="prefix_macros" name="select"
+					arg-prefixes="{$prefixes}"
+					arg-type="thread"
+					arg-selected="{{ $filters.prefix_id ? $filters.prefix_id : 0 }}"
+					arg-name="prefix_id"
+					arg-noneLabel="{{ phrase('(any)') }}" />
+			</div>
+		</div>
+	</xf:if>
+
+	<!--[XF:above_started_by]-->
+	<div class="menu-row menu-row--separated">
+		{{ phrase('started_by:') }}
+		<div class="u-inputSpacer">
+			<xf:textbox name="starter" value="{{ $starterFilter ? $starterFilter.username : '' }}" ac="single"
+				maxlength="{{ max_length($xf.visitor, 'username') }}" />
+		</div>
+	</div>
+
+	<!--[XF:above_last_updated]-->
+	<div class="menu-row menu-row--separated">
+		{{ phrase('last_updated:') }}
+		<div class="u-inputSpacer">
+			<xf:select name="last_days" value="{{ $filters.last_days ?: $forum.list_date_limit_days }}">
+				<xf:option value="-1">{{ phrase('any_time') }}</xf:option>
+				<xf:option value="7">{{ phrase('x_days', {'days': '7'}) }}</xf:option>
+				<xf:option value="14">{{ phrase('x_days', {'days': '14'}) }}</xf:option>
+				<xf:option value="30">{{ phrase('x_days', {'days': '30'}) }}</xf:option>
+				<xf:option value="60">{{ phrase('x_months', {'months': '2'}) }}</xf:option>
+				<xf:option value="90">{{ phrase('x_months', {'months': '3'}) }}</xf:option>
+				<xf:option value="182">{{ phrase('x_months', {'months': '6'}) }}</xf:option>
+				<xf:option value="365">{{ phrase('1_year') }}</xf:option>
+			</xf:select>
+		</div>
+	</div>
+
+	<!--[XF:above_sort_by]-->
+	<div class="menu-row menu-row--separated">
+		{{ phrase('sort_by:') }}
+		<div class="inputGroup u-inputSpacer">
+			<xf:select name="order" value="{{ $filters.order ?: $forum.default_sort_order }}">
+				<xf:option value="last_post_date">{{ phrase('last_message') }}</xf:option>
+				<xf:option value="post_date">{{ phrase('first_message') }}</xf:option>
+				<xf:option value="title">{{ phrase('title') }}</xf:option>
+				<xf:option value="reply_count">{{ phrase('replies') }}</xf:option>
+				<xf:option value="view_count">{{ phrase('views') }}</xf:option>
+				<xf:option value="first_post_likes">{{ phrase('first_message_likes') }}</xf:option>
+			</xf:select>
+			<span class="inputGroup-splitter"></span>
+			<xf:select name="direction" value="{{ $filters.direction ?: $forum.default_sort_direction }}">
+				<xf:option value="desc">{{ phrase('descending') }}</xf:option>
+				<xf:option value="asc">{{ phrase('ascending') }}</xf:option>
+			</xf:select>
+		</div>
+	</div>
+
+	<div class="menu-footer">
+		<span class="menu-footer-controls">
+			<xf:button type="submit" class="button--primary">{{ phrase('filter') }}</xf:button>
+		</span>
+	</div>
+	<xf:hiddenval name="apply">1</xf:hiddenval>
+</xf:form>]]></template>
+  <template type="public" title="openxbl_friends" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:css src="openxbl.css" />
+
+<xf:title>Friends</xf:title>
+
+<div class="block">
+	<div class="block-container">
+		<div class="block-body" style="height:500px;overflow:auto;">
+			<xf:foreach loop="$friends" value="$friend">
+
+					<xf:formrow
+						label="<img src='{$friend->displayPicRaw}&h=90'/>"
+						explain="{$friend->presenceState}">
+						{$friend->gamertag}
+					</xf:formrow>
+
+				<xf:else />
+
+				<div class="block-row">It's never too late to add friends!</div>
+
+			</xf:foreach>
+		</div>
+	</div>
+</div>]]></template>
+  <template type="public" title="openxbl_leaderboards_gamerscore" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:title>Gamerscore Leaderboard</xf:title>
+
+<xf:wrap template="openxbl_wrapper">
+	<xf:set var="$pageSelected" value="{{ $active ? $active : 'ranked_gamerscore' }}" />
+</xf:wrap>
+
+
+<div class="block">
+	<div class="block-container">
+			<ol class="block-body">
+				
+				<xf:foreach loop="$scores" value="$score" i="$i">
+					<li class="block-row block-row--separated">
+						<div class="contentRow">
+
+							<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">
+								<xen:if is="$i < 6">{{ $i }}</xen:if>
+							</span>
+						
+								
+							<div class="contentRow-main">
+								
+								<h2 class="contentRow-header">{{ $score.gamertag }}</h2>
+								<div class="contentRow-minor"><a href="{{ link('members', $score.user) }}">{{ $score.user.username }}</a></div>
+							
+								
+							</div>
+
+							<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">{$score.gamerscore}</span>
+
+						</div>
+					</li>
+				</xf:foreach>
+				
+		</ol>
+	</div>
+</div>]]></template>
+  <template type="public" title="openxbl_leaderboards_games" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:title>Games Played Leaderboard</xf:title>
+
+<xf:wrap template="openxbl_wrapper">
+	<xf:set var="$pageSelected" value="{{ $active ? $active : 'ranked_games_played' }}" />
+</xf:wrap>
+
+<div class="block">
+	<div class="block-container">
+			<ol class="block-body">
+				
+				<xf:foreach loop="$ranks" value="$rank">
+					<li class="block-row block-row--separated">
+						<div class="contentRow">
+
+							<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">1</span>
+						
+								
+							<div class="contentRow-main">
+								
+								<h2 class="contentRow-header">{{ $rank.gamertag }}</h2>
+								<div class="contentRow-minor"><a href="{{ link('members', $score.user) }}">{{ $rank.user.username }}</a></div>
+							
+								
+							</div>
+
+							<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">{$rank.games_played}</span>
+
+						</div>
+					</li>
+				</xf:foreach>
+				
+		</ol>
+	</div>
+</div>]]></template>
+  <template type="public" title="openxbl_member_games" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:css src="openxbl.css" />
+
+<xf:title>Games Played</xf:title>
+
+<div class="block">
+
+	<div class="block-outer">
+
+		<xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}"
+			link="openxbl/games-played" data="{$user}" wrapperclass="block-outer-main" />
+		
+	</div>
+	
+	<div class="block-container">
+		
+			<ul class="block-body">
+				
+				<xf:foreach loop="$games" value="$game">
+	
+					<xf:formrow
+						label="<img src='{$game.Games.image}&h=90'/>"
+						explain="Last played: {$game.last_played}">
+						{{ $game.Games.title }}
+					</xf:formrow>
+					
+					<xf:else />
+					
+					<div class="block-body js-newsFeedTarget">
+						<div class="block-row">This user has played no games.</div>
+					</div>
+					
+				</xf:foreach>
+				
+			</ul>
+		
+			<div class="block-footer js-newsFeedLoadMore">
+				
+				<span class="block-footer-controls">
+					
+				Total Games Played: {{ $total }}
+					
+				</span>
+				
+			</div>
+		
+	</div>
+	
+	<div class="block-outer block-outer--after">
+		
+		<xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}"
+			link="openxbl/games-played" data="{$user}" />
+		
+	</div>
+	
+</div>]]></template>
+  <template type="admin" title="openxbl_options_credits" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<div class="section sectionMain nodeList" style="padding:0px;background: transparent url('styles/openxbl/images/xblio.svg') no-repeat center center scroll;-webkit-background-size: cover;-moz-background-size: cover;background-size: cover;-o-background-size: cover;">
+	<div style="background:rgba(255,255,255,0.9);height:100%;-webkit-border-radius: 10px;-moz-border-radius: 10px;-khtml-border-radius: 10px;border-radius: 10px;">
+	<div style="padding:20px;">
+		<div style="font-size:14pt;">OpenXBL</div>
+			<ul style="margin: 0;padding: 0;list-style: none;">
+				<li>By default you have 500/requests an hour</li>
+				<li class="sideNavLink"><a href="https://xbl.io" target="_blank">https://xbl.io</a></li>
+				<li class="sideNavLink"><a href="https://xbl.io/docs/getting-started" target="_blank">Getting Started</a></li>
+				<li class="sideNavLink"><a href="https://xenforo.com/community/resources/openxbl.5436/" target="_blank">XenForo Resource Page</a></li>
+			</ul>
+			<div style="float:right;bottom:0;right:0;">Developed by xTACTICSx</div>
+		</div>
+	</div>
+</div>]]></template>
+  <template type="admin" title="openxbl_options_notice" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:inforow><i class="fa fa-exclamation"></i> To activate OpenXBL first navigate to <strong>Setup > Connected Accounts > Xbox Live</strong> and provide an Application Key.</xf:inforow>]]></template>
+  <template type="public" title="openxbl_wrapper" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:sidenav>
+	<div class="block">
+		<div class="block-container">
+			<h3 class="block-header">Xbox Live</h3>
+			<div class="block-body">
+				<a class="blockLink {{ $pageSelected == 'ranked_gamerscore' ? 'is-selected' : '' }}" href="{{ link('openxbl/leaderboards/gamerscore') }}">Ranked By Gamerscore</a>
+				<a class="blockLink {{ $pageSelected == 'ranked_games_played' ? 'is-selected' : '' }}" href="{{ link('openxbl/leaderboards/games') }}">Ranked By Games Played</a>
+				<a class="blockLink {{ $pageSelected == 'dvr_showcase' ? 'is-selected' : '' }}" href="{{ link('openxbl/dvr/showcase') }}">Community Showcase</a>				
+				<a class="blockLink {{ $pageSelected == 'dvr_gameclips' ? 'is-selected' : '' }}" href="{{ link('openxbl/dvr/game-clips') }}">Game Clips</a>
+				<a class="blockLink {{ $pageSelected == 'dvr_screenshots' ? 'is-selected' : '' }}" href="{{ link('openxbl/dvr/screenshots') }}">Screenshots</a>
+			</div>
+		</div>
+	</div>
+</xf:sidenav>
+<xf:page option="sideNavTitle">Xbox Live</xf:page>
+
+<xf:css src="openxbl.css" />
+
+<xf:widgetpos id="openxbl_wrapper_sidenav" position="sidenav" />
+
+{$innerContent|raw}]]></template>
+</templates>
