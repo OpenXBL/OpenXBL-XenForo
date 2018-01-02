@@ -6,16 +6,16 @@ NOTICE: This is a very early release and has a limited feature set and could con
 Part of the [XBL.IO](https://xbl.io) feature set.
 
 ## Installation
-1) All the contents in the 'upload' folder should be uploaded to the root directory of your XenForo installation. 
+1) All the contents in the 'upload' folder should be uploaded to the root directory of your XenForo 2.0 installation. 
 
-2) Inside 'upload/openxbl.php' modify 'YOUR-XENFORO-URL.COM' with your websites address.
+2) Go to your XBL.IO profile and set up the 'Xbox App' in your profile.
 
-3) Go to your XBL.IO profile and set up the 'Xbox App' in your profile.
+3) Inside the XenForo settings for Connected Accounts put your Application Key in. 
 
-4) Inside the XenForo settings for OpenXBL put your Application Key in. 
+4) In your OpenXBL profile the redirect url should be to https://yourwebsite.com/connected_accounts.php
 
 ## Documentation
-Reader-friendly Documentation can be found here. [Users Manual](https://xbl.io/docs/xboxapp).
+Reader-friendly Documentation can be found here. [Users Manual](https://xbl.io/xenforo).
 
 ## Support
 The following support channels can be used for contact.
