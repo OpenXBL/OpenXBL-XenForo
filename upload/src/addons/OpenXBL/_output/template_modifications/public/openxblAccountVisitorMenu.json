@@ -1,0 +1,9 @@
+{
+    "template": "account_visitor_menu",
+    "description": "Add Friends List to Account Visitor Menu",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "<li><a href=\"{{ link('account/following') }}\" class=\"menu-linkRow\">{{ phrase('following') }}</a></li>",
+    "replace": "$0 \n\n<li><a href=\"{{ link('openxbl/friends') }}\" class=\"menu-linkRow\" data-xf-click=\"overlay\">{{ phrase('friends_list') }}</a></li>\n"
+}

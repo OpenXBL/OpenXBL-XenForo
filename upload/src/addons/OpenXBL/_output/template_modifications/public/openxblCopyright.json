@@ -1,0 +1,9 @@
+{
+    "template": "PAGE_CONTAINER",
+    "description": "Copyright notice for OpenXBL",
+    "execution_order": 10,
+    "enabled": true,
+    "action": "str_replace",
+    "find": "<xf:copyright />",
+    "replace": "<xf:comment>\nThank you for installing our add-on! We hope you enjoy it as much as we do.\n\t\nWhile we grant you full permission to remove this notice without cost it\nwould be greatly appreciated if you donated or subscribed to https://xbl.io!\n</xf:comment>\n\n$0\n&copy; <a href=\"https://xbl.io\" target=\"_blank\">OpenXBL</a>"
+}

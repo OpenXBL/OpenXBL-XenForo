@@ -1,0 +1,37 @@
+<xf:title>Gamerscore Leaderboard</xf:title>
+
+<xf:wrap template="openxbl_wrapper">
+	<xf:set var="$pageSelected" value="{{ $active ? $active : 'ranked_gamerscore' }}" />
+</xf:wrap>
+
+
+<div class="block">
+	<div class="block-container">
+			<ol class="block-body">
+				
+				<xf:foreach loop="$scores" value="$score" i="$i">
+					<li class="block-row block-row--separated">
+						<div class="contentRow">
+
+							<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">
+								<xen:if is="$i < 6">{{ $i }}</xen:if>
+							</span>
+						
+								
+							<div class="contentRow-main">
+								
+								<h2 class="contentRow-header">{{ $score.gamertag }}</h2>
+								<div class="contentRow-minor"><a href="{{ link('members', $score.user) }}">{{ $score.user.username }}</a></div>
+							
+								
+							</div>
+
+							<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">{$score.gamerscore}</span>
+
+						</div>
+					</li>
+				</xf:foreach>
+				
+		</ol>
+	</div>
+</div>

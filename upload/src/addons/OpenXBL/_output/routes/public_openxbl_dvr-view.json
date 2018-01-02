@@ -1,0 +1,11 @@
+{
+    "route_type": "public",
+    "route_prefix": "openxbl",
+    "sub_name": "dvr/view",
+    "format": "dvr/:str<media_id>/view",
+    "build_class": "",
+    "build_method": "",
+    "controller": "OpenXBL:DVR",
+    "context": "openxbl",
+    "action_prefix": "View"
+}

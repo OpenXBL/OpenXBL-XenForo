@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cron>
+  <entry entry_id="openxbl_leaderboards" cron_class="\OpenXBL\Cron\Leaderboards" cron_method="run" active="1"><![CDATA[{"day_type":"dom","dom":[-1],"hours":[-1],"minutes":[5]}]]></entry>
+</cron>

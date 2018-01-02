@@ -1,0 +1,11 @@
+{
+    "route_type": "public",
+    "route_prefix": "openxbl",
+    "sub_name": "games-played",
+    "format": ":int<user_id,username>/games-played",
+    "build_class": "",
+    "build_method": "",
+    "controller": "OpenXBL:Member",
+    "context": "",
+    "action_prefix": "GamesPlayed"
+}

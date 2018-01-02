@@ -1,0 +1,69 @@
+<xf:form action="{{ link('forums/filters', $forum) }}">
+	<!--[XF:above_prefixes]-->
+	<xf:if is="$prefixes is not empty">
+		<div class="menu-row menu-row--separated">
+			{{ phrase('prefix:') }}
+			<div class="u-inputSpacer">
+				<xf:macro template="prefix_macros" name="select"
+					arg-prefixes="{$prefixes}"
+					arg-type="thread"
+					arg-selected="{{ $filters.prefix_id ? $filters.prefix_id : 0 }}"
+					arg-name="prefix_id"
+					arg-noneLabel="{{ phrase('(any)') }}" />
+			</div>
+		</div>
+	</xf:if>
+
+	<!--[XF:above_started_by]-->
+	<div class="menu-row menu-row--separated">
+		{{ phrase('started_by:') }}
+		<div class="u-inputSpacer">
+			<xf:textbox name="starter" value="{{ $starterFilter ? $starterFilter.username : '' }}" ac="single"
+				maxlength="{{ max_length($xf.visitor, 'username') }}" />
+		</div>
+	</div>
+
+	<!--[XF:above_last_updated]-->
+	<div class="menu-row menu-row--separated">
+		{{ phrase('last_updated:') }}
+		<div class="u-inputSpacer">
+			<xf:select name="last_days" value="{{ $filters.last_days ?: $forum.list_date_limit_days }}">
+				<xf:option value="-1">{{ phrase('any_time') }}</xf:option>
+				<xf:option value="7">{{ phrase('x_days', {'days': '7'}) }}</xf:option>
+				<xf:option value="14">{{ phrase('x_days', {'days': '14'}) }}</xf:option>
+				<xf:option value="30">{{ phrase('x_days', {'days': '30'}) }}</xf:option>
+				<xf:option value="60">{{ phrase('x_months', {'months': '2'}) }}</xf:option>
+				<xf:option value="90">{{ phrase('x_months', {'months': '3'}) }}</xf:option>
+				<xf:option value="182">{{ phrase('x_months', {'months': '6'}) }}</xf:option>
+				<xf:option value="365">{{ phrase('1_year') }}</xf:option>
+			</xf:select>
+		</div>
+	</div>
+
+	<!--[XF:above_sort_by]-->
+	<div class="menu-row menu-row--separated">
+		{{ phrase('sort_by:') }}
+		<div class="inputGroup u-inputSpacer">
+			<xf:select name="order" value="{{ $filters.order ?: $forum.default_sort_order }}">
+				<xf:option value="last_post_date">{{ phrase('last_message') }}</xf:option>
+				<xf:option value="post_date">{{ phrase('first_message') }}</xf:option>
+				<xf:option value="title">{{ phrase('title') }}</xf:option>
+				<xf:option value="reply_count">{{ phrase('replies') }}</xf:option>
+				<xf:option value="view_count">{{ phrase('views') }}</xf:option>
+				<xf:option value="first_post_likes">{{ phrase('first_message_likes') }}</xf:option>
+			</xf:select>
+			<span class="inputGroup-splitter"></span>
+			<xf:select name="direction" value="{{ $filters.direction ?: $forum.default_sort_direction }}">
+				<xf:option value="desc">{{ phrase('descending') }}</xf:option>
+				<xf:option value="asc">{{ phrase('ascending') }}</xf:option>
+			</xf:select>
+		</div>
+	</div>
+
+	<div class="menu-footer">
+		<span class="menu-footer-controls">
+			<xf:button type="submit" class="button--primary">{{ phrase('filter') }}</xf:button>
+		</span>
+	</div>
+	<xf:hiddenval name="apply">1</xf:hiddenval>
+</xf:form>

@@ -1,0 +1,102 @@
+<xf:title>Community Showcase</xf:title>
+
+<xf:wrap template="openxbl_wrapper">
+	<xf:set var="$pageSelected" value="{{ $active ? $active : 'dvr_showcase' }}" />
+</xf:wrap>
+
+<xf:css src="openxbl.css" />
+
+<div class="block">
+	
+	<div class="block-outer">
+		
+		<xf:pagenav
+			page="{$page}" perpage="{$perPage}" total="{$total}"
+			link="{{ link('openxbl/dvr/showcase') }}" params="{$filters}"
+			wrapperclass="block-outer-main" />
+		
+	</div>
+	
+	<div class="block-container">
+		
+			<ul class="block-body">
+		
+
+				
+				
+	<xf:set var="$sortOrders" value="{{ {
+			'date': 'Date',
+			'game': 'Game'
+		} }}" />
+
+	<div class="block-filterBar">
+		<div class="filterBar">
+
+				<ul class="filterBar-filters">
+					
+						<xf:if is="$filters.type">
+							<li><a href="{{ link('openxbl/dvr/showcase', $filters|replace('type', null)) }}"
+								class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('remove_this_filter') }}">
+								<span class="filterBar-filterToggle-label">Type</span>
+								<xf:if is="$filters.type == 'video'">Game Clip<xf:else />Screenshots</xf:if></a></li>
+						</xf:if>
+						
+						<xf:if is="$filters.order AND {$sortOrders.{$filters.order}}">
+							<li><a href="{{ link('openxbl/dvr/showcase', $filters|replace({'order': null, 'direction': null})) }}"
+								class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('return_to_default_order') }}">
+								<span class="filterBar-filterToggle-label">{{ phrase('sort_by:') }}</span>
+								{$sortOrders.{$filters.order}}
+								<i class="fa {{ $filters.direction == 'asc' ? 'fa-angle-up' : 'fa-angle-down' }}" aria-hidden="true"></i>
+								<span class="u-srOnly"><xf:if is="$filters.direction == 'asc'">{{ phrase('ascending') }}<xf:else />{{ phrase('descending') }}</xf:if></span>
+							</a></li>
+						</xf:if>
+				
+				</ul>
+		
+
+			<a class="filterBar-menuTrigger" data-xf-click="menu" role="button" tabindex="0" aria-expanded="false" aria-haspopup="true">{{ phrase('filters') }}</a>
+			<div class="menu menu--wide" data-menu="menu" aria-hidden="true"
+				data-href="{{ link('openxbl/dvr/showcase/filters',  $filters) }}"
+				data-load-target=".js-filterMenuBody">
+				<div class="menu-content">
+					<h4 class="menu-header">{{ phrase('show_only:') }}</h4>
+					<div class="js-filterMenuBody">
+						<div class="menu-row">{{ phrase('loading...') }}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>				
+				
+				
+				
+				
+				
+				
+				<xf:foreach loop="$items" value="$item">
+	
+						<a href="?openxbl/dvr/{$item.media_id}/view">
+						<img src="{{ $xf.options.boardUrl}}/openxbl/media/thumbnail/{$item.media_id}.png" style="width:370px;" />
+						</a>
+						{$item.game} ({$item.duration}sec) taken on {$item.date}
+					
+					<xf:else />
+					
+					<div class="block-body">
+						<div class="block-row">Be the first to <a href="{{ link('openxbl/dvr/game-clips') }}">share content!</a></div>
+					</div>
+					
+				</xf:foreach>
+				
+			</ul>
+		
+	</div>
+	
+	<div class="block-outer block-outer--after">
+		
+		<xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}" params="{$filters}"
+			link="{{ link('openxbl/dvr/showcase') }}" />
+		
+	</div>
+	
+</div>

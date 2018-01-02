@@ -1,0 +1,55 @@
+<xf:css src="openxbl.css" />
+
+<xf:title>Games Played</xf:title>
+
+<div class="block">
+
+	<div class="block-outer">
+
+		<xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}"
+			link="openxbl/games-played" data="{$user}" wrapperclass="block-outer-main" />
+		
+	</div>
+	
+	<div class="block-container">
+		
+			<ul class="block-body">
+				
+				<xf:foreach loop="$games" value="$game">
+	
+					<xf:formrow
+						label="<img src='{$game.Games.image}&h=90'/>"
+						explain="Last played: {$game.last_played}">
+						{{ $game.Games.title }}
+					</xf:formrow>
+					
+					<xf:else />
+					
+					<div class="block-body js-newsFeedTarget">
+						<div class="block-row">This user has played no games.</div>
+					</div>
+					
+				</xf:foreach>
+				
+			</ul>
+		
+			<div class="block-footer js-newsFeedLoadMore">
+				
+				<span class="block-footer-controls">
+					
+				Total Games Played: {{ $total }}
+					
+				</span>
+				
+			</div>
+		
+	</div>
+	
+	<div class="block-outer block-outer--after">
+		
+		<xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}"
+			link="openxbl/games-played" data="{$user}" />
+		
+	</div>
+	
+</div>
