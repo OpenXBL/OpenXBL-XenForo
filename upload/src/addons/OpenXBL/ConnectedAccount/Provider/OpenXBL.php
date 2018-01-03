@@ -34,7 +34,7 @@ use XF\Mvc\Controller;
 class OpenXBL extends AbstractProvider
 {
 
-	public $base_url = 'https://openxbl.local.bstacknetworks.com/'; 
+	public $base_url = 'https://xbl.io'; 
 
 	public function getOAuthServiceName()
 	{
