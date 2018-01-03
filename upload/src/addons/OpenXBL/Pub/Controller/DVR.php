@@ -9,8 +9,14 @@ class DVR extends \XF\Pub\Controller\AbstractController
 
 	protected $xbox;
 
+	protected $connected;
+
 	public function actionGameClips()
 	{
+		if(!$this->connected)
+		{
+			return $this->error('Please associate an <a href="'.$this->connectedAccountPage().'">Xbox Live account</a> first!');
+		}
 
 		$media = $this->xbox->get('dvr/gameclips?maxItems=100&continuationToken=');
 
@@ -25,6 +31,12 @@ class DVR extends \XF\Pub\Controller\AbstractController
 
 	public function actionScreenshots()
 	{
+
+		if(!$this->connected)
+		{
+			return $this->error('Please associate an <a href="'.$this->connectedAccountPage().'">Xbox Live account</a> first!');
+		}
+
 		$media = $this->xbox->get('dvr/screenshots?maxItems=100&continuationToken=');
 
 		$this->session()->set('openxbl.screenshots', $media);
@@ -258,9 +270,24 @@ class DVR extends \XF\Pub\Controller\AbstractController
 
 	protected function preDispatchController($action, \XF\Mvc\ParameterBag $params)
 	{
-		$access_token = \XF::visitor()->ConnectedAccounts['openxbl']->getValue('extra_data')['token'];
+		if(isset(\XF::visitor()->ConnectedAccounts['openxbl']))
+		{
+			$access_token = \XF::visitor()->ConnectedAccounts['openxbl']->getValue('extra_data')['token'];
 
-		$this->xbox = new Api($access_token);
+			$this->xbox = new Api($access_token);
+
+			$this->connected = true;
+		}
+		else
+		{
+			$this->connected = false;
+		}
+		
+	}
+
+	public static function connectedAccountPage()
+	{
+		return \XF::app()->router('public')->buildLink('account/connected-accounts');
 	}
 
 	/**

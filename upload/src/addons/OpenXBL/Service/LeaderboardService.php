@@ -81,11 +81,32 @@ class LeaderboardService extends AbstractService implements \ArrayAccess
 
     	foreach($users as $user)
     	{
-			$response[] = array(
-				'user' => $user, 
-				'gamertag' => $user->ConnectedAccounts['openxbl']->getValue('extra_data')['gamertag'], 
-				'gamerscore' => $user->ConnectedAccounts['openxbl']->getValue('extra_data')['gamerscore'] ?: 0, 
-				'avatar' => $user->ConnectedAccounts['openxbl']->getValue('extra_data')['avatar']);
+			if(isset($user->ConnectedAccounts['openxbl']))
+			{
+				if(isset($user->ConnectedAccounts['openxbl']->getValue('extra_data')['gamertag']))
+				{
+					$gamertag = $user->ConnectedAccounts['openxbl']->getValue('extra_data')['gamertag'];
+
+					if(isset($user->ConnectedAccounts['openxbl']->getValue('extra_data')['gamerscore']))
+					{
+						$gamerscore = $user->ConnectedAccounts['openxbl']->getValue('extra_data')['gamerscore'];
+					}
+
+					if(isset($user->ConnectedAccounts['openxbl']->getValue('extra_data')['avatar']))
+					{
+						$avatar = $user->ConnectedAccounts['openxbl']->getValue('extra_data')['avatar'];
+					}
+
+					$response[] = array(
+						'user' => $user, 
+						'gamertag' => $gamertag, 
+						'gamerscore' => $gamerscore ?: 0, 
+						'avatar' => $avatar);
+
+				}
+
+			}
+
     	}
 
 		usort($response, function($a, $b) {

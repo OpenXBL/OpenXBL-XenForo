@@ -75,7 +75,7 @@
 				
 				<xf:foreach loop="$items" value="$item">
 	
-						<a href="?openxbl/dvr/{$item.media_id}/view">
+						<a href="{{ link('openxbl/dvr/view', {'media_id': $item.media_id}) }}">
 						<img src="{{ $xf.options.boardUrl}}/openxbl/media/thumbnail/{$item.media_id}.png" style="width:370px;" />
 						</a>
 						{$item.game} ({$item.duration}sec) taken on {$item.date}

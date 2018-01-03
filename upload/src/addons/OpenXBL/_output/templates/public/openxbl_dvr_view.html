@@ -1,0 +1,97 @@
+<xf:title>{$media.titleName}</xf:title>
+
+<xf:css src="openxbl.css" />
+
+<xf:macro template="videojs_macros" name="setup" />
+
+<div class="block">
+
+	<xf:if is="$media.type == 'video'">
+	
+	 <video id="media-{$media.gameClipId}" class="video-js vjs-default-skin vjs-big-play-centered vjs-16-9 vjs-paused vjs-controls-enabled vjs-workinghover vjs-v6 media-video-1853-dimensions vjs-user-inactive" controls preload="auto" 
+  poster="MY_VIDEO_POSTER.jpg" data-setup="{}">
+	<xf:if is="!{$media.shared}">
+    <source src="{$media.gameClipUris.0->uri}" type='video/mp4'>
+    <xf:else />
+		<source src="{$xf.options.boardUrl}/openxbl/media/{$media_id}.mp4" type='video/mp4'>
+	</xf:if>
+		<p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a web browser that
+      <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+    </p>
+  </video>
+		<xf:else />
+		
+			<xf:if is="!{$media.shared}">
+				<img src="{$media.screenshotUris.0->uri}" />
+			<xf:else />
+				<img src="{$xf.options.boardUrl}/openxbl/media/{$media_id}.png" />
+			</xf:if>
+		
+		</xf:if>
+	
+</div>
+
+<div class="block">
+
+	<div class="block-container">
+
+		<div class="block-body block-row">
+
+			<div class="media-title">
+
+				<div class="contentRow contentRow--alignMiddle">
+
+						<span class="contentRow-figure">
+
+							<xf:avatar user="{$xf.visitor}" size="s" href="" notooltip="true" update="{{ link('account/avatar', $xf.visitor) }}" />
+
+						</span>
+
+					<div class="contentRow-main">
+
+						<h1 class="contentRow-title p-title-value">
+
+							<xf:if is="!{$media.shared}">{$media.titleName}<xf:else />{$media.game}</xf:if>
+
+						</h1>
+
+						<div class="contentRow-lesser p-description">
+
+							<ul class="listInline listInline--bullet">
+
+								<li><i class="fa fa-user" title="Media owner" aria-hidden="true"></i> <xf:username user="$xf.visitor" rich="true" notooltip="true" /></li>
+								<li><i class="fa fa-clock-o" title="Date added" aria-hidden="true"></i> <xf:date time="$media.dateRecorded" /></li>
+								
+							</ul>
+						</div>
+
+					</div>
+					
+					
+					<xf:if is="!{$media.shared}">
+						<span class="contentRow-figure">
+
+							<xf:button href="{{ link('openxbl/dvr/share', {'media_id': $media_id}) }}" class="button--link">Share</xf:button>					
+
+						</span>		
+					</xf:if>
+					
+					
+					
+
+				</div>
+
+			</div>
+			
+
+			<div class="likesBar js-likeList">
+				
+			</div>
+		</div>
+	</div>
+
+	<div class="block-outer block-outer--after">
+		
+	</div>
+</div>

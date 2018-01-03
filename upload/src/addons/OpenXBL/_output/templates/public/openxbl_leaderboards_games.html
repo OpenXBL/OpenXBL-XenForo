@@ -1,0 +1,36 @@
+<xf:title>Games Played Leaderboard</xf:title>
+
+<xf:wrap template="openxbl_wrapper">
+	<xf:set var="$pageSelected" value="{{ $active ? $active : 'ranked_games_played' }}" />
+</xf:wrap>
+
+<div class="block">
+	<div class="block-container">
+			<ol class="block-body">
+				<xf:if is="$ranks is not empty">
+					<xf:foreach loop="$ranks" value="$rank">
+						<li class="block-row block-row--separated">
+							<div class="contentRow">
+
+								<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">1</span>
+
+
+								<div class="contentRow-main">
+
+									<h2 class="contentRow-header">{{ $rank.gamertag }}</h2>
+									<div class="contentRow-minor"><a href="{{ link('members', $score.user) }}">{{ $rank.user.username }}</a></div>
+
+
+								</div>
+
+								<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">{$rank.games_played}</span>
+
+							</div>
+						</li>
+					</xf:foreach>
+			<xf:else />
+				<div class="blockMessage">No games have been recorded yet.</div>
+			</xf:if>				
+		</ol>
+	</div>
+</div>

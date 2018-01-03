@@ -9,29 +9,32 @@
 	<div class="block-container">
 			<ol class="block-body">
 				
-				<xf:foreach loop="$scores" value="$score" i="$i">
-					<li class="block-row block-row--separated">
-						<div class="contentRow">
+				<xf:if is="$scores is not empty">
+					<xf:foreach loop="$scores" value="$score" i="$i">
+						<li class="block-row block-row--separated">
+							<div class="contentRow">
 
-							<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">
-								<xen:if is="$i < 6">{{ $i }}</xen:if>
-							</span>
-						
-								
-							<div class="contentRow-main">
-								
-								<h2 class="contentRow-header">{{ $score.gamertag }}</h2>
-								<div class="contentRow-minor"><a href="{{ link('members', $score.user) }}">{{ $score.user.username }}</a></div>
-							
-								
+								<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">
+									<xen:if is="$i < 6">{{ $i }}</xen:if>
+								</span>
+
+
+								<div class="contentRow-main">
+
+									<h2 class="contentRow-header">{{ $score.gamertag }}</h2>
+									<div class="contentRow-minor"><a href="{{ link('members', $score.user) }}">{{ $score.user.username }}</a></div>
+
+
+								</div>
+
+								<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">{$score.gamerscore}</span>
+
 							</div>
-
-							<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">{$score.gamerscore}</span>
-
-						</div>
-					</li>
-				</xf:foreach>
-				
+						</li>
+					</xf:foreach>
+			<xf:else />
+				<div class="blockMessage">No scores have been recorded yet.</div>
+			</xf:if>	
 		</ol>
 	</div>
 </div>

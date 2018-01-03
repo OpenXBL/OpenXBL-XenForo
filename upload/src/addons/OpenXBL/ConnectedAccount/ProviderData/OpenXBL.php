@@ -84,29 +84,43 @@ class OpenXBL extends AbstractProviderData
 
 	public function getGamertag()
 	{
+		if(isset($this->getExtraParams()->gamertag))
+		{
+			return $this->getExtraParams()->gamertag;
+		}
 		
-		return $this->getExtraParams()->gamertag;
+		return '';
 
 	}
 
 	public function getXUID()
 	{
-
-		return $this->getExtraParams()->xuid;
-
+		if(isset($this->getExtraParams()->xuid))
+		{
+			return $this->getExtraParams()->xuid;
+		}
+		
+		return 0;
 	}
 
 	public function getAvatar()
 	{
+		if(isset($this->getExtraParams()->avatar))
+		{
+			return $this->getExtraParams()->avatar;
+		}
 
-		return $this->getExtraParams()->avatar;
-
+		return '';
 	}
 
 	public function getGamerscore()
 	{
-		
-		return $this->getExtraParams()->gamerscore;
+		if(isset($this->getExtraParams()->gamerscore))
+		{
+			return $this->getExtraParams()->gamerscore;
+		}
+
+		return 0;
 
 	}
 

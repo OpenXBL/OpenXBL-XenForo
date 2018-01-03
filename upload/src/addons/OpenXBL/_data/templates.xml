@@ -67,7 +67,7 @@ To reduce API calls essential data is stored in the 'extra data' field.
 				<xf:foreach loop="$clips" key="$id" value="$clip">
 					
 					<xf:formrow
-								label="<a href='?openxbl/dvr/{$clip->gameClipId}/view'><img src='{{ $clip->thumbnails.0->uri }}' /></a>"
+								label="<a href='{{ link('openxbl/dvr/view', {'media_id': $clip->gameClipId}) }}'><img src='{{ $clip->thumbnails.0->uri }}' /></a>"
 						explain="Recorded on {{ $clip->dateRecorded }} ({{ $clip->durationInSeconds }}sec)">
 						{{ $clip->titleName }}
 					</xf:formrow>
@@ -203,7 +203,7 @@ To reduce API calls essential data is stored in the 'extra data' field.
 				
 				<xf:foreach loop="$items" value="$item">
 	
-						<a href="?openxbl/dvr/{$item.media_id}/view">
+						<a href="{{ link('openxbl/dvr/view', {'media_id': $item.media_id}) }}">
 						<img src="{{ $xf.options.boardUrl}}/openxbl/media/thumbnail/{$item.media_id}.png" style="width:370px;" />
 						</a>
 						{$item.game} ({$item.duration}sec) taken on {$item.date}
@@ -302,7 +302,7 @@ To reduce API calls essential data is stored in the 'extra data' field.
 					<xf:if is="!{$media.shared}">
 						<span class="contentRow-figure">
 
-							<xf:button href="?openxbl/dvr/{$media_id}/share" class="button--link">Share</xf:button>					
+							<xf:button href="{{ link('openxbl/dvr/share', {'media_id': $media_id}) }}" class="button--link">Share</xf:button>					
 
 						</span>		
 					</xf:if>
@@ -428,29 +428,32 @@ To reduce API calls essential data is stored in the 'extra data' field.
 	<div class="block-container">
 			<ol class="block-body">
 				
-				<xf:foreach loop="$scores" value="$score" i="$i">
-					<li class="block-row block-row--separated">
-						<div class="contentRow">
+				<xf:if is="$scores is not empty">
+					<xf:foreach loop="$scores" value="$score" i="$i">
+						<li class="block-row block-row--separated">
+							<div class="contentRow">
 
-							<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">
-								<xen:if is="$i < 6">{{ $i }}</xen:if>
-							</span>
-						
-								
-							<div class="contentRow-main">
-								
-								<h2 class="contentRow-header">{{ $score.gamertag }}</h2>
-								<div class="contentRow-minor"><a href="{{ link('members', $score.user) }}">{{ $score.user.username }}</a></div>
-							
-								
+								<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">
+									<xen:if is="$i < 6">{{ $i }}</xen:if>
+								</span>
+
+
+								<div class="contentRow-main">
+
+									<h2 class="contentRow-header">{{ $score.gamertag }}</h2>
+									<div class="contentRow-minor"><a href="{{ link('members', $score.user) }}">{{ $score.user.username }}</a></div>
+
+
+								</div>
+
+								<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">{$score.gamerscore}</span>
+
 							</div>
-
-							<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">{$score.gamerscore}</span>
-
-						</div>
-					</li>
-				</xf:foreach>
-				
+						</li>
+					</xf:foreach>
+			<xf:else />
+				<div class="blockMessage">No scores have been recorded yet.</div>
+			</xf:if>	
 		</ol>
 	</div>
 </div>]]></template>
@@ -463,28 +466,30 @@ To reduce API calls essential data is stored in the 'extra data' field.
 <div class="block">
 	<div class="block-container">
 			<ol class="block-body">
-				
-				<xf:foreach loop="$ranks" value="$rank">
-					<li class="block-row block-row--separated">
-						<div class="contentRow">
+				<xf:if is="$ranks is not empty">
+					<xf:foreach loop="$ranks" value="$rank">
+						<li class="block-row block-row--separated">
+							<div class="contentRow">
 
-							<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">1</span>
-						
-								
-							<div class="contentRow-main">
-								
-								<h2 class="contentRow-header">{{ $rank.gamertag }}</h2>
-								<div class="contentRow-minor"><a href="{{ link('members', $score.user) }}">{{ $rank.user.username }}</a></div>
-							
-								
+								<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">1</span>
+
+
+								<div class="contentRow-main">
+
+									<h2 class="contentRow-header">{{ $rank.gamertag }}</h2>
+									<div class="contentRow-minor"><a href="{{ link('members', $score.user) }}">{{ $rank.user.username }}</a></div>
+
+
+								</div>
+
+								<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">{$rank.games_played}</span>
+
 							</div>
-
-							<span class="contentRow-figure contentRow-figure--text contentRow-figure--fixedSmall">{$rank.games_played}</span>
-
-						</div>
-					</li>
-				</xf:foreach>
-				
+						</li>
+					</xf:foreach>
+			<xf:else />
+				<div class="blockMessage">No games have been recorded yet.</div>
+			</xf:if>				
 		</ol>
 	</div>
 </div>]]></template>

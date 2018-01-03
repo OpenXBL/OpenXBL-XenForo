@@ -51,7 +51,10 @@ class Leaderboards extends AbstractJob
         /** @var \OpenXBL\LeaderboardService $service */
         $service = \XF::service('OpenXBL:LeaderboardService');
 
-		$this->logMessage($user->ConnectedAccounts['openxbl']->getValue('extra_data')['token']);
+		if(!isset($user->ConnectedAccounts['openxbl']))
+		{
+			return false;
+		}
 
     	$access_token = $user->ConnectedAccounts['openxbl']->getValue('extra_data')['token'];
 

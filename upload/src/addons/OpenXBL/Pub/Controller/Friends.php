@@ -21,9 +21,12 @@ class Friends extends \XF\Pub\Controller\AbstractController
 
 	protected function preDispatchController($action, \XF\Mvc\ParameterBag $params)
 	{
-		$access_token = \XF::visitor()->ConnectedAccounts['openxbl']->getValue('extra_data')['token'];
+		if(isset(\XF::visitor()->ConnectedAccounts['openxbl']))
+		{
+			$access_token = \XF::visitor()->ConnectedAccounts['openxbl']->getValue('extra_data')['token'];
 
-		$this->xbox = new Api($access_token);
+			$this->xbox = new Api($access_token);
+		}
 	}
 
 

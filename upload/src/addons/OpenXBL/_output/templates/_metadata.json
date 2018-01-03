@@ -1,8 +1,23 @@
 {
+    "admin/connected_account_provider_openxbl.html": {
+        "version_id": 1000010,
+        "version_string": "1.0.0 Alpha",
+        "hash": "c37fd917a5b623bbd51f6680c9c4a77a"
+    },
+    "public/openxbl_dvr_macros.html": {
+        "version_id": 1000010,
+        "version_string": "1.0.0 Alpha",
+        "hash": "f94b0296c6384793e83d9156fa9d5cf9"
+    },
     "public/openxbl_dvr_showcase.html": {
         "version_id": 1000010,
         "version_string": "1.0.0 Alpha",
-        "hash": "803ce6e853eadc9b27c47aa6cc0934be"
+        "hash": "9db89c2600e8424e521cd41377ab6028"
+    },
+    "public/openxbl_dvr_view.html": {
+        "version_id": 1000010,
+        "version_string": "1.0.0 Alpha",
+        "hash": "ee767bf2c571b3e2dbabda58b7a52954"
     },
     "public/openxbl_filters.html": {
         "version_id": 1000010,
@@ -12,7 +27,12 @@
     "public/openxbl_leaderboards_gamerscore.html": {
         "version_id": 1000010,
         "version_string": "1.0.0 Alpha",
-        "hash": "c623871481a832052ad8726b172ca80b"
+        "hash": "6e1d78d2ae8a9cb28f34601f9f14b936"
+    },
+    "public/openxbl_leaderboards_games.html": {
+        "version_id": 1000010,
+        "version_string": "1.0.0 Alpha",
+        "hash": "77bb6dba3419c7027da240cfe2c89646"
     },
     "public/openxbl_member_games.html": {
         "version_id": 1000010,
