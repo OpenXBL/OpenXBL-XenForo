@@ -48,7 +48,11 @@ class OpenXBL extends AbstractProvider
 
 			'key' => $provider->options['app_key'],
 
-			'redirect' => $redirectUri ?: $this->getRedirectUri($provider)
+			'redirect' => $redirectUri ?: $this->getRedirectUri($provider),
+
+			'secret' => 'openxbl',
+
+			'scopes' => 'openxbl'
 
 		];
 
@@ -147,8 +151,8 @@ class OpenXBL extends AbstractProvider
 
         if (null === $data || !is_array($data)) {
             throw new TokenResponseException('Unable to parse response.');
-        } elseif (isset($data['error'])) {
-            throw new TokenResponseException('Error in retrieving token: "' . $data['error'] . '"');
+        } elseif (isset($data['message'])) {
+            throw new TokenResponseException('Error in retrieving token: "' . $data['message'] . '"');
         }
 
         $token = new StdOAuth2Token();

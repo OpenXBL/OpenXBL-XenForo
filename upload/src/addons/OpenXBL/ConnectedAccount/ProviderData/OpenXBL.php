@@ -36,7 +36,13 @@ class OpenXBL extends AbstractProviderData
 
 		$token = $storageState->getProviderToken();
 
-		return (object) $token->getExtraParams();
+		if($token)
+		{
+			return (object) $token->getExtraParams();
+		}
+
+		// Go home, you're drunk
+		$this->disassociate();
 
 	}
 
@@ -84,7 +90,7 @@ class OpenXBL extends AbstractProviderData
 
 	public function getGamertag()
 	{
-		if(isset($this->getExtraParams()->gamertag))
+		if($this->getExtraParams() !== null)
 		{
 			return $this->getExtraParams()->gamertag;
 		}
@@ -95,7 +101,7 @@ class OpenXBL extends AbstractProviderData
 
 	public function getXUID()
 	{
-		if(isset($this->getExtraParams()->xuid))
+		if($this->getExtraParams() !== null)
 		{
 			return $this->getExtraParams()->xuid;
 		}
@@ -105,7 +111,7 @@ class OpenXBL extends AbstractProviderData
 
 	public function getAvatar()
 	{
-		if(isset($this->getExtraParams()->avatar))
+		if($this->getExtraParams() !== null)
 		{
 			return $this->getExtraParams()->avatar;
 		}
@@ -115,13 +121,31 @@ class OpenXBL extends AbstractProviderData
 
 	public function getGamerscore()
 	{
-		if(isset($this->getExtraParams()->gamerscore))
+		if($this->getExtraParams() !== null)
 		{
 			return $this->getExtraParams()->gamerscore;
 		}
 
 		return 0;
 
+	}
+
+	public function disassociate()
+	{
+		$visitor = \XF::visitor();
+
+		$connectedAccounts = $visitor->ConnectedAccounts;
+
+		$connectedAccount = isset($connectedAccounts['openxbl']) ? $connectedAccounts['openxbl'] : null;
+
+		$connectedAccount->delete();
+
+		$profile = $visitor->getRelationOrDefault('Profile');
+		$profileConnectedAccounts = $profile->connected_accounts;
+		unset($profileConnectedAccounts['openxbl']);
+		$profile->connected_accounts = $profileConnectedAccounts;
+
+		$visitor->save();	
 	}
 
 }

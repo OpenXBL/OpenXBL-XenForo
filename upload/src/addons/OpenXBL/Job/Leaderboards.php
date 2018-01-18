@@ -58,6 +58,11 @@ class Leaderboards extends AbstractJob
 
     	$access_token = $user->ConnectedAccounts['openxbl']->getValue('extra_data')['token'];
 
+		if(!$access_token)
+		{
+			return;
+		}
+
 		$xbox = new Api($access_token);
 
 		$games = $xbox->get('achievements');

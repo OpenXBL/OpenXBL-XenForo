@@ -90,7 +90,7 @@ class Api
 
 	        if (!isset($token)) 
 	        {
-	            throw new Exceptions\InvalidParameterException("API Key is not set.");
+	            throw new Exception("API Key is not set.");
 	        }
 
 			$this->token = $token;
